@@ -1,4 +1,4 @@
-package settingdust.nbt.serialization.internal
+package settingdust.tag.serialization.internal
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.InternalSerializationApi
@@ -12,9 +12,9 @@ import kotlinx.serialization.encoding.CompositeEncoder
 import kotlinx.serialization.internal.NamedValueEncoder
 import kotlinx.serialization.modules.SerializersModule
 import net.minecraft.nbt.*
-import settingdust.nbt.serialization.MinecraftTag
-import settingdust.nbt.serialization.TagEncoder
-import settingdust.nbt.serialization.TagSerializer
+import settingdust.tag.serialization.MinecraftTag
+import settingdust.tag.serialization.TagEncoder
+import settingdust.tag.serialization.TagSerializer
 
 @OptIn(ExperimentalSerializationApi::class)
 internal fun <T> MinecraftTag.writeTag(value: T, serializer: SerializationStrategy<T>): Tag {

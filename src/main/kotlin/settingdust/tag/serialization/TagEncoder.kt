@@ -1,4 +1,4 @@
-package settingdust.nbt.serialization
+package settingdust.tag.serialization
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.encoding.CompositeEncoder

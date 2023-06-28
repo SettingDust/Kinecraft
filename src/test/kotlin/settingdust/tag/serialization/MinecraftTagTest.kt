@@ -1,4 +1,4 @@
-package settingdust.nbt.serialization
+package settingdust.tag.serialization
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
@@ -32,7 +32,7 @@ data class NestTestData(
 
 @OptIn(ExperimentalSerializationApi::class)
 class MinecraftTagTest {
-    private val minecraftTag = MinecraftTag.Default
+    private val minecraftTag = MinecraftTag
     private val data = NestTestData(
         TestData(
             "string",

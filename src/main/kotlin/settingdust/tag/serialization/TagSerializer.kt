@@ -1,4 +1,4 @@
-package settingdust.nbt.serialization
+package settingdust.tag.serialization
 
 import kotlinx.serialization.*
 import kotlinx.serialization.builtins.*

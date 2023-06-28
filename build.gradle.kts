@@ -1,10 +1,13 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.plugin.serialization)
     alias(libs.plugins.quilt.loom)
+    `maven-publish`
 }
 
 group = "${project.property("group")}"
@@ -50,4 +53,15 @@ java {
     // If this mod is going to be a library, then it should also generate Javadocs in order to aid with development.
     // Uncomment this line to generate them.
     // withJavadocJar()
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("minecraft-tag-serialization") {
+            groupId = "${rootProject.group}.tag.serialization"
+            artifactId = "minecraft-tag-serialization"
+            version = rootProject.version.toString() + "SNAPSHOT.${SimpleDateFormat("YYYY.MMdd.HHmmss").format(Date())}"
+            from(components.getByName("java"))
+        }
+    }
 }

@@ -55,6 +55,25 @@ java {
     // withJavadocJar()
 }
 
+tasks {
+    processResources {
+        inputs.property("version", project.version)
+        inputs.property("group", project.group)
+
+        filesMatching("fabric.mod.json") {
+            expand(
+                "id" to "minecraft_tag_serialization",
+                "version" to project.version,
+                "group" to project.group,
+                "name" to "Minecraft Tag Serialization",
+                "description" to "Kotlin serialization for Minecraft NBT tag classes",
+                "author" to "SettingDust",
+                "source" to "https://github.com/SettingDust/minecraft-tag-serialization"
+            )
+        }
+    }
+}
+
 publishing {
     publications {
         create<MavenPublication>("minecraft-tag-serialization") {

@@ -78,8 +78,8 @@ publishing {
     publications {
         create<MavenPublication>("minecraft-tag-serialization") {
             groupId = "${rootProject.group}"
-            artifactId = "minecraft-tag-serialization"
-            version = rootProject.version.toString() + "SNAPSHOT.${SimpleDateFormat("YYYY.MMdd.HHmmss").format(Date())}"
+            artifactId = "nbt-tag-serialization"
+            version = "${rootProject.version}"
             from(components.getByName("java"))
         }
     }

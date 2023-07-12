@@ -1,4 +1,4 @@
-package settingdust.kinecraft.serialization.tag.internal
+package settingdust.kinecraft.serialization.format.tag.internal
 
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -13,8 +13,8 @@ import kotlinx.serialization.encoding.CompositeDecoder
 import kotlinx.serialization.internal.NamedValueDecoder
 import kotlinx.serialization.modules.SerializersModule
 import net.minecraft.nbt.*
-import settingdust.kinecraft.serialization.tag.MinecraftTag
-import settingdust.kinecraft.serialization.tag.TagDecoder
+import settingdust.kinecraft.serialization.format.tag.MinecraftTag
+import settingdust.kinecraft.serialization.format.tag.TagDecoder
 
 @OptIn(ExperimentalSerializationApi::class)
 internal fun <T> MinecraftTag.readTag(tag: Tag, deserializer: DeserializationStrategy<T>): T {
@@ -32,7 +32,8 @@ internal fun <T> MinecraftTag.readTag(tag: Tag, deserializer: DeserializationStr
 @OptIn(InternalSerializationApi::class)
 @ExperimentalSerializationApi
 private sealed class TagTreeDecoder(
-    final override val nbt: MinecraftTag, open val value: Tag
+    final override val nbt: MinecraftTag,
+    open val value: Tag,
 ) : NamedValueDecoder(), TagDecoder {
     override val serializersModule: SerializersModule
         get() = nbt.serializersModule
@@ -57,8 +58,11 @@ private sealed class TagTreeDecoder(
 
             StructureKind.MAP -> CompoundTagMapDecoder(nbt, currentObject as CompoundTag)
             else ->
-                if (currentObject is CompoundTag) CompoundTagDecoder(nbt, currentObject)
-                else RootTagDecoder(nbt, currentObject)
+                if (currentObject is CompoundTag) {
+                    CompoundTagDecoder(nbt, currentObject)
+                } else {
+                    RootTagDecoder(nbt, currentObject)
+                }
         }
     }
 
@@ -90,7 +94,8 @@ private sealed class TagTreeDecoder(
 
 @ExperimentalSerializationApi
 private class RootTagDecoder(
-    nbt: MinecraftTag, private val tag: Tag
+    nbt: MinecraftTag,
+    private val tag: Tag,
 ) : TagTreeDecoder(nbt, tag) {
     override fun currentTag(tag: String) = this.tag
 
@@ -99,7 +104,8 @@ private class RootTagDecoder(
 
 @ExperimentalSerializationApi
 private class CompoundTagDecoder(
-    nbt: MinecraftTag, private val compound: CompoundTag
+    nbt: MinecraftTag,
+    private val compound: CompoundTag,
 ) : TagTreeDecoder(nbt, compound) {
     private var index = 0
 
@@ -130,7 +136,7 @@ private class CompoundTagDecoder(
 @ExperimentalSerializationApi
 private class CompoundTagMapDecoder(
     nbt: MinecraftTag,
-    private val compound: CompoundTag
+    private val compound: CompoundTag,
 ) : TagTreeDecoder(nbt, compound) {
     private val keys = compound.allKeys.toList()
     private val size = keys.size * 2
@@ -155,7 +161,8 @@ private class CompoundTagMapDecoder(
 
 @ExperimentalSerializationApi
 private open class CollectionTagDecoder<T : Tag>(
-    nbt: MinecraftTag, protected val collection: CollectionTag<T>
+    nbt: MinecraftTag,
+    protected val collection: CollectionTag<T>,
 ) : TagDecoder, TagTreeDecoder(nbt, collection) {
     private val size = collection.size
     protected var index = -1
@@ -177,7 +184,8 @@ private open class CollectionTagDecoder<T : Tag>(
 
 @ExperimentalSerializationApi
 private class ListTagDecoder(
-    nbt: MinecraftTag, list: ListTag
+    nbt: MinecraftTag,
+    list: ListTag,
 ) : CollectionTagDecoder<Tag>(nbt, list)
 
 @ExperimentalSerializationApi

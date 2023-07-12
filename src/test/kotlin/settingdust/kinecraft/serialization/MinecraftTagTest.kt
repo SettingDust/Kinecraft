@@ -4,9 +4,9 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import net.minecraft.nbt.*
 import org.junit.jupiter.api.Test
-import settingdust.kinecraft.serialization.tag.MinecraftTag
-import settingdust.kinecraft.serialization.tag.decodeFromTag
-import settingdust.kinecraft.serialization.tag.encodeToTag
+import settingdust.kinecraft.serialization.format.tag.MinecraftTag
+import settingdust.kinecraft.serialization.format.tag.decodeFromTag
+import settingdust.kinecraft.serialization.format.tag.encodeToTag
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
@@ -24,13 +24,13 @@ data class TestData(
     val list: List<String>,
     val byteArray: ByteArray,
     val intArray: IntArray,
-    val longArray: LongArray
+    val longArray: LongArray,
 )
 
 @Serializable
 data class NestTestData(
     val testData: TestData,
-    val testDataList: List<TestData>
+    val testDataList: List<TestData>,
 )
 
 @OptIn(ExperimentalSerializationApi::class)
@@ -50,7 +50,7 @@ class MinecraftTagTest {
             listOf("a", "b", "c"),
             byteArrayOf(1, 2, 3),
             intArrayOf(1, 2, 3),
-            longArrayOf(1, 2, 3)
+            longArrayOf(1, 2, 3),
         ),
         listOf(
             TestData(
@@ -66,52 +66,66 @@ class MinecraftTagTest {
                 listOf("d", "e", "f"),
                 byteArrayOf(4, 5, 6),
                 intArrayOf(4, 5, 6),
-                longArrayOf(4, 5, 6)
-            )
-        )
+                longArrayOf(4, 5, 6),
+            ),
+        ),
     )
 
     private val tag = CompoundTag().apply {
-        put("testData", CompoundTag().apply {
-            putString("string", "string")
-            putInt("int", 1)
-            putBoolean("boolean", true)
-            putDouble("double", 1.0)
-            putFloat("float", 1.0f)
-            putLong("long", 1L)
-            putShort("short", 1.toShort())
-            putByte("byte", 1.toByte())
-            putInt("char", 'a'.code)
-            put("list", ListTag().apply {
-                add(StringTag.valueOf("a"))
-                add(StringTag.valueOf("b"))
-                add(StringTag.valueOf("c"))
-            })
-            putByteArray("byteArray", byteArrayOf(1, 2, 3))
-            putIntArray("intArray", intArrayOf(1, 2, 3))
-            putLongArray("longArray", longArrayOf(1, 2, 3))
-        })
-        put("testDataList", ListTag().apply {
-            add(CompoundTag().apply {
-                putString("string", "nested string")
-                putInt("int", 2)
-                putBoolean("boolean", false)
-                putDouble("double", 2.0)
-                putFloat("float", 2.0f)
-                putLong("long", 2L)
-                putShort("short", 2.toShort())
-                putByte("byte", 2.toByte())
-                putInt("char", 'b'.code)
-                put("list", ListTag().apply {
-                    add(StringTag.valueOf("d"))
-                    add(StringTag.valueOf("e"))
-                    add(StringTag.valueOf("f"))
-                })
-                putByteArray("byteArray", byteArrayOf(4, 5, 6))
-                putIntArray("intArray", intArrayOf(4, 5, 6))
-                putLongArray("longArray", longArrayOf(4, 5, 6))
-            })
-        })
+        put(
+            "testData",
+            CompoundTag().apply {
+                putString("string", "string")
+                putInt("int", 1)
+                putBoolean("boolean", true)
+                putDouble("double", 1.0)
+                putFloat("float", 1.0f)
+                putLong("long", 1L)
+                putShort("short", 1.toShort())
+                putByte("byte", 1.toByte())
+                putInt("char", 'a'.code)
+                put(
+                    "list",
+                    ListTag().apply {
+                        add(StringTag.valueOf("a"))
+                        add(StringTag.valueOf("b"))
+                        add(StringTag.valueOf("c"))
+                    },
+                )
+                putByteArray("byteArray", byteArrayOf(1, 2, 3))
+                putIntArray("intArray", intArrayOf(1, 2, 3))
+                putLongArray("longArray", longArrayOf(1, 2, 3))
+            },
+        )
+        put(
+            "testDataList",
+            ListTag().apply {
+                add(
+                    CompoundTag().apply {
+                        putString("string", "nested string")
+                        putInt("int", 2)
+                        putBoolean("boolean", false)
+                        putDouble("double", 2.0)
+                        putFloat("float", 2.0f)
+                        putLong("long", 2L)
+                        putShort("short", 2.toShort())
+                        putByte("byte", 2.toByte())
+                        putInt("char", 'b'.code)
+                        put(
+                            "list",
+                            ListTag().apply {
+                                add(StringTag.valueOf("d"))
+                                add(StringTag.valueOf("e"))
+                                add(StringTag.valueOf("f"))
+                            },
+                        )
+                        putByteArray("byteArray", byteArrayOf(4, 5, 6))
+                        putIntArray("intArray", intArrayOf(4, 5, 6))
+                        putLongArray("longArray", longArrayOf(4, 5, 6))
+                    },
+                )
+            },
+        )
     }
 
     @Test

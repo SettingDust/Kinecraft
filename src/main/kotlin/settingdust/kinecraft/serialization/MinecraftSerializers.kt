@@ -1,8 +1,7 @@
-package settingdust.kinecraft.serialization.tag
+package settingdust.kinecraft.serialization
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.Serializer
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
@@ -14,7 +13,6 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.ItemStack
 
 @ExperimentalSerializationApi
-@Serializer(forClass = ResourceLocation::class)
 object ResourceLocationStringSerializer : KSerializer<ResourceLocation> {
     override val descriptor = PrimitiveSerialDescriptor(ResourceLocation::class.simpleName!!, PrimitiveKind.STRING)
 
@@ -24,7 +22,6 @@ object ResourceLocationStringSerializer : KSerializer<ResourceLocation> {
 }
 
 @ExperimentalSerializationApi
-@Serializer(forClass = ItemStack::class)
 object ItemStackSerializer : KSerializer<ItemStack> {
     override val descriptor = buildClassSerialDescriptor(ItemStack::class.simpleName!!) {
         element("id", ResourceLocationStringSerializer.descriptor)

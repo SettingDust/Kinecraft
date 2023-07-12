@@ -9,7 +9,9 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.Bootstrap
 import net.minecraft.world.item.ItemStack
 import org.junit.jupiter.api.Test
-import settingdust.kinecraft.serialization.tag.*
+import settingdust.kinecraft.serialization.format.tag.MinecraftTag
+import settingdust.kinecraft.serialization.format.tag.decodeFromTag
+import settingdust.kinecraft.serialization.format.tag.encodeToTag
 import kotlin.test.assertEquals
 
 @OptIn(ExperimentalSerializationApi::class)

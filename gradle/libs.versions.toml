@@ -9,6 +9,7 @@ parchmentmc = "2022.11.27"
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
 kotlinx_serialization_core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx_serialization" }
 kotlinx_serialization_json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx_serialization" }
+kotlinx_serialization_hocon = { module = "org.jetbrains.kotlinx:kotlinx-serialization-hocon", version.ref = "kotlinx_serialization" }
 kotlin_reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 parchment = { module = "org.parchmentmc.data:parchment-1.19.2", version.ref = "parchmentmc" }
 

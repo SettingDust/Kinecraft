@@ -1,4 +1,4 @@
-package settingdust.kinecraft.serialization.tag.internal
+package settingdust.kinecraft.serialization.format.tag.internal
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.InternalSerializationApi
@@ -12,9 +12,9 @@ import kotlinx.serialization.encoding.CompositeEncoder
 import kotlinx.serialization.internal.NamedValueEncoder
 import kotlinx.serialization.modules.SerializersModule
 import net.minecraft.nbt.*
-import settingdust.kinecraft.serialization.tag.MinecraftTag
-import settingdust.kinecraft.serialization.tag.TagEncoder
-import settingdust.kinecraft.serialization.tag.TagSerializer
+import settingdust.kinecraft.serialization.TagSerializer
+import settingdust.kinecraft.serialization.format.tag.MinecraftTag
+import settingdust.kinecraft.serialization.format.tag.TagEncoder
 
 @OptIn(ExperimentalSerializationApi::class)
 internal fun <T> MinecraftTag.writeTag(value: T, serializer: SerializationStrategy<T>): Tag {
@@ -28,7 +28,7 @@ internal fun <T> MinecraftTag.writeTag(value: T, serializer: SerializationStrate
 @ExperimentalSerializationApi
 private sealed class TagTreeEncoder(
     final override val nbt: MinecraftTag,
-    protected val tagConsumer: (Tag) -> Unit
+    protected val tagConsumer: (Tag) -> Unit,
 ) : NamedValueEncoder(), TagEncoder {
     override val serializersModule: SerializersModule
         get() = nbt.serializersModule
@@ -43,7 +43,6 @@ private sealed class TagTreeEncoder(
 
     abstract fun putTag(key: String, tag: Tag)
     abstract fun getCurrent(): Tag
-
 
     // There isn't null in NBT
     override fun encodeNotNullMark() {}
@@ -72,8 +71,11 @@ private sealed class TagTreeEncoder(
 
     override fun beginStructure(descriptor: SerialDescriptor): CompositeEncoder {
         val consumer =
-            if (currentTagOrNull == null) tagConsumer
-            else { tag -> putTag(currentTag, tag) }
+            if (currentTagOrNull == null) {
+                tagConsumer
+            } else {
+                { tag -> putTag(currentTag, tag) }
+            }
         val encoder = when (descriptor.kind) {
             StructureKind.LIST -> when (descriptor) {
                 ByteArraySerializer().descriptor -> CollectionTagEncoder(nbt, ByteArrayTag(emptyList()), consumer)
@@ -108,7 +110,7 @@ private open class CompoundTagEncoder(nbt: MinecraftTag, tagConsumer: (Tag) -> U
         descriptor: SerialDescriptor,
         index: Int,
         serializer: SerializationStrategy<T>,
-        value: T?
+        value: T?,
     ) {
         if (value != null) super.encodeNullableSerializableElement(descriptor, index, serializer, value)
     }

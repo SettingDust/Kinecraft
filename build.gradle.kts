@@ -35,6 +35,7 @@ dependencies {
 
     implementation(libs.kotlinx.serialization.core)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.serialization.hocon)
     implementation(libs.kotlin.reflect)
 
     testImplementation(kotlin("test"))

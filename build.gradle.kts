@@ -1,6 +1,4 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 plugins {
@@ -24,7 +22,16 @@ repositories {
 dependencies {
     minecraft(libs.minecraft)
 
-    mappings(loom.officialMojangMappings())
+    mappings(
+        loom.layered {
+            officialMojangMappings()
+            parchment(
+                variantOf(libs.parchment) {
+                    artifactType("zip")
+                },
+            )
+        },
+    )
 
     implementation(libs.kotlinx.serialization.core)
     implementation(libs.kotlinx.serialization.json)
@@ -62,13 +69,13 @@ tasks {
 
         filesMatching("fabric.mod.json") {
             expand(
-                "id" to "minecraft_tag_serialization",
+                "id" to "kinecraft_serialization",
                 "version" to project.version,
                 "group" to project.group,
-                "name" to "Minecraft Tag Serialization",
-                "description" to "Kotlin serialization for Minecraft NBT tag classes",
+                "name" to "Kinecraft Serialization",
+                "description" to "Kotlin serialization for Minecraft classes",
                 "author" to "SettingDust",
-                "source" to "https://github.com/SettingDust/minecraft-tag-serialization"
+                "source" to "https://github.com/SettingDust/kinecraft-serialization"
             )
         }
     }
@@ -76,9 +83,9 @@ tasks {
 
 publishing {
     publications {
-        create<MavenPublication>("minecraft-tag-serialization") {
+        create<MavenPublication>("kinecraft-serialization") {
             groupId = "${rootProject.group}"
-            artifactId = "nbt-tag-serialization"
+            artifactId = "kinecraft-serialization"
             version = "${rootProject.version}"
             from(components.getByName("java"))
         }

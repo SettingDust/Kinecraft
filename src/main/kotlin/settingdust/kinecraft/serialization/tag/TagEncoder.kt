@@ -1,4 +1,4 @@
-package settingdust.tag.serialization
+package settingdust.kinecraft.serialization.tag
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.encoding.CompositeEncoder

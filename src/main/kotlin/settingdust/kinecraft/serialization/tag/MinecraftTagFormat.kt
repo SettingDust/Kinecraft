@@ -1,4 +1,4 @@
-package settingdust.tag.serialization
+package settingdust.kinecraft.serialization.tag
 
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -8,8 +8,8 @@ import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.plus
 import kotlinx.serialization.serializer
 import net.minecraft.nbt.Tag
-import settingdust.tag.serialization.internal.readTag
-import settingdust.tag.serialization.internal.writeTag
+import settingdust.kinecraft.serialization.tag.internal.readTag
+import settingdust.kinecraft.serialization.tag.internal.writeTag
 
 /**
  * Nbt minecraft tag types format

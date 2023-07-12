@@ -1,4 +1,4 @@
-package settingdust.tag.serialization.internal
+package settingdust.kinecraft.serialization.tag.internal
 
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -13,8 +13,8 @@ import kotlinx.serialization.encoding.CompositeDecoder
 import kotlinx.serialization.internal.NamedValueDecoder
 import kotlinx.serialization.modules.SerializersModule
 import net.minecraft.nbt.*
-import settingdust.tag.serialization.MinecraftTag
-import settingdust.tag.serialization.TagDecoder
+import settingdust.kinecraft.serialization.tag.MinecraftTag
+import settingdust.kinecraft.serialization.tag.TagDecoder
 
 @OptIn(ExperimentalSerializationApi::class)
 internal fun <T> MinecraftTag.readTag(tag: Tag, deserializer: DeserializationStrategy<T>): T {

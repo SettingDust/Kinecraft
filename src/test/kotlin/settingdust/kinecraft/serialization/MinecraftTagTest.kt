@@ -1,9 +1,12 @@
-package settingdust.tag.serialization
+package settingdust.kinecraft.serialization
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import net.minecraft.nbt.*
 import org.junit.jupiter.api.Test
+import settingdust.kinecraft.serialization.tag.MinecraftTag
+import settingdust.kinecraft.serialization.tag.decodeFromTag
+import settingdust.kinecraft.serialization.tag.encodeToTag
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 

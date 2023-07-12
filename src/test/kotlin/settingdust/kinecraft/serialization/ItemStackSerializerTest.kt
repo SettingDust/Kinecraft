@@ -1,4 +1,4 @@
-package settingdust.tag.serialization
+package settingdust.kinecraft.serialization
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.modules.SerializersModule
@@ -9,6 +9,7 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.Bootstrap
 import net.minecraft.world.item.ItemStack
 import org.junit.jupiter.api.Test
+import settingdust.kinecraft.serialization.tag.*
 import kotlin.test.assertEquals
 
 @OptIn(ExperimentalSerializationApi::class)

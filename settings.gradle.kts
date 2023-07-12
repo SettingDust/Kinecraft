@@ -12,4 +12,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = "minecraft-tag-serialization"
+rootProject.name = "kinecraft-serialization"

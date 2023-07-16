@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'maven.modrinth:kinecraft-serialization:1.0.0'
+    implementation 'maven.modrinth:kinecraft-serialization:1.1.0'
 }
 ```
 

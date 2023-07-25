@@ -5,7 +5,6 @@ plugins {
     java
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.plugin.serialization)
-    alias(libs.plugins.minotaur)
     alias(libs.plugins.vanilla.gradle)
     `maven-publish`
 }
@@ -87,41 +86,3 @@ publishing {
     }
 }
 
-val finalJar by tasks.registering(Jar::class) {
-    dependsOn(":fabric:remapJar", ":forge:jar")
-    from(
-        zipTree(project(":fabric").tasks.getByName("remapJar").outputs.files.first()),
-        zipTree(project(":forge").tasks.getByName("jar").outputs.files.first()),
-    )
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-//    from(project(":quilt").tasks.getByName("remapJar"))
-
-    archiveBaseName.set("kinecraft-serialization")
-    archiveVersion.set("${project.version}")
-}
-
-modrinth {
-    token.set(System.getenv("MODRINTH_TOKEN")) // This is the default. Remember to have the MODRINTH_TOKEN environment variable set or else this will fail, or set it to whatever you want - just make sure it stays private!
-    projectId.set("kinecraft-serialization") // This can be the project ID or the slug. Either will work!
-    syncBodyFrom.set(rootProject.file("README.md").readText())
-    versionType.set("release") // This is the default -- can also be `beta` or `alpha`
-    uploadFile.set(finalJar) // With Loom, this MUST be set to `remapJar` instead of `jar`!
-    gameVersions.addAll(
-        "1.18.2",
-        "1.19",
-        "1.19.1",
-        "1.19.2",
-        "1.19.3",
-        "1.19.4",
-        "1.20",
-        "1.20.1",
-    ) // Must be an array, even with only one version
-    loaders.addAll(
-        "fabric",
-        "quilt",
-        "forge",
-    ) // Must also be an array - no need to specify this if you're using Loom or ForgeGradle
-    dependencies {
-        required.version("Ha28R6CL", "1.9.6+kotlin.1.8.22")
-    }
-}

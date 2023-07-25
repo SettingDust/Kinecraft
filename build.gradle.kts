@@ -61,7 +61,7 @@ subprojects {
             inputs.property("version", project.version)
             inputs.property("group", project.group)
 
-            filesMatching(listOf("fabric.mod.json", "mods.toml")) {
+            filesMatching(listOf("fabric.mod.json", "META-INF/mods.toml")) {
                 expand(
                     "id" to "kinecraft_serialization",
                     "version" to project.version,

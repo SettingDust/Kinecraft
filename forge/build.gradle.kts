@@ -19,11 +19,14 @@ minecraft {
 
 dependencies {
     minecraft(libs.forge)
+
+//    jarJar(rootProject)
 }
 
 tasks {
     jar {
-        source.files += rootProject.sourceSets.main.get().allSource
+        dependsOn(rootProject.tasks.named("jar"))
+        from(zipTree(rootProject.tasks.named("jar").get().outputs.files.first()))
         from("LICENSE") {
             rename { "${it}_MixinExtras" }
         }

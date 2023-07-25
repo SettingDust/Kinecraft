@@ -1,18 +1,18 @@
 plugins {
     alias(libs.plugins.forge.gradle)
-    alias(libs.plugins.librarian)
+//    alias(libs.plugins.librarian)
 }
 
 repositories {
-    maven {
-        name = "parchmentmc"
-        url = uri("https://maven.parchmentmc.org")
-    }
+//    maven {
+//        name = "parchmentmc"
+//        url = uri("https://maven.parchmentmc.org")
+//    }
     mavenCentral()
 }
 
 minecraft {
-    mappings("parchment", "${libs.versions.parchmentmc.get()}-${libs.versions.minecraft.get()}")
+    mappings("official", libs.versions.minecraft.get())
 }
 
 dependencies {

@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     alias(libs.plugins.forge.gradle)
     alias(libs.plugins.kotlin.jvm)
@@ -19,14 +21,19 @@ minecraft {
 
 dependencies {
     minecraft(libs.forge)
+    implementation(libs.kotlinx.serialization.core)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.serialization.hocon)
+    implementation(libs.kotlin.reflect)
 
 //    jarJar(rootProject)
 }
 
 tasks {
+    withType<KotlinCompile> {
+        source(rootProject.sourceSets.main.get().allSource)
+    }
     jar {
-        dependsOn(rootProject.tasks.named("jar"))
-        from(zipTree(rootProject.tasks.named("jar").get().outputs.files.first()))
         from("LICENSE") {
             rename { "${it}_MixinExtras" }
         }
@@ -47,8 +54,8 @@ modrinth {
     projectId.set("kinecraft-serialization") // This can be the project ID or the slug. Either will work!
     syncBodyFrom.set(rootProject.file("README.md").readText())
     versionType.set("release") // This is the default -- can also be `beta` or `alpha`
-    uploadFile.set(tasks.named("jar"))
-    version = "${project.version}-forge"
+    uploadFile.set(tasks.jar)
+    versionNumber.set("${project.version}-forge")
     gameVersions.addAll(
         "1.18.2",
         "1.19",

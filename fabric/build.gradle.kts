@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     alias(libs.plugins.fabric.loom)
     alias(libs.plugins.kotlin.jvm)
@@ -15,6 +17,10 @@ repositories {
 
 dependencies {
     minecraft(libs.minecraft)
+    implementation(libs.kotlinx.serialization.core)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.serialization.hocon)
+    implementation(libs.kotlin.reflect)
 
     mappings(loom.officialMojangMappings())
 
@@ -22,9 +28,10 @@ dependencies {
 }
 
 tasks {
+    withType<KotlinCompile> {
+        source(rootProject.sourceSets.main.get().allSource)
+    }
     remapJar {
-        dependsOn(rootProject.tasks.named("jar"))
-        from(zipTree(rootProject.tasks.named("jar").get().outputs.files.first()))
         from("LICENSE") {
             rename { "${it}_MixinExtras" }
         }
@@ -40,8 +47,8 @@ modrinth {
     projectId.set("kinecraft-serialization") // This can be the project ID or the slug. Either will work!
     syncBodyFrom.set(rootProject.file("README.md").readText())
     versionType.set("release") // This is the default -- can also be `beta` or `alpha`
-    uploadFile.set(tasks.named("remapJar"))
-    version = "${project.version}-fabric"
+    uploadFile.set(tasks.remapJar)
+    versionNumber.set("${project.version}-fabric")
     gameVersions.addAll(
         "1.18.2",
         "1.19",

@@ -1,11 +1,13 @@
 pluginManagement {
     repositories {
+        maven("https://maven.architectury.dev/")
         maven {
-            name = "quilt"
+            name = "Quilt"
             url = uri("https://maven.quiltmc.org/repository/release")
         }
+        // Currently needed for Intermediary and other temporary dependencies
         maven {
-            name = "fabricmc"
+            name = "Fabric"
             url = uri("https://maven.fabricmc.net/")
         }
         maven {
@@ -15,9 +17,6 @@ pluginManagement {
         maven {
             name = "Sponge Snapshots"
             url = uri("https://repo.spongepowered.org/repository/maven-public/")
-        }
-        repositories {
-            maven("https://maven.parchmentmc.org")
         }
         gradlePluginPortal()
     }

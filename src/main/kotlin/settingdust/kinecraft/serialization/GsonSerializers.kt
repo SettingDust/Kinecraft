@@ -17,6 +17,7 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.*
 import kotlin.reflect.full.memberProperties
+import kotlin.reflect.jvm.isAccessible
 
 class GsonElementAsStringSerializer(private val json: Json = Json) : KSerializer<JsonElement> {
     override val descriptor = PrimitiveSerialDescriptor("gson.JsonElementAsString", PrimitiveKind.STRING)
@@ -127,8 +128,11 @@ object JsonNullSerializer : KSerializer<JsonNull> {
     }
 }
 
+private val jsonObjectMembers = JsonObject::class.memberProperties.single { it.name == "members" }.also {
+    it.isAccessible = true
+}
 // Gson below 2.10 no `asMap`
-fun JsonObject.toMap() = JsonObject::class.memberProperties.single { it.name == "members" }.get(this) as MutableMap<String, JsonObject>
+fun JsonObject.toMap() = jsonObjectMembers.get(this) as MutableMap<String, JsonObject>
 
 fun JsonPrimitive.asKotlin(): kotlinx.serialization.json.JsonPrimitive {
     return when {

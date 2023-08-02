@@ -6,7 +6,6 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.plugin.serialization)
     alias(libs.plugins.vanilla.gradle)
-    `maven-publish`
 }
 
 group = "${project.property("group")}"
@@ -71,17 +70,6 @@ subprojects {
                     "source" to "https://github.com/SettingDust/kinecraft-serialization",
                 )
             }
-        }
-    }
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("kinecraft-serialization") {
-            groupId = "${rootProject.group}"
-            artifactId = "kinecraft-serialization"
-            version = "${rootProject.version}"
-            from(components.getByName("java"))
         }
     }
 }

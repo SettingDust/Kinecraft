@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.plugin.serialization)
     alias(libs.plugins.minotaur)
+    `maven-publish`
 }
 
 base {
@@ -65,5 +66,16 @@ modrinth {
     ) // Must also be an array - no need to specify this if you're using Loom or ForgeGradle
     dependencies {
         required.version("Ha28R6CL", "1.9.6+kotlin.1.8.22")
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("kinecraft-serialization") {
+            groupId = "${rootProject.group}"
+            artifactId = base.archivesName.get()
+            version = "${rootProject.version}"
+            from(components.getByName("java"))
+        }
     }
 }

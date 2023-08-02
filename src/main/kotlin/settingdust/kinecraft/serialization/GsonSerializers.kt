@@ -132,7 +132,7 @@ private val jsonObjectMembers = JsonObject::class.memberProperties.single { it.n
     it.isAccessible = true
 }
 // Gson below 2.10 no `asMap`
-fun JsonObject.toMap() = jsonObjectMembers.get(this) as MutableMap<String, JsonObject>
+fun JsonObject.toMap() = jsonObjectMembers.get(this) as MutableMap<String, JsonElement>
 
 fun JsonPrimitive.asKotlin(): kotlinx.serialization.json.JsonPrimitive {
     return when {

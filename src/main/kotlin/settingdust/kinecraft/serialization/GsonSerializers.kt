@@ -11,7 +11,12 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
-import kotlinx.serialization.descriptors.*
+import kotlinx.serialization.descriptors.PolymorphicKind
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.descriptors.SerialKind
+import kotlinx.serialization.descriptors.buildSerialDescriptor
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
@@ -20,7 +25,8 @@ import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.isAccessible
 
 class GsonElementAsStringSerializer(private val json: Json = Json) : KSerializer<JsonElement> {
-    override val descriptor = PrimitiveSerialDescriptor("gson.JsonElementAsString", PrimitiveKind.STRING)
+    override val descriptor =
+        PrimitiveSerialDescriptor("gson.JsonElementAsString", PrimitiveKind.STRING)
 
     override fun deserialize(decoder: Decoder): JsonElement {
         return json.parseToJsonElement(decoder.decodeString()).asGson()
@@ -31,10 +37,7 @@ class GsonElementAsStringSerializer(private val json: Json = Json) : KSerializer
     }
 }
 
-/**
- * Kotlin bridge with Gson json elements.
- * Have to use Json format
- */
+/** Kotlin bridge with Gson json elements. Have to use a Json format */
 @OptIn(ExperimentalSerializationApi::class, InternalSerializationApi::class)
 object GsonElementSerializer : KSerializer<JsonElement> {
     override val descriptor: SerialDescriptor =
@@ -60,8 +63,7 @@ object GsonElementSerializer : KSerializer<JsonElement> {
 object GsonObjectSerializer : KSerializer<JsonObject> {
     private object JsonObjectDescriptor :
         SerialDescriptor by MapSerializer(String.serializer(), GsonElementSerializer).descriptor {
-        @ExperimentalSerializationApi
-        override val serialName: String = "gson.JsonObject"
+        @ExperimentalSerializationApi override val serialName: String = "gson.JsonObject"
     }
 
     override val descriptor: SerialDescriptor = JsonObjectDescriptor
@@ -80,9 +82,9 @@ object GsonObjectSerializer : KSerializer<JsonObject> {
 }
 
 object GsonArraySerializer : KSerializer<JsonArray> {
-    object GsonArrayDescriptor : SerialDescriptor by ListSerializer(GsonElementSerializer).descriptor {
-        @ExperimentalSerializationApi
-        override val serialName: String = "gson.JsonArray"
+    object GsonArrayDescriptor :
+        SerialDescriptor by ListSerializer(GsonElementSerializer).descriptor {
+        @ExperimentalSerializationApi override val serialName: String = "gson.JsonArray"
     }
 
     override val descriptor = GsonArrayDescriptor
@@ -128,9 +130,11 @@ object JsonNullSerializer : KSerializer<JsonNull> {
     }
 }
 
-private val jsonObjectMembers = JsonObject::class.memberProperties.single { it.name == "members" }.also {
-    it.isAccessible = true
-}
+private val jsonObjectMembers =
+    JsonObject::class
+        .memberProperties
+        .single { it.name == "members" }
+        .also { it.isAccessible = true }
 // Gson below 2.10 no `asMap`
 fun JsonObject.toMap() = jsonObjectMembers.get(this) as MutableMap<String, JsonElement>
 
@@ -163,11 +167,21 @@ fun JsonElement.asKotlin(): kotlinx.serialization.json.JsonElement {
 
 fun kotlinx.serialization.json.JsonPrimitive.asGson(): JsonPrimitive {
     if (isString) return JsonPrimitive(content)
-    longOrNull?.let { return JsonPrimitive(it) }
-    content.toBigIntegerOrNull()?.let { return JsonPrimitive(it) }
-    doubleOrNull?.let { return JsonPrimitive(it) }
-    content.toBigDecimalOrNull()?.let { return JsonPrimitive(it) }
-    booleanOrNull?.let { return JsonPrimitive(it) }
+    longOrNull?.let {
+        return JsonPrimitive(it)
+    }
+    content.toBigIntegerOrNull()?.let {
+        return JsonPrimitive(it)
+    }
+    doubleOrNull?.let {
+        return JsonPrimitive(it)
+    }
+    content.toBigDecimalOrNull()?.let {
+        return JsonPrimitive(it)
+    }
+    booleanOrNull?.let {
+        return JsonPrimitive(it)
+    }
     return JsonPrimitive(content)
 }
 

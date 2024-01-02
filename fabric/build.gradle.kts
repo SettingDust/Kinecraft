@@ -34,7 +34,7 @@ tasks {
     }
     remapJar {
         from("LICENSE") {
-            rename { "${it}_MixinExtras" }
+            rename { "${it}_KinecraftSerialization" }
         }
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
@@ -51,6 +51,7 @@ modrinth {
     uploadFile.set(tasks.remapJar)
     versionNumber.set("${project.version}-fabric")
     gameVersions.addAll(
+        "1.16.5",
         "1.18.2",
         "1.19",
         "1.19.1",
@@ -65,7 +66,7 @@ modrinth {
         "quilt",
     ) // Must also be an array - no need to specify this if you're using Loom or ForgeGradle
     dependencies {
-        required.version("Ha28R6CL", "1.9.6+kotlin.1.8.22")
+        required.version("Ha28R6CL")
     }
 }
 

@@ -1,5 +1,5 @@
 modLoader = "kotlinforforge"
-loaderVersion = "[3,]"
+loaderVersion = "[1,]"
 license = "MIT"
 [[mods]]
 modId = "$id"
@@ -11,12 +11,12 @@ description = "$description"
 [[dependencies.$id]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.18.2,)"
+versionRange = "[1.16,)"
 ordering = "NONE"
 side = "BOTH"
 [[dependencies.$id]]
 modId = "kotlinforforge"
 mandatory = true
-versionRange = "[3,)"
+versionRange = "[1,)"
 ordering = "NONE"
 side = "BOTH"

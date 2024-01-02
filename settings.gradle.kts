@@ -23,5 +23,7 @@ pluginManagement {
 }
 
 rootProject.name = "kinecraft-serialization"
+
 include("fabric")
+
 include("forge")

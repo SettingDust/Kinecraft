@@ -11,10 +11,23 @@ import kotlinx.serialization.descriptors.StructureKind
 import kotlinx.serialization.encoding.CompositeEncoder
 import kotlinx.serialization.internal.NamedValueEncoder
 import kotlinx.serialization.modules.SerializersModule
-import net.minecraft.nbt.*
+import net.minecraft.nbt.ByteArrayTag
+import net.minecraft.nbt.ByteTag
+import net.minecraft.nbt.CollectionTag
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.DoubleTag
+import net.minecraft.nbt.FloatTag
+import net.minecraft.nbt.IntArrayTag
+import net.minecraft.nbt.IntTag
+import net.minecraft.nbt.ListTag
+import net.minecraft.nbt.LongArrayTag
+import net.minecraft.nbt.LongTag
+import net.minecraft.nbt.ShortTag
+import net.minecraft.nbt.StringTag
+import net.minecraft.nbt.Tag
 import settingdust.kinecraft.serialization.TagSerializer
 import settingdust.kinecraft.serialization.format.tag.MinecraftTag
-import settingdust.kinecraft.serialization.format.tag.TagEncoder
+import settingdust.kinecraft.serialization.format.tag.MinecraftTagEncoder
 
 @OptIn(ExperimentalSerializationApi::class)
 internal fun <T> MinecraftTag.writeTag(value: T, serializer: SerializationStrategy<T>): Tag {
@@ -29,7 +42,7 @@ internal fun <T> MinecraftTag.writeTag(value: T, serializer: SerializationStrate
 private sealed class TagTreeEncoder(
     final override val nbt: MinecraftTag,
     protected val tagConsumer: (Tag) -> Unit,
-) : NamedValueEncoder(), TagEncoder {
+) : NamedValueEncoder(), MinecraftTagEncoder {
     override val serializersModule: SerializersModule
         get() = nbt.serializersModule
 
@@ -37,27 +50,44 @@ private sealed class TagTreeEncoder(
 
     override fun encodeTag(tag: Tag) = encodeSerializableValue(TagSerializer, tag)
 
-    override fun shouldEncodeElementDefault(descriptor: SerialDescriptor, index: Int) = configuration.encodeDefaults
+    override fun shouldEncodeElementDefault(descriptor: SerialDescriptor, index: Int) =
+        configuration.encodeDefaults
 
     override fun composeName(parentName: String, childName: String) = childName
 
     abstract fun putTag(key: String, tag: Tag)
+
     abstract fun getCurrent(): Tag
 
     // There isn't null in NBT
     override fun encodeNotNullMark() {}
+
     override fun encodeNull() {}
+
     override fun encodeTaggedNull(tag: String) {}
 
     override fun encodeTaggedInt(tag: String, value: Int) = putTag(tag, IntTag.valueOf(value))
+
     override fun encodeTaggedByte(tag: String, value: Byte) = putTag(tag, ByteTag.valueOf(value))
+
     override fun encodeTaggedShort(tag: String, value: Short) = putTag(tag, ShortTag.valueOf(value))
+
     override fun encodeTaggedLong(tag: String, value: Long) = putTag(tag, LongTag.valueOf(value))
+
     override fun encodeTaggedFloat(tag: String, value: Float) = putTag(tag, FloatTag.valueOf(value))
-    override fun encodeTaggedDouble(tag: String, value: Double) = putTag(tag, DoubleTag.valueOf(value))
-    override fun encodeTaggedBoolean(tag: String, value: Boolean) = putTag(tag, ByteTag.valueOf(if (value) 1 else 0))
-    override fun encodeTaggedChar(tag: String, value: Char) = putTag(tag, IntTag.valueOf(value.code))
-    override fun encodeTaggedString(tag: String, value: String) = putTag(tag, StringTag.valueOf(value))
+
+    override fun encodeTaggedDouble(tag: String, value: Double) =
+        putTag(tag, DoubleTag.valueOf(value))
+
+    override fun encodeTaggedBoolean(tag: String, value: Boolean) =
+        putTag(tag, ByteTag.valueOf(if (value) 1 else 0))
+
+    override fun encodeTaggedChar(tag: String, value: Char) =
+        putTag(tag, IntTag.valueOf(value.code))
+
+    override fun encodeTaggedString(tag: String, value: String) =
+        putTag(tag, StringTag.valueOf(value))
+
     override fun encodeTaggedEnum(tag: String, enumDescriptor: SerialDescriptor, ordinal: Int) =
         putTag(tag, StringTag.valueOf(enumDescriptor.getElementName(ordinal)))
 
@@ -76,17 +106,21 @@ private sealed class TagTreeEncoder(
             } else {
                 { tag -> putTag(currentTag, tag) }
             }
-        val encoder = when (descriptor.kind) {
-            StructureKind.LIST -> when (descriptor) {
-                ByteArraySerializer().descriptor -> CollectionTagEncoder(nbt, ByteArrayTag(emptyList()), consumer)
-                IntArraySerializer().descriptor -> CollectionTagEncoder(nbt, IntArrayTag(emptyList()), consumer)
-                LongArraySerializer().descriptor -> CollectionTagEncoder(nbt, LongArrayTag(emptyList()), consumer)
-                else -> CollectionTagEncoder(nbt, ListTag(), consumer)
+        val encoder =
+            when (descriptor.kind) {
+                StructureKind.LIST ->
+                    when (descriptor) {
+                        ByteArraySerializer().descriptor ->
+                            CollectionTagEncoder(nbt, ByteArrayTag(emptyList()), consumer)
+                        IntArraySerializer().descriptor ->
+                            CollectionTagEncoder(nbt, IntArrayTag(emptyList()), consumer)
+                        LongArraySerializer().descriptor ->
+                            CollectionTagEncoder(nbt, LongArrayTag(emptyList()), consumer)
+                        else -> CollectionTagEncoder(nbt, ListTag(), consumer)
+                    }
+                StructureKind.MAP -> CompoundTagMapEncoder(nbt, consumer)
+                else -> CompoundTagEncoder(nbt, consumer)
             }
-
-            StructureKind.MAP -> CompoundTagMapEncoder(nbt, consumer)
-            else -> CompoundTagEncoder(nbt, consumer)
-        }
         return encoder
     }
 
@@ -112,7 +146,8 @@ private open class CompoundTagEncoder(nbt: MinecraftTag, tagConsumer: (Tag) -> U
         serializer: SerializationStrategy<T>,
         value: T?,
     ) {
-        if (value != null) super.encodeNullableSerializableElement(descriptor, index, serializer, value)
+        if (value != null)
+            super.encodeNullableSerializableElement(descriptor, index, serializer, value)
     }
 }
 
@@ -121,12 +156,16 @@ private class CompoundTagMapEncoder(nbt: MinecraftTag, tagConsumer: (Tag) -> Uni
     CompoundTagEncoder(nbt, tagConsumer) {
     private lateinit var key: String
     private var isKey = true
+
     override fun putTag(key: String, tag: Tag) {
         if (isKey) {
-            this.key = when (tag) {
-                is CollectionTag<*>, is CompoundTag -> throw IllegalStateException("Map key shouldn't be list or compound")
-                else -> tag.asString
-            }
+            this.key =
+                when (tag) {
+                    is CollectionTag<*>,
+                    is CompoundTag ->
+                        throw IllegalStateException("Map key shouldn't be list or compound")
+                    else -> tag.asString
+                }
             isKey = false
         } else {
             compound.put(this.key, tag)
@@ -136,8 +175,11 @@ private class CompoundTagMapEncoder(nbt: MinecraftTag, tagConsumer: (Tag) -> Uni
 }
 
 @ExperimentalSerializationApi
-private class CollectionTagEncoder(nbt: MinecraftTag, private val tag: CollectionTag<*>, tagConsumer: (Tag) -> Unit) :
-    TagTreeEncoder(nbt, tagConsumer) {
+private class CollectionTagEncoder(
+    nbt: MinecraftTag,
+    private val tag: CollectionTag<*>,
+    tagConsumer: (Tag) -> Unit
+) : TagTreeEncoder(nbt, tagConsumer) {
 
     override fun elementName(descriptor: SerialDescriptor, index: Int) = index.toString()
 

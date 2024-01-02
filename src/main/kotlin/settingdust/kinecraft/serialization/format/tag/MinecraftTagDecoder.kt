@@ -6,7 +6,8 @@ import kotlinx.serialization.encoding.Decoder
 import net.minecraft.nbt.Tag
 
 @ExperimentalSerializationApi
-interface TagDecoder : Decoder, CompositeDecoder {
+interface MinecraftTagDecoder : Decoder, CompositeDecoder {
     val nbt: MinecraftTag
+
     fun decodeTag(): Tag
 }

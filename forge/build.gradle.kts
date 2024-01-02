@@ -13,6 +13,10 @@ base {
 }
 
 repositories {
+    maven {
+        name = "Forge"
+        url = uri("https://maven.minecraftforge.net/")
+    }
     mavenCentral()
 }
 
@@ -36,11 +40,12 @@ tasks {
     }
     jar {
         from("LICENSE") {
-            rename { "${it}_MixinExtras" }
+            rename { "${it}_KinecraftSerialization" }
         }
         finalizedBy("reobfJar")
         manifest.attributes(
-            "FMLModType" to "GAMELIBRARY",
+            // 1.16.5 no GAMELIBRARY
+            "FMLModType" to "MOD",
         )
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
@@ -58,6 +63,7 @@ modrinth {
     uploadFile.set(tasks.jar)
     versionNumber.set("${project.version}-forge")
     gameVersions.addAll(
+        "1.16.5",
         "1.18.2",
         "1.19",
         "1.19.1",

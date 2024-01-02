@@ -1,6 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-
 plugins {
     java
     alias(libs.plugins.kotlin.jvm)
@@ -9,15 +8,12 @@ plugins {
 }
 
 group = "${project.property("group")}"
+
 version = "${project.property("version")}"
 
-repositories {
-    mavenCentral()
-}
+repositories { mavenCentral() }
 
-minecraft {
-    version(libs.versions.minecraft.get())
-}
+minecraft { version(libs.versions.minecraft.get()) }
 
 dependencies {
     implementation(libs.kotlinx.serialization.core)
@@ -28,13 +24,9 @@ dependencies {
     testImplementation(kotlin("test"))
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
+tasks.test { useJUnitPlatform() }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "17"
-}
+tasks.withType<KotlinCompile> { kotlinOptions.jvmTarget = "17" }
 
 subprojects {
     apply(plugin = "java")
@@ -44,11 +36,13 @@ subprojects {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
 
-        // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task if it is present.
+        // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build"
+        // task if it is present.
         // If you remove this line, sources will not be generated.
         withSourcesJar()
 
-        // If this mod is going to be a library, then it should also generate Javadocs in order to aid with development.
+        // If this mod is going to be a library, then it should also generate Javadocs in order to
+        // aid with development.
         // Uncomment this line to generate them.
         // withJavadocJar()
     }
@@ -73,4 +67,3 @@ subprojects {
         }
     }
 }
-

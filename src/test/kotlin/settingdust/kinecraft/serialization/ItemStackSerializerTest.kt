@@ -29,11 +29,12 @@ class ItemStackSerializerTest {
         // Init MC
         SharedConstants.tryDetectVersion()
         Bootstrap.bootStrap()
-        itemTag = CompoundTag().apply {
-            putString("id", "minecraft:grass")
-            putByte("Count", 5.toByte())
-            put("tag", CompoundTag().apply { putString("foo", "bar") })
-        }
+        itemTag =
+            CompoundTag().apply {
+                putString("id", "minecraft:grass")
+                putByte("Count", 5.toByte())
+                put("tag", CompoundTag().apply { putString("foo", "bar") })
+            }
         item = ItemStack.of(itemTag)
     }
 

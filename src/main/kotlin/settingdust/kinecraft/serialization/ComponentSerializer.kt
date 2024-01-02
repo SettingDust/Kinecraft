@@ -12,11 +12,16 @@ import net.minecraft.network.chat.Component
 @OptIn(ExperimentalSerializationApi::class)
 object ComponentSerializer : KSerializer<Component> {
     override val descriptor =
-        SerialDescriptor("net.minecraft.network.chat.Component", JsonElement.serializer().descriptor)
+        SerialDescriptor(
+            "net.minecraft.network.chat.Component",
+            JsonElement.serializer().descriptor
+        )
 
     override fun deserialize(decoder: Decoder): Component {
         return Component.Serializer.fromJson(
-            decoder.decodeSerializableValue(decoder.serializersModule.serializer<com.google.gson.JsonElement>()),
+            decoder.decodeSerializableValue(
+                decoder.serializersModule.serializer<com.google.gson.JsonElement>()
+            ),
         )!!
     }
 

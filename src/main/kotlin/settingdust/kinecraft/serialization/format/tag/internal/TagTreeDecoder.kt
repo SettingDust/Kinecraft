@@ -12,20 +12,34 @@ import kotlinx.serialization.descriptors.StructureKind
 import kotlinx.serialization.encoding.CompositeDecoder
 import kotlinx.serialization.internal.NamedValueDecoder
 import kotlinx.serialization.modules.SerializersModule
-import net.minecraft.nbt.*
+import net.minecraft.nbt.ByteArrayTag
+import net.minecraft.nbt.ByteTag
+import net.minecraft.nbt.CollectionTag
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.DoubleTag
+import net.minecraft.nbt.FloatTag
+import net.minecraft.nbt.IntArrayTag
+import net.minecraft.nbt.IntTag
+import net.minecraft.nbt.ListTag
+import net.minecraft.nbt.LongArrayTag
+import net.minecraft.nbt.LongTag
+import net.minecraft.nbt.ShortTag
+import net.minecraft.nbt.StringTag
+import net.minecraft.nbt.Tag
 import settingdust.kinecraft.serialization.format.tag.MinecraftTag
-import settingdust.kinecraft.serialization.format.tag.TagDecoder
+import settingdust.kinecraft.serialization.format.tag.MinecraftTagDecoder
 
 @OptIn(ExperimentalSerializationApi::class)
 internal fun <T> MinecraftTag.readTag(tag: Tag, deserializer: DeserializationStrategy<T>): T {
-    val decoder = when (tag) {
-        is ByteArrayTag -> ByteArrayTagDecoder(this, tag)
-        is IntArrayTag -> IntArrayTagDecoder(this, tag)
-        is LongArrayTag -> LongArrayTagDecoder(this, tag)
-        is ListTag -> ListTagDecoder(this, tag)
-        is CompoundTag -> CompoundTagDecoder(this, tag)
-        else -> RootTagDecoder(this, tag)
-    }
+    val decoder =
+        when (tag) {
+            is ByteArrayTag -> ByteArrayTagDecoder(this, tag)
+            is IntArrayTag -> IntArrayTagDecoder(this, tag)
+            is LongArrayTag -> LongArrayTagDecoder(this, tag)
+            is ListTag -> ListTagDecoder(this, tag)
+            is CompoundTag -> CompoundTagDecoder(this, tag)
+            else -> RootTagDecoder(this, tag)
+        }
     return decoder.decodeSerializableValue(deserializer)
 }
 
@@ -34,12 +48,14 @@ internal fun <T> MinecraftTag.readTag(tag: Tag, deserializer: DeserializationStr
 private sealed class TagTreeDecoder(
     final override val nbt: MinecraftTag,
     open val value: Tag,
-) : NamedValueDecoder(), TagDecoder {
+) : NamedValueDecoder(), MinecraftTagDecoder {
     override val serializersModule: SerializersModule
         get() = nbt.serializersModule
 
     protected val configuration = nbt.configuration
+
     protected abstract fun currentTag(tag: String): Tag
+
     private fun currentObject() = currentTagOrNull?.let { currentTag(it) } ?: value
 
     override fun decodeTag() = currentObject()
@@ -49,13 +65,16 @@ private sealed class TagTreeDecoder(
     override fun beginStructure(descriptor: SerialDescriptor): CompositeDecoder {
         val currentObject = currentObject()
         return when (descriptor.kind) {
-            StructureKind.LIST -> when (descriptor) {
-                ByteArraySerializer().descriptor -> ByteArrayTagDecoder(nbt, currentObject as ByteArrayTag)
-                IntArraySerializer().descriptor -> IntArrayTagDecoder(nbt, currentObject as IntArrayTag)
-                LongArraySerializer().descriptor -> LongArrayTagDecoder(nbt, currentObject as LongArrayTag)
-                else -> ListTagDecoder(nbt, currentObject as ListTag)
-            }
-
+            StructureKind.LIST ->
+                when (descriptor) {
+                    ByteArraySerializer().descriptor ->
+                        ByteArrayTagDecoder(nbt, currentObject as ByteArrayTag)
+                    IntArraySerializer().descriptor ->
+                        IntArrayTagDecoder(nbt, currentObject as IntArrayTag)
+                    LongArraySerializer().descriptor ->
+                        LongArrayTagDecoder(nbt, currentObject as LongArrayTag)
+                    else -> ListTagDecoder(nbt, currentObject as ListTag)
+                }
             StructureKind.MAP -> CompoundTagMapDecoder(nbt, currentObject as CompoundTag)
             else ->
                 if (currentObject is CompoundTag) {
@@ -76,20 +95,28 @@ private sealed class TagTreeDecoder(
     // There isn't null in NBT
     override fun decodeTaggedNotNullMark(tag: String) = true
 
-    override fun decodeTaggedBoolean(tag: String) = when (val byte = (currentTag(tag) as ByteTag).asByte) {
-        0.toByte() -> false
-        1.toByte() -> true
-        else -> throw IllegalArgumentException("Byte $byte isn't valid boolean value")
-    }
+    override fun decodeTaggedBoolean(tag: String) =
+        when (val byte = (currentTag(tag) as ByteTag).asByte) {
+            0.toByte() -> false
+            1.toByte() -> true
+            else -> throw IllegalArgumentException("Byte $byte isn't valid boolean value")
+        }
 
     override fun decodeTaggedByte(tag: String) = (currentTag(tag) as ByteTag).asByte
+
     override fun decodeTaggedShort(tag: String) = (currentTag(tag) as ShortTag).asShort
+
     override fun decodeTaggedInt(tag: String) = (currentTag(tag) as IntTag).asInt
+
     override fun decodeTaggedLong(tag: String) = (currentTag(tag) as LongTag).asLong
+
     override fun decodeTaggedFloat(tag: String) = (currentTag(tag) as FloatTag).asFloat
+
     override fun decodeTaggedDouble(tag: String) = (currentTag(tag) as DoubleTag).asDouble
+
     override fun decodeTaggedChar(tag: String) = (currentTag(tag) as IntTag).asInt.toChar()
-    override fun decodeTaggedString(tag: String) = (currentTag(tag) as StringTag).asString!!
+
+    override fun decodeTaggedString(tag: String) = (currentTag(tag) as StringTag).asString
 }
 
 @ExperimentalSerializationApi
@@ -124,12 +151,16 @@ private class CompoundTagDecoder(
     override fun endStructure(descriptor: SerialDescriptor) {
         if (configuration.ignoreUnknownKeys || descriptor.kind is PolymorphicKind) return
 
-        val names = (0 until descriptor.elementsCount).mapTo(HashSet()) { descriptor.getElementName(it) }
-        compound.allKeys.filter { !names.contains(it) }.joinToString(", ").let {
-            if (it.isNotBlank()) {
-                throw IllegalArgumentException("$it aren't exist in decoder but compound tag")
+        val names =
+            (0 until descriptor.elementsCount).mapTo(HashSet()) { descriptor.getElementName(it) }
+        compound.allKeys
+            .filter { !names.contains(it) }
+            .joinToString(", ")
+            .let {
+                if (it.isNotBlank()) {
+                    throw IllegalArgumentException("$it aren't exist in decoder but compound tag")
+                }
             }
-        }
     }
 }
 
@@ -152,7 +183,8 @@ private class CompoundTagMapDecoder(
         return CompositeDecoder.DECODE_DONE
     }
 
-    override fun currentTag(tag: String) = if (position % 2 == 0) StringTag.valueOf(tag)!! else compound[tag]!!
+    override fun currentTag(tag: String) =
+        if (position % 2 == 0) StringTag.valueOf(tag) else compound[tag]!!
 
     override fun endStructure(descriptor: SerialDescriptor) {
         // do nothing, maps do not have strict keys, so strict mode check is omitted
@@ -163,7 +195,7 @@ private class CompoundTagMapDecoder(
 private open class CollectionTagDecoder<T : Tag>(
     nbt: MinecraftTag,
     protected val collection: CollectionTag<T>,
-) : TagDecoder, TagTreeDecoder(nbt, collection) {
+) : MinecraftTagDecoder, TagTreeDecoder(nbt, collection) {
     private val size = collection.size
     protected var index = -1
 

@@ -2,6 +2,7 @@ package settingdust.kinecraft.serialization.format.tag
 
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.SerialFormat
 import kotlinx.serialization.SerializationStrategy
 import kotlinx.serialization.modules.EmptySerializersModule
 import kotlinx.serialization.modules.SerializersModule
@@ -12,16 +13,18 @@ import settingdust.kinecraft.serialization.TagsModule
 import settingdust.kinecraft.serialization.format.tag.internal.readTag
 import settingdust.kinecraft.serialization.format.tag.internal.writeTag
 
-/**
- * Nbt minecraft tag types format
- */
+/** Nbt minecraft tag types format */
 @ExperimentalSerializationApi
-sealed class MinecraftTag(val configuration: MinecraftTagConfiguration, serializersModule: SerializersModule) {
+sealed class MinecraftTag(
+    val configuration: MinecraftTagConfiguration,
+    serializersModule: SerializersModule
+) : SerialFormat {
     companion object Default : MinecraftTag(MinecraftTagConfiguration(), EmptySerializersModule())
+
     internal class Impl(config: MinecraftTagConfiguration, serializersModule: SerializersModule) :
         MinecraftTag(config, serializersModule)
 
-    val serializersModule = serializersModule + TagsModule
+    override val serializersModule = serializersModule + TagsModule
 
     fun <T> encodeToTag(serializer: SerializationStrategy<T>, value: T): Tag =
         writeTag(value, serializer)
@@ -36,8 +39,10 @@ data class MinecraftTagConfiguration(
 )
 
 @ExperimentalSerializationApi
-inline fun MinecraftTag(from: MinecraftTag = MinecraftTag, build: MinecraftTagBuilder.() -> Unit): MinecraftTag =
-    MinecraftTagBuilder(from).apply(build).build()
+inline fun MinecraftTag(
+    from: MinecraftTag = MinecraftTag,
+    build: MinecraftTagBuilder.() -> Unit
+): MinecraftTag = MinecraftTagBuilder(from).apply(build).build()
 
 @ExperimentalSerializationApi
 class MinecraftTagBuilder(from: MinecraftTag) {
@@ -47,7 +52,10 @@ class MinecraftTagBuilder(from: MinecraftTag) {
     var serializersModule = from.serializersModule
 
     fun build(): MinecraftTag =
-        MinecraftTag.Impl(MinecraftTagConfiguration(encodeDefaults, ignoreUnknownKeys), serializersModule)
+        MinecraftTag.Impl(
+            MinecraftTagConfiguration(encodeDefaults, ignoreUnknownKeys),
+            serializersModule
+        )
 }
 
 @ExperimentalSerializationApi

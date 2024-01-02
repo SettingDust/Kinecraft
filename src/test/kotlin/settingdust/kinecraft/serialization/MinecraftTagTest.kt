@@ -1,7 +1,6 @@
 package settingdust.kinecraft.serialization
 
 import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.Serializable
 import net.minecraft.nbt.ByteArrayTag
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.IntArrayTag
@@ -16,67 +15,9 @@ import settingdust.kinecraft.serialization.format.tag.encodeToTag
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
-@Serializable
-data class TestData(
-    val string: String,
-    val int: Int,
-    val boolean: Boolean,
-    val double: Double,
-    val float: Float,
-    val long: Long,
-    val short: Short,
-    val byte: Byte,
-    val char: Char,
-    val list: List<String>,
-    val byteArray: ByteArray,
-    val intArray: IntArray,
-    val longArray: LongArray,
-)
-
-@Serializable
-data class NestTestData(
-    val testData: TestData,
-    val testDataList: List<TestData>,
-)
-
 @OptIn(ExperimentalSerializationApi::class)
 class MinecraftTagTest {
     private val minecraftTag = MinecraftTag
-    private val data =
-        NestTestData(
-            TestData(
-                "string",
-                1,
-                true,
-                1.0,
-                1.0f,
-                1L,
-                1.toShort(),
-                1.toByte(),
-                'a',
-                listOf("a", "b", "c"),
-                byteArrayOf(1, 2, 3),
-                intArrayOf(1, 2, 3),
-                longArrayOf(1, 2, 3),
-            ),
-            listOf(
-                TestData(
-                    "nested string",
-                    2,
-                    false,
-                    2.0,
-                    2.0f,
-                    2L,
-                    2.toShort(),
-                    2.toByte(),
-                    'b',
-                    listOf("d", "e", "f"),
-                    byteArrayOf(4, 5, 6),
-                    intArrayOf(4, 5, 6),
-                    longArrayOf(4, 5, 6),
-                ),
-            ),
-        )
 
     private val tag =
         CompoundTag().apply {
@@ -138,7 +79,7 @@ class MinecraftTagTest {
 
     @Test
     fun encodeToTag() {
-        val result = minecraftTag.encodeToTag(data) as CompoundTag
+        val result = minecraftTag.encodeToTag(testData) as CompoundTag
         val testDataTag = result.getCompound("testData")
         assertEquals("string", testDataTag.getString("string"))
         assertEquals(1, testDataTag.getInt("int"))
@@ -203,51 +144,6 @@ class MinecraftTagTest {
 
     @Test
     fun decodeFromTag() {
-        val result = minecraftTag.decodeFromTag<NestTestData>(tag)
-        val testData = result.testData
-        assertEquals("string", testData.string)
-        assertEquals(1, testData.int)
-        assertEquals(true, testData.boolean)
-        assertEquals(1.0, testData.double)
-        assertEquals(1.0f, testData.float)
-        assertEquals(1L, testData.long)
-        assertEquals(1.toShort(), testData.short)
-        assertEquals(1.toByte(), testData.byte)
-        assertEquals('a', testData.char)
-        assertEquals("a", testData.list[0])
-        assertEquals("b", testData.list[1])
-        assertEquals("c", testData.list[2])
-        assertEquals(1, testData.byteArray[0])
-        assertEquals(2, testData.byteArray[1])
-        assertEquals(3, testData.byteArray[2])
-        assertEquals(1, testData.intArray[0])
-        assertEquals(2, testData.intArray[1])
-        assertEquals(3, testData.intArray[2])
-        assertEquals(1, testData.longArray[0])
-        assertEquals(2, testData.longArray[1])
-        assertEquals(3, testData.longArray[2])
-
-        val testDataList = result.testDataList[0]
-        assertEquals("nested string", testDataList.string)
-        assertEquals(2, testDataList.int)
-        assertEquals(false, testDataList.boolean)
-        assertEquals(2.0, testDataList.double)
-        assertEquals(2.0f, testDataList.float)
-        assertEquals(2L, testDataList.long)
-        assertEquals(2.toShort(), testDataList.short)
-        assertEquals(2.toByte(), testDataList.byte)
-        assertEquals('b', testDataList.char)
-        assertEquals("d", testDataList.list[0])
-        assertEquals("e", testDataList.list[1])
-        assertEquals("f", testDataList.list[2])
-        assertEquals(4, testDataList.byteArray[0])
-        assertEquals(5, testDataList.byteArray[1])
-        assertEquals(6, testDataList.byteArray[2])
-        assertEquals(4, testDataList.intArray[0])
-        assertEquals(5, testDataList.intArray[1])
-        assertEquals(6, testDataList.intArray[2])
-        assertEquals(4, testDataList.longArray[0])
-        assertEquals(5, testDataList.longArray[1])
-        assertEquals(6, testDataList.longArray[2])
+        assertEquals(testData, minecraftTag.decodeFromTag<NestTestData>(tag))
     }
 }

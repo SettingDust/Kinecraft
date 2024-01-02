@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "settingdust.kinecraft.serialization.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "DelegatingOpsAccessor"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

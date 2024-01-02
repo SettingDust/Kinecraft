@@ -19,19 +19,18 @@ package org.quiltmc.qkl.library.serialization.internal.util
 import com.mojang.serialization.DataResult
 import com.mojang.serialization.DynamicOps
 import com.mojang.serialization.JsonOps
-import net.minecraft.util.dynamic.ForwardingDynamicOps
+import net.minecraft.resources.DelegatingOps
 import org.quiltmc.qkl.library.serialization.ExtendedDynamicOps
 import org.quiltmc.qkl.library.serialization.internal.DefaultingExtendedOps
 import org.quiltmc.qkl.library.serialization.internal.ExtendedJsonOps
-import settingdust.dynamictextures.mixin.ForwardingDynamicOpsAccessor
+import settingdust.kinecraft.serialization.mixin.DelegatingOpsAccessor
 
 @Suppress("UNCHECKED_CAST")
 internal tailrec fun <T : Any> DynamicOps<T>.getExtendedWithDefault(): ExtendedDynamicOps<T> {
     return when (this) {
         is ExtendedDynamicOps<*> -> DefaultingExtendedOps(this, this as ExtendedDynamicOps<T>)
         is JsonOps -> ExtendedJsonOps as ExtendedDynamicOps<T>
-        is ForwardingDynamicOps<*> ->
-            (this as ForwardingDynamicOpsAccessor<T>).delegate.getExtendedWithDefault()
+        is DelegatingOps<*> -> (this as DelegatingOpsAccessor<T>).delegate.getExtendedWithDefault()
         else -> DefaultingExtendedOps(this)
     }
 }

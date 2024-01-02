@@ -8,13 +8,11 @@ plugins {
     `maven-publish`
 }
 
-base {
-    archivesName.set("kinecraft_serialization-fabric")
-}
+base { archivesName.set("${rootProject.name}-fabric") }
 
-repositories {
-    mavenCentral()
-}
+loom { mixin { defaultRefmapName = "${rootProject.name}.refmap.json" } }
+
+repositories { mavenCentral() }
 
 dependencies {
     minecraft(libs.minecraft)
@@ -24,32 +22,32 @@ dependencies {
     implementation(libs.kotlin.reflect)
 
     mappings(loom.officialMojangMappings())
-
-//    include(rootProject)
 }
 
 tasks {
-    withType<KotlinCompile> {
-        source(rootProject.sourceSets.main.get().allSource)
-    }
+    withType<ProcessResources> { from(rootProject.sourceSets.main.get().resources) }
+    withType<KotlinCompile> { source(rootProject.sourceSets.main.get().allSource) }
     remapJar {
-        from("LICENSE") {
-            rename { "${it}_KinecraftSerialization" }
-        }
+        from("LICENSE") { rename { "${it}_KinecraftSerialization" } }
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
 
-    sourcesJar {
-        from(rootProject.sourceSets.main.get().allSource)
-    }
+    sourcesJar { from(rootProject.sourceSets.main.get().allSource) }
 }
+
 modrinth {
-    token.set(System.getenv("MODRINTH_TOKEN")) // This is the default. Remember to have the MODRINTH_TOKEN environment variable set or else this will fail, or set it to whatever you want - just make sure it stays private!
-    projectId.set("kinecraft-serialization") // This can be the project ID or the slug. Either will work!
+    token.set(
+        System.getenv("MODRINTH_TOKEN")
+    ) // This is the default. Remember to have the MODRINTH_TOKEN environment variable set or else
+    // this will fail, or set it to whatever you want - just make sure it stays private!
+    projectId.set(
+        "kinecraft-serialization"
+    ) // This can be the project ID or the slug. Either will work!
     syncBodyFrom.set(rootProject.file("README.md").readText())
     versionType.set("release") // This is the default -- can also be `beta` or `alpha`
     uploadFile.set(tasks.remapJar)
     versionNumber.set("${project.version}-fabric")
+    changelog = rootProject.file("CHANGELOG.md").readText()
     gameVersions.addAll(
         "1.16.5",
         "1.18.2",
@@ -60,14 +58,15 @@ modrinth {
         "1.19.4",
         "1.20",
         "1.20.1",
+        "1.20.2",
+        "1.20.3",
+        "1.20.4",
     ) // Must be an array, even with only one version
     loaders.addAll(
         "fabric",
         "quilt",
     ) // Must also be an array - no need to specify this if you're using Loom or ForgeGradle
-    dependencies {
-        required.version("Ha28R6CL")
-    }
+    dependencies { required.project("fabric-language-kotlin") }
 }
 
 publishing {

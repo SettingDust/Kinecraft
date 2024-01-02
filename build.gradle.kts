@@ -15,11 +15,17 @@ repositories { mavenCentral() }
 
 minecraft { version(libs.versions.minecraft.get()) }
 
+repositories {
+    maven("https://repo.spongepowered.org/repository/maven-public/")
+}
+
 dependencies {
     implementation(libs.kotlinx.serialization.core)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.serialization.hocon)
     implementation(libs.kotlin.reflect)
+
+    implementation(libs.mixin)
 
     testImplementation(kotlin("test"))
 }

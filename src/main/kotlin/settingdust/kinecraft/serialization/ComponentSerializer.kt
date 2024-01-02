@@ -9,6 +9,11 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.serializer
 import net.minecraft.network.chat.Component
 
+/**
+ * Need to add one [com.google.gson.JsonElement] serializer to serializers module
+ * @see [GsonElementSerializer]
+ * @see [GsonElementAsStringSerializer]
+ */
 @OptIn(ExperimentalSerializationApi::class)
 object ComponentSerializer : KSerializer<Component> {
     override val descriptor =

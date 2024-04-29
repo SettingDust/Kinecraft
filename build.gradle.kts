@@ -11,21 +11,22 @@ group = "${project.property("group")}"
 
 version = "${project.property("version")}"
 
-repositories { mavenCentral() }
+allprojects {
+    repositories {
+        mavenCentral()
+        maven("https://repo.spongepowered.org/repository/maven-public/")
+    }
+}
 
 minecraft { version(libs.versions.minecraft.get()) }
 
-repositories {
-    maven("https://repo.spongepowered.org/repository/maven-public/")
-}
-
 dependencies {
-    implementation(libs.kotlinx.serialization.core)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.kotlinx.serialization.hocon)
-    implementation(libs.kotlin.reflect)
+    api(libs.kotlinx.serialization.core)
+    api(libs.kotlinx.serialization.json)
+    api(libs.kotlinx.serialization.hocon)
+    api(libs.kotlin.reflect)
 
-    implementation(libs.mixin)
+    api(libs.mixin)
 
     testImplementation(kotlin("test"))
 }

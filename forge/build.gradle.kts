@@ -34,12 +34,13 @@ dependencies {
     implementation(libs.kotlinx.serialization.hocon)
     implementation(libs.kotlin.reflect)
 
-    //    jarJar(rootProject)
+    implementation(project(":"))
 }
 
 tasks {
     withType<ProcessResources> { from(rootProject.sourceSets.main.get().resources) }
     withType<KotlinCompile> { source(rootProject.sourceSets.main.get().allSource) }
+    withType<JavaCompile> { source(rootProject.sourceSets.main.get().allSource) }
     jar {
         from("LICENSE") { rename { "${it}_KinecraftSerialization" } }
         finalizedBy("reobfJar")

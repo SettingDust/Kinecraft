@@ -22,11 +22,14 @@ dependencies {
     implementation(libs.kotlin.reflect)
 
     mappings(loom.officialMojangMappings())
+
+    implementation(project(":"))
 }
 
 tasks {
     withType<ProcessResources> { from(rootProject.sourceSets.main.get().resources) }
     withType<KotlinCompile> { source(rootProject.sourceSets.main.get().allSource) }
+    withType<JavaCompile> { source(rootProject.sourceSets.main.get().allSource) }
     remapJar {
         from("LICENSE") { rename { "${it}_KinecraftSerialization" } }
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE

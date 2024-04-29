@@ -15,7 +15,9 @@ apply(plugin = "org.spongepowered.mixin")
 
 base { archivesName.set("${rootProject.name}-forge") }
 
-configure<MixinExtension> { add("main", "${rootProject.name}.refmap.json") }
+configure<MixinExtension> {
+    add("main", "${rootProject.name}.refmap.json")
+}
 
 repositories {
     maven {
@@ -47,6 +49,7 @@ tasks {
         manifest.attributes(
             // 1.16.5 no GAMELIBRARY
             "FMLModType" to "MOD",
+            "MixinConfigs" to "${rootProject.base.archivesName.get()}.mixins.json"
         )
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }

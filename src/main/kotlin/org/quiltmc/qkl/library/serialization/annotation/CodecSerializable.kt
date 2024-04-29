@@ -19,7 +19,7 @@ package org.quiltmc.qkl.library.serialization.annotation
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.InheritableSerialInfo
 import kotlinx.serialization.MetaSerializable
-import net.fabricmc.fabric.api.util.TriState
+import settingdust.kinecraft.util.TriState
 import org.quiltmc.qkl.library.serialization.options.CodecOptions
 
 /**

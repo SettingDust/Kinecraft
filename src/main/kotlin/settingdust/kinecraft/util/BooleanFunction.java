@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.fabricmc.fabric.api.util;
+package settingdust.kinecraft.util;
 
 /**
  * Represents a function that accepts a boolean-valued argument and produces a result.

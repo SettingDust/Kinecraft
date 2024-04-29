@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.fabricmc.fabric.api.util;
+package settingdust.kinecraft.util;
 
 import java.util.Objects;
 import java.util.Optional;

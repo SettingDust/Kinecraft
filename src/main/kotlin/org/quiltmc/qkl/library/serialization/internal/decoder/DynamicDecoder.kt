@@ -96,7 +96,7 @@ internal class DynamicDecoder<T : Any>(
     }
 
     override fun decodeSequentially(): Boolean {
-        return currentState.collectionSize != null
+        return currentState.decodeSequentially()
     }
 
     override fun decodeCollectionSize(descriptor: SerialDescriptor): Int {

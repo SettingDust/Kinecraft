@@ -32,4 +32,7 @@ internal sealed class DecoderState<T : Any>(serializationConfig: SerializationCo
     abstract fun getElement(): Pair<T, ElementOptions>
 
     open fun onComplete() {}
+    open fun decodeSequentially(): Boolean {
+        return collectionSize != null
+    }
 }

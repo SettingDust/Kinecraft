@@ -37,11 +37,11 @@ internal sealed class CollectionState<T : Any>(serializationConfig: Serializatio
     abstract override val collectionSize: Int
 
     override fun getNextIndex(descriptor: SerialDescriptor): Int {
-        return if (nextIndex + 1 < collectionSize) {
-            nextIndex + 1
-        } else {
-            CompositeDecoder.DECODE_DONE
+        if (nextIndex < collectionSize - 1) {
+            nextIndex++
+            return nextIndex
         }
+        return CompositeDecoder.DECODE_DONE
     }
 }
 
@@ -66,27 +66,28 @@ internal class RegularMapState<T : Any>(
 ) : CollectionState<T>(serializationConfig) {
     private val entries = mapLike.entries().toList()
 
-    override val collectionSize: Int = entries.size
+    override val collectionSize: Int = entries.size * 2
+
+    override fun decodeSequentially() = false
 
     override fun getElement(): Pair<T, ElementOptions> {
-        val element = entries[(++nextIndex / 2) * 2]
-
+        val index = nextIndex / 2
         return if (nextIndex % 2 == 0) {
-            element.first to ElementOptions(isMapKey = true)
+            entries[index].first to ElementOptions(isMapKey = true)
         } else {
-            element.second to ElementOptions()
+            entries[index].second to ElementOptions()
         }
     }
 
     override fun getElementTrace(): String {
-        val elementIndex = (nextIndex / 2) * 2
-        val keyElement = entries[elementIndex].first
-        val keyString = ops.getStringValue(keyElement).result().orElse(keyElement.toString())
+        val entry = entries[nextIndex / 2]
 
         return if (nextIndex % 2 == 0) {
-            ".$keyString (key)"
+            val string = ops.getStringValue(entry.first).result().orElse(entry.toString())
+            ".$string (key)"
         } else {
-            ".$keyString"
+            val string = ops.getStringValue(entry.second).result().orElse(entry.toString())
+            ".$string"
         }
     }
 }

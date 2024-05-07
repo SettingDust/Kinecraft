@@ -66,8 +66,7 @@ modrinth {
         "1.20.4",
     ) // Must be an array, even with only one version
     loaders.addAll(
-        "fabric",
-        "quilt",
+        "fabric"
     ) // Must also be an array - no need to specify this if you're using Loom or ForgeGradle
     dependencies { required.project("fabric-language-kotlin") }
 }

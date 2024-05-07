@@ -12,9 +12,15 @@ group = "${project.property("group")}"
 version = "${project.property("version")}"
 
 allprojects {
+    apply(plugin = "java")
+
     repositories {
         mavenCentral()
         maven("https://repo.spongepowered.org/repository/maven-public/")
+    }
+
+    dependencies {
+        annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
     }
 }
 

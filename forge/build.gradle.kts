@@ -15,8 +15,14 @@ apply(plugin = "org.spongepowered.mixin")
 
 base { archivesName.set("${rootProject.name}-forge") }
 
+sourceSets {
+    main {
+        ext["refMap"] = "${rootProject.name}.mixins.refmap.json"
+    }
+}
+
 configure<MixinExtension> {
-    add("main", "${rootProject.name}.refmap.json")
+    add(sourceSets.main.get(), "${rootProject.name}.mixins.refmap.json")
 }
 
 repositories {

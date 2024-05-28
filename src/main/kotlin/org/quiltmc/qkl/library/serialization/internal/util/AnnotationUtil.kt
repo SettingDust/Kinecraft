@@ -19,6 +19,7 @@ package org.quiltmc.qkl.library.serialization.internal.util
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.descriptors.SerialDescriptor
 import org.quiltmc.qkl.library.serialization.annotation.CodecEntryListMap
+import org.quiltmc.qkl.library.serialization.annotation.CodecPolymorphicSerializable
 import org.quiltmc.qkl.library.serialization.annotation.CodecSerializable
 import org.quiltmc.qkl.library.serialization.internal.CodecSerializerAdapter
 
@@ -27,8 +28,8 @@ internal val SerialDescriptor.codecAnnotation: CodecSerializable?
     get() = annotations.filterIsInstance<CodecSerializable>().firstOrNull()
 
 @OptIn(ExperimentalSerializationApi::class)
-internal val SerialDescriptor.codecPolymorphicAnnotation: CodecSerializable.Polymorphic?
-    get() = annotations.filterIsInstance<CodecSerializable.Polymorphic>().firstOrNull()
+internal val SerialDescriptor.codecPolymorphicAnnotation: CodecPolymorphicSerializable?
+    get() = annotations.filterIsInstance<CodecPolymorphicSerializable>().firstOrNull()
 
 @OptIn(ExperimentalSerializationApi::class)
 internal val SerialDescriptor.isCodec: Boolean

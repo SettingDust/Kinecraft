@@ -16,9 +16,9 @@ repositories { mavenCentral() }
 
 dependencies {
     minecraft(libs.minecraft)
+    modImplementation(libs.fabric.loader)
     implementation(libs.kotlinx.serialization.core)
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.kotlinx.serialization.hocon)
     implementation(libs.kotlin.reflect)
 
     mappings(loom.officialMojangMappings())
@@ -49,7 +49,7 @@ modrinth {
     syncBodyFrom.set(rootProject.file("README.md").readText())
     versionType.set("release") // This is the default -- can also be `beta` or `alpha`
     uploadFile.set(tasks.remapJar)
-    versionNumber.set("${project.version}-fabric")
+    versionNumber.set("${project.version}")
     changelog = rootProject.file("CHANGELOG.md").readText()
     gameVersions.addAll(
         "1.16.5",
@@ -64,6 +64,8 @@ modrinth {
         "1.20.2",
         "1.20.3",
         "1.20.4",
+        "1.20.5",
+        "1.20.6"
     ) // Must be an array, even with only one version
     loaders.addAll(
         "fabric"

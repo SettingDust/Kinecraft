@@ -90,7 +90,7 @@ val codec = factoryWithCodecs.create<CodecExampleClass>()
 Some factory options can be overridden for specific classes by use of annotations:
 
 ```kotlin
-//CodecSerializable and CodecSerializable.Polymorphic 
+//CodecSerializable and CodecPolymorphicSerializable 
 //can be used instead of Serializable
 
 //encodes the field regardless of factory settings
@@ -109,7 +109,7 @@ data class DefaultsExample(
 value class InlineExample(val value: String)
 
 //always encodes as { "actual_class": "...", "value": { ... } }
-@CodecSerializable.Polymorphic(
+@CodecPolymorphicSerializable(
     classDiscriminator = "actual_class",
     flatten = TriState.FALSE
 )

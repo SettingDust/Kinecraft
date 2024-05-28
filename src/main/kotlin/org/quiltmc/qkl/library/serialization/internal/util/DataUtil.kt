@@ -36,7 +36,7 @@ internal tailrec fun <T : Any> DynamicOps<T>.getExtendedWithDefault(): ExtendedD
 }
 
 internal fun <R> DataResult<R>.unwrap(): R {
-    return getOrThrow(false) {}
+    return getOrThrow()
 }
 
 internal fun <R> DataResult<R>.orNull(): R? {

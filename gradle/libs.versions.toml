@@ -1,34 +1,35 @@
 [versions]
 # The latest versions are available at https://lambdaurora.dev/tools/import_quilt.html
-minecraft = "1.20.1"
-kotlin = "1.9.21"
-kotlinx_serialization = "1.6.2"
-parchmentmc = "2023.09.03"
+minecraft = "1.20.6"
+kotlin = "2.0.0"
+kotlinx_serialization = "1.7.0-RC"
+parchmentmc = "2024.05.01"
 minotaur = "2.+"
-forge = "1.20.1-47.2.0"
+forge = "20.6.89-beta"
 mixin = "0.8.5"
+fabric_loader = "0.15.11"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
 kotlinx_serialization_core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx_serialization" }
 kotlinx_serialization_json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx_serialization" }
-kotlinx_serialization_hocon = { module = "org.jetbrains.kotlinx:kotlinx-serialization-hocon", version.ref = "kotlinx_serialization" }
 kotlin_reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 parchment = { module = "org.parchmentmc.data:parchment-1.20.1", version.ref = "parchmentmc" }
 
 mixin = { module = "org.spongepowered:mixin", version.ref = "mixin" }
 
-forge = { module = "net.minecraftforge:forge", version.ref = "forge" }
+forge = { module = "net.neoforged:neoforge", version.ref = "forge" }
+
+fabric_loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_loader" }
 
 [plugins]
-fabric_loom = { id = "fabric-loom", version = "1.4.+" }
+fabric_loom = { id = "fabric-loom", version = "1.6.+" }
 
 kotlin_jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin_plugin_serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 minotaur = { id = "com.modrinth.minotaur", version.ref = "minotaur" }
 
-forge_gradle = { id = "net.minecraftforge.gradle", version = "6.+" }
-librarian = { id = "org.parchmentmc.librarian.forgegradle", version = "1.+" }
+forge_gradle = { id = "net.neoforged.gradle.userdev", version = "7.+" }
 
 shadow = { id = "com.github.johnrengelman.shadow", version = "8.+" }
 vanilla_gradle = { id = "org.spongepowered.gradle.vanilla", version = "0.2.1-SNAPSHOT" }

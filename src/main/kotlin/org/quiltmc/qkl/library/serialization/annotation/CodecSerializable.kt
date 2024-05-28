@@ -38,29 +38,28 @@ public annotation class CodecSerializable(
 
     // inline options
     val useInlineWrapper: TriState = TriState.DEFAULT
-) {
+)
 
-    /**
-     * Marks the target class as [Serializable] and allows overriding
-     * [CodecOptions.PolymorphismOptions] properties with annotation values.
-     *
-     * Note that unlike regular [CodecSerializable], the polymorphic version is considered
-     * [InheritableSerialInfo] and, if present on subclasses, must have same values as the parent
-     * annotation, as described in documentation for [InheritableSerialInfo].
-     *
-     * @param classDiscriminator overrides
-     *   [CodecOptions.polymorphism.classDiscriminator][CodecOptions.PolymorphismOptions.classDiscriminator]
-     *   for target class and its subclasses
-     * @param flatten overrides
-     *   [CodecOptions.polymorphism.flatten][CodecOptions.PolymorphismOptions.flatten] for target
-     *   class and its subclasses
-     */
-    @OptIn(ExperimentalSerializationApi::class)
-    @Target(AnnotationTarget.CLASS)
-    @MetaSerializable
-    @InheritableSerialInfo
-    public annotation class Polymorphic(
-        val classDiscriminator: String = "",
-        val flatten: TriState = TriState.DEFAULT
-    )
-}
+/**
+ * Marks the target class as [Serializable] and allows overriding
+ * [CodecOptions.PolymorphismOptions] properties with annotation values.
+ *
+ * Note that unlike regular [CodecSerializable], the polymorphic version is considered
+ * [InheritableSerialInfo] and, if present on subclasses, must have same values as the parent
+ * annotation, as described in documentation for [InheritableSerialInfo].
+ *
+ * @param classDiscriminator overrides
+ *   [CodecOptions.polymorphism.classDiscriminator][CodecOptions.PolymorphismOptions.classDiscriminator]
+ *   for target class and its subclasses
+ * @param flatten overrides
+ *   [CodecOptions.polymorphism.flatten][CodecOptions.PolymorphismOptions.flatten] for target
+ *   class and its subclasses
+ */
+@OptIn(ExperimentalSerializationApi::class)
+@Target(AnnotationTarget.CLASS)
+@MetaSerializable
+@InheritableSerialInfo
+public annotation class CodecPolymorphicSerializable(
+    val classDiscriminator: String = "",
+    val flatten: TriState = TriState.DEFAULT
+)

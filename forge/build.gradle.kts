@@ -1,7 +1,4 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.spongepowered.asm.gradle.plugins.MixinExtension
-
-buildscript { dependencies { classpath("org.spongepowered:mixingradle:0.7-SNAPSHOT") } }
 
 plugins {
     alias(libs.plugins.forge.gradle)
@@ -11,35 +8,25 @@ plugins {
     `maven-publish`
 }
 
-apply(plugin = "org.spongepowered.mixin")
-
-base { archivesName.set("${rootProject.name}-forge") }
-
-sourceSets {
-    main {
-        ext["refMap"] = "${rootProject.name}.mixins.refmap.json"
-    }
-}
-
-configure<MixinExtension> {
-    add(sourceSets.main.get(), "${rootProject.name}.mixins.refmap.json")
-}
+base { archivesName.set("${rootProject.name}-neoforge") }
 
 repositories {
-    maven {
-        name = "Forge"
-        url = uri("https://maven.minecraftforge.net/")
-    }
+    maven("https://thedarkcolour.github.io/KotlinForForge/")
+    maven("https://maven.neoforged.net/releases") { name = "NeoForge" }
     mavenCentral()
 }
 
-minecraft { mappings("official", libs.versions.minecraft.get()) }
+subsystems {
+    parchment {
+        minecraftVersion = libs.versions.minecraft.get()
+        mappingsVersion = libs.versions.parchmentmc.get()
+    }
+}
 
 dependencies {
-    minecraft(libs.forge)
+    implementation(libs.forge)
     implementation(libs.kotlinx.serialization.core)
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.kotlinx.serialization.hocon)
     implementation(libs.kotlin.reflect)
 
     implementation(project(":"))
@@ -74,7 +61,7 @@ modrinth {
     syncBodyFrom.set(rootProject.file("README.md").readText())
     versionType.set("release") // This is the default -- can also be `beta` or `alpha`
     uploadFile.set(tasks.jar)
-    versionNumber.set("${project.version}-forge")
+    versionNumber.set("${project.version}")
     changelog = rootProject.file("CHANGELOG.md").readText()
     gameVersions.addAll(
         "1.16.5",
@@ -89,9 +76,11 @@ modrinth {
         "1.20.2",
         "1.20.3",
         "1.20.4",
+        "1.20.5",
+        "1.20.6"
     ) // Must be an array, even with only one version
     loaders.add(
-        "forge",
+        "neoforge",
     ) // Must also be an array - no need to specify this if you're using Loom or ForgeGradle
     dependencies { required.project("kotlin-for-forge") }
 }

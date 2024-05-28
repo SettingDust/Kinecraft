@@ -1,6 +1,7 @@
 package settingdust.kinecraft.serialization;
 
-import net.minecraftforge.fml.common.Mod;
+
+import net.neoforged.fml.common.Mod;
 
 @Mod("kinecraft_serialization")
 public class DummyMod {

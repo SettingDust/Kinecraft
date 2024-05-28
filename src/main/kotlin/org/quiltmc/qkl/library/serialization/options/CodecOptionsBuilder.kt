@@ -19,15 +19,8 @@
 package org.quiltmc.qkl.library.serialization.options
 
 import com.mojang.serialization.Codec
-import com.mojang.serialization.DataResult.PartialResult
-import kotlin.reflect.KClass
-import kotlinx.serialization.Contextual
-import kotlinx.serialization.Polymorphic
-import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.modules.SerializersModule
 import net.minecraft.core.Registry
-import org.quiltmc.qkl.library.serialization.CodecFactory
-import org.quiltmc.qkl.library.serialization.annotation.CodecSerializable
 
 /**
  * Builder used to create [CodecOptions] for use in [CodecFactory].
@@ -194,7 +187,7 @@ public class CodecOptionsBuilder(base: CodecOptions = CodecOptions.DEFAULT) {
          * "SomeSerialName", "value": { ... } }`.
          *
          * Can be overridden for individual classes using
-         * [CodecSerializable.Polymorphic.classDiscriminator].
+         * [CodecPolymorphicSerializable.classDiscriminator].
          */
         public var classDiscriminator: String = base.classDiscriminator
 
@@ -205,7 +198,7 @@ public class CodecOptionsBuilder(base: CodecOptions = CodecOptions.DEFAULT) {
          *
          * If set to `false`, the value will be encoded as a nested element under the key `"value"`.
          *
-         * Can be overridden for individual classes using [CodecSerializable.Polymorphic.flatten].
+         * Can be overridden for individual classes using [CodecPolymorphicSerializable.flatten].
          */
         public var flatten: Boolean = base.flatten
     }

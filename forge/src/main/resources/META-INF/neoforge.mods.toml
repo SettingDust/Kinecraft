@@ -14,9 +14,5 @@ mandatory = true
 versionRange = "[1.16,)"
 ordering = "NONE"
 side = "BOTH"
-[[dependencies.$id]]
-modId = "kotlinforforge"
-mandatory = true
-versionRange = "[1,)"
-ordering = "NONE"
-side = "BOTH"
+[[mixins]]
+config="${id}.mixins.json"

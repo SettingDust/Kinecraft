@@ -17,9 +17,7 @@ jobs:
 
       - name: Execute Gradle build
         # https://github.com/neoforged/NeoGradle/issues/207
-        run: |
-          chmod -x gradlew
-          ./gradlew shadowJar
+        run: ./gradlew shadowJar
 
       - name: Update CHANGELOG
         id: changelog

@@ -113,7 +113,11 @@ object EndTagSerializer : KSerializer<EndTag> {
     override val descriptor =
         PrimitiveSerialDescriptor(EndTag::class.simpleName!!, PrimitiveKind.BYTE)
 
-    override fun deserialize(decoder: Decoder) = EndTag.INSTANCE.also { decoder.decodeByte() }
+    override fun deserialize(decoder: Decoder) =
+        EndTag.INSTANCE.also {
+            val byte = decoder.decodeByte()
+            require(byte == 0.toByte()) { "EndTag require value 0b but ${byte}b" }
+        }
 
     override fun serialize(encoder: Encoder, value: EndTag) = encoder.encodeByte(0)
 }

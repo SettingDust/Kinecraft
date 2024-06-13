@@ -1,19 +1,14 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
-    alias(libs.plugins.forge.gradle)
+    alias(libs.plugins.neoforge.gradle)
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.plugin.serialization)
     alias(libs.plugins.minotaur)
     `maven-publish`
 }
 
-base { archivesName.set("${rootProject.name}-neoforge") }
-
 repositories {
     maven("https://thedarkcolour.github.io/KotlinForForge/")
     maven("https://maven.neoforged.net/releases") { name = "NeoForge" }
-    mavenCentral()
 }
 
 subsystems {
@@ -23,28 +18,36 @@ subsystems {
     }
 }
 
+minecraft {
+    runs {
+        afterEvaluate {
+            clear()
+        }
+    }
+}
+
+jarJar.enable()
+
 dependencies {
     implementation(libs.forge)
     implementation(libs.kotlinx.serialization.core)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlin.reflect)
-
-    implementation(project(":"))
+    jarJar(project(":common:neoforgeTransform"))
 }
 
 tasks {
-    withType<ProcessResources> { from(rootProject.sourceSets.main.get().resources) }
-    withType<KotlinCompile> { source(rootProject.sourceSets.main.get().allSource) }
-    withType<JavaCompile> { source(rootProject.sourceSets.main.get().allSource) }
     jar {
+        archiveClassifier.set("dev")
         from("LICENSE") { rename { "${it}_KinecraftSerialization" } }
-        finalizedBy("reobfJar")
         manifest.attributes(
-            // 1.16.5 no GAMELIBRARY
-            "FMLModType" to "MOD",
-            "MixinConfigs" to "${rootProject.base.archivesName.get()}.mixins.json"
+            "FMLModType" to "GAMELIBRARY"
         )
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+
+    jarJar.configure {
+        archiveClassifier.set("")
     }
 
     sourcesJar { from(rootProject.sourceSets.main.get().allSource) }

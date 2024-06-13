@@ -25,7 +25,7 @@ repositories {
 
 dependencies {
     implementation 'maven.modrinth:kinecraft-serialization:1.3.0'
-}
+}1
 ```
 
 [`MinecraftTag`](https://github.com/SettingDust/kinecraft-serialization/blob/main/src/main/kotlin/settingdust/kinecraft/serialization/MinecraftTagFormat.kt) is for serialization between data class and Minecraft tag classes.

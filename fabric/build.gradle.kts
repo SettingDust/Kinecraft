@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     alias(libs.plugins.fabric.loom)
     alias(libs.plugins.kotlin.jvm)
@@ -8,34 +6,22 @@ plugins {
     `maven-publish`
 }
 
-base { archivesName.set("${rootProject.name}-fabric") }
-
-loom { mixin { defaultRefmapName = "${rootProject.name}.refmap.json" } }
-
-repositories { mavenCentral() }
-
 dependencies {
     minecraft(libs.minecraft)
+    mappings(loom.officialMojangMappings())
+
     modImplementation(libs.fabric.loader)
     implementation(libs.kotlinx.serialization.core)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlin.reflect)
-
-    mappings(loom.officialMojangMappings())
-
-    implementation(project(":"))
+    include(project(":common:fabricTransform"))
 }
 
 tasks {
-    withType<ProcessResources> { from(rootProject.sourceSets.main.get().resources) }
-    withType<KotlinCompile> { source(rootProject.sourceSets.main.get().allSource) }
-    withType<JavaCompile> { source(rootProject.sourceSets.main.get().allSource) }
     remapJar {
         from("LICENSE") { rename { "${it}_KinecraftSerialization" } }
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
-
-    sourcesJar { from(rootProject.sourceSets.main.get().allSource) }
 }
 
 modrinth {

@@ -12,8 +12,16 @@ pluginManagement {
     }
 }
 
-rootProject.name = "kinecraft-serialization"
+rootProject.name = "kinecraft_serialization"
+
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
+}
 
 include("fabric")
 
-include("forge")
+include("neoforge")
+
+include("common")
+include("common:fabricTransform")
+include("common:neoforgeTransform")

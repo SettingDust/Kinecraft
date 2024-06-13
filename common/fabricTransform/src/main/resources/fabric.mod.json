@@ -1,22 +1,24 @@
 {
   "schemaVersion": 1,
-  "id": "${id}_container",
+  "id": "${id}",
   "version": "${version}",
   "name": "${name}",
   "description": "${description}",
   "authors": [
     "${author}"
   ],
-  "contact": {
-    "sources": "${source}"
-  },
-  "license": "MIT",
   "environment": "*",
+  "depends": {
+    "fabric-language-kotlin": ">=1.9.6+kotlin.1.8.22"
+  },
   "custom": {
     "modmenu": {
-      "badges": [
-        "library"
+      "parent": [
+        "${id}_container"
       ]
     }
-  }
+  },
+  "mixins": [
+    "kinecraft_serialization.mixins.json"
+  ]
 }

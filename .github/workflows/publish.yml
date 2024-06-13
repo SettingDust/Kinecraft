@@ -1,0 +1,68 @@
+on:
+  push:
+    tags: [ '[0-9].[0-9].[0-9]' ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: microsoft
+          java-version: 17
+          cache: 'gradle'
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v3
+
+      - name: Execute Gradle build
+        # https://github.com/neoforged/NeoGradle/issues/207
+        run: ./gradlew shadowJar
+
+      - name: Update CHANGELOG
+        id: changelog
+        uses: requarks/changelog-action@v1
+        with:
+          token: ${{ github.token }}
+          tag: ${{ github.ref_name }}
+
+      - name: Commit CHANGELOG.md
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          branch: main
+          commit_message: 'docs: update CHANGELOG.md for ${{ github.ref_name }} [skip ci]'
+          file_pattern: CHANGELOG.md
+
+      - name: Upload intermediary
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          changelog: ${{ steps.changelog.outputs.changes }}
+          game-versions: |
+            [1.19.4, 1.20.4]
+          game-version-filter: releases
+
+          # Only include this section if you wish to publish
+          # your assets on Modrinth.
+          modrinth-id: epmEbmF0
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+
+          files: |
+            build/libs/*!(-@(dev|sources|javadoc)).jar
+            build/libs/*-@(dev|sources|javadoc).jar
+            common/fabricTransform/build/libs/*!(-@(dev|sources|javadoc)).jar
+            common/fabricTransform/build/libs/*-@(dev|sources|javadoc).jar
+            common/neoforgeTransform/build/libs/*!(-@(dev|sources|javadoc)).jar
+            common/neoforgeTransform/build/libs/*-@(dev|sources|javadoc).jar
+
+          version: ${{ github.ref_name }}
+
+          loaders: |
+            fabric
+            forge
+
+          dependencies: |
+            fabric-language-kotlin
+            modmenu(recommended)
+
+          java: |
+            21

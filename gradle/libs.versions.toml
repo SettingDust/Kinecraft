@@ -37,3 +37,6 @@ shadow = { id = "com.github.johnrengelman.shadow", version = "8.+" }
 vanilla_gradle = { id = "org.spongepowered.gradle.vanilla", version = "0.2.1-SNAPSHOT" }
 
 idea_ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.1.8" }
+
+# https://github.com/jmongard/Git.SemVersioning.Gradle
+semver = {id="com.github.jmongard.git-semver-plugin", version="0.12.8"}

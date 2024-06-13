@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
+    alias(libs.plugins.semver)
     alias(libs.plugins.idea.ext)
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.plugin.serialization)
@@ -14,7 +15,7 @@ plugins {
 
 group = "${project.property("group")}"
 
-version = "${project.property("version")}"
+project.version = "${semver.semVersion}"
 
 allprojects {
     apply(plugin = "java")

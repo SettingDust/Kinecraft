@@ -1,6 +1,3 @@
-feat: port to 1.20.6
-drop forge. support neoforge
-
 ## [1.5.5] - 2024-06-13
 ### :sparkles: New Features
 - [`5c3959f`](https://github.com/SettingDust/kinecraft-serialization/commit/5c3959f83dac15647cc6f626ebaf34b676829cdd) - port to 1.20.6 *(commit by [@SettingDust](https://github.com/SettingDust))*

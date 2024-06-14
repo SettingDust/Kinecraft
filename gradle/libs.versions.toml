@@ -1,11 +1,11 @@
 [versions]
 # The latest versions are available at https://lambdaurora.dev/tools/import_quilt.html
-minecraft = "1.20.6"
+minecraft = "1.21"
 kotlin = "2.0.0"
-kotlinx_serialization = "1.7.0-RC"
-parchmentmc = "2024.05.01"
+kotlinx_serialization = "1.7.0"
+parchmentmc = "2024.06.02"
 minotaur = "2.+"
-forge = "20.6.89-beta"
+forge = "21.0.2-beta"
 mixin = "0.8.5"
 fabric_loader = "0.15.11"
 
@@ -14,7 +14,7 @@ minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
 kotlinx_serialization_core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx_serialization" }
 kotlinx_serialization_json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx_serialization" }
 kotlin_reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
-parchment = { module = "org.parchmentmc.data:parchment-1.20.1", version.ref = "parchmentmc" }
+parchment = { module = "org.parchmentmc.data:parchment-1.20.6", version.ref = "parchmentmc" }
 
 mixin = { module = "org.spongepowered:mixin", version.ref = "mixin" }
 

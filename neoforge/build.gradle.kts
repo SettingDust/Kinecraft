@@ -12,7 +12,8 @@ repositories {
 
 subsystems {
     parchment {
-        minecraftVersion = libs.versions.minecraft.get()
+//        minecraftVersion = libs.versions.minecraft.get()
+        minecraftVersion = "1.20.6"
         mappingsVersion = libs.versions.parchmentmc.get()
     }
 }

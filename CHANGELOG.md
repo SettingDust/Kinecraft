@@ -1,3 +1,11 @@
+## [1.6.2] - 2024-06-16
+### :recycle: Refactors
+- [`01845b9`](https://github.com/SettingDust/kinecraft-serialization/commit/01845b9ce4b476dcb3ea49b180f641d0863c6809) - regroup the project structure *(commit by [@SettingDust](https://github.com/SettingDust))*
+
+### :wrench: Chores
+- [`4493af2`](https://github.com/SettingDust/kinecraft-serialization/commit/4493af2e3700685f9698cf4950995b0ddf5371a9) - add run dir to git ignore *(commit by [@SettingDust](https://github.com/SettingDust))*
+
+
 ## [1.6.1] - 2024-06-16
 ### :wrench: Chores
 - [`f002fad`](https://github.com/SettingDust/kinecraft-serialization/commit/f002fad8aac82fbcfa38a7a72fc6e500d1dfb53f) - change the version and archive name to work with modrinth maven *(commit by [@SettingDust](https://github.com/SettingDust))*
@@ -21,3 +29,4 @@
 [1.5.5]: https://github.com/SettingDust/kinecraft-serialization/compare/1.5.0...1.5.5
 [1.6.0]: https://github.com/SettingDust/kinecraft-serialization/compare/1.5.5...1.6.0
 [1.6.1]: https://github.com/SettingDust/kinecraft-serialization/compare/1.6.0...1.6.1
+[1.6.2]: https://github.com/SettingDust/kinecraft-serialization/compare/1.6.1...1.6.2

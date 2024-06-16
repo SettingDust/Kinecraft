@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "${id}_container",
+  "version": "${version}",
+  "name": "${name}",
+  "description": "${description}",
+  "authors": [
+    "${author}"
+  ],
+  "contact": {
+    "sources": "${source}"
+  },
+  "license": "MIT",
+  "environment": "*",
+  "custom": {
+    "modmenu": {
+      "badges": [
+        "library"
+      ]
+    }
+  }
+}

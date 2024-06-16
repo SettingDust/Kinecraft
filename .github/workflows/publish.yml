@@ -49,10 +49,10 @@ jobs:
           files: |
             build/libs/*!(-@(dev|sources|javadoc)).jar
             build/libs/*-@(dev|sources|javadoc).jar
-            common/fabricTransform/build/libs/*!(-@(dev|sources|javadoc)).jar
-            common/fabricTransform/build/libs/*-@(dev|sources|javadoc).jar
-            common/neoforgeTransform/build/libs/*!(-@(dev|sources|javadoc)).jar
-            common/neoforgeTransform/build/libs/*-@(dev|sources|javadoc).jar
+            fabric/build/libs/*!(-@(dev|sources|javadoc)).jar
+            fabric/build/libs/*-@(dev|sources|javadoc).jar
+            neoforge/build/libs/*!(-@(dev|sources|javadoc)).jar
+            neoforge/build/libs/*-@(dev|sources|javadoc).jar
 
           version: ${{ github.ref_name }}
 

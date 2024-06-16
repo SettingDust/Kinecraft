@@ -1,65 +1,32 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
-    alias(libs.plugins.neoforge.gradle)
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.plugin.serialization)
-    `maven-publish`
+    alias(libs.plugins.neoforge.gradle)
+    alias(libs.plugins.neoforge.gradle.mixin)
 }
 
-repositories {
-    maven("https://thedarkcolour.github.io/KotlinForForge/")
-    maven("https://maven.neoforged.net/releases") { name = "NeoForge" }
+mixin {
+    config("${rootProject.name}.mixins.json")
 }
-
-subsystems {
-    parchment {
-//        minecraftVersion = libs.versions.minecraft.get()
-        minecraftVersion = "1.20.6"
-        mappingsVersion = libs.versions.parchmentmc.get()
-    }
-}
-
-minecraft {
-    runs {
-        afterEvaluate {
-            clear()
-        }
-    }
-}
-
-jarJar.enable()
 
 dependencies {
     implementation(libs.neoforge)
-    implementation(libs.kotlinx.serialization.core)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.kotlin.reflect)
-    jarJar(project(":common:neoforgeTransform"))
+    implementation(project(":common"))
 }
 
 tasks {
+    withType<ProcessResources> { from(project(":common").sourceSets.main.get().resources) }
+    withType<KotlinCompile> { source(project(":common").sourceSets.main.get().allSource) }
+    withType<JavaCompile> { source(project(":common").sourceSets.main.get().allSource) }
+
+    sourcesJar { from(project(":common").sourceSets.main.get().allSource) }
+
     jar {
-        archiveClassifier.set("dev")
-        from("LICENSE") { rename { "${it}_KinecraftSerialization" } }
-        manifest.attributes(
+        manifest {
             "FMLModType" to "GAMELIBRARY"
-        )
-        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    }
-
-    jarJar.configure {
-        archiveClassifier.set("")
-    }
-
-    sourcesJar { from(rootProject.sourceSets.main.get().allSource) }
-}
-
-publishing {
-    publications {
-        create<MavenPublication>(rootProject.name) {
-            groupId = "${rootProject.group}"
-            artifactId = base.archivesName.get()
-            version = "${rootProject.version}"
-            from(components.getByName("java"))
+            "Automatic-Module-Name" to project.path
         }
     }
 }

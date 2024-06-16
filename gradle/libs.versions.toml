@@ -8,6 +8,7 @@ minotaur = "2.+"
 forge = "21.0.8-beta"
 mixin = "0.8.5"
 fabric_loader = "0.15.11"
+yarn = "1.21+build.2"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
@@ -21,6 +22,7 @@ mixin = { module = "org.spongepowered:mixin", version.ref = "mixin" }
 neoforge = { module = "net.neoforged:neoforge", version.ref = "forge" }
 
 fabric_loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_loader" }
+yarn = { module = "net.fabricmc:yarn", version.ref = "yarn" }
 
 [plugins]
 fabric_loom = { id = "fabric-loom", version = "1.6.+" }

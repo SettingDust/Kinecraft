@@ -17,10 +17,11 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
 }
 
-include("fabric")
 
-include("neoforge")
+include("nested")
+include("nested:nested-fabric")
+include("nested:nested-neoforge")
 
 include("common")
-include("common:fabricTransform")
-include("common:neoforgeTransform")
+include("fabric")
+include("neoforge")

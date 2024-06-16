@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    `maven-publish`
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.plugin.serialization)
     alias(libs.plugins.neoforge.gradle)
@@ -27,6 +28,16 @@ tasks {
         manifest {
             "FMLModType" to "GAMELIBRARY"
             "Automatic-Module-Name" to project.path
+        }
+    }
+}
+
+rootProject.publishing {
+    publications {
+        named<MavenPublication>("maven") {
+            artifact(tasks.jar) {
+                classifier = "neoforge"
+            }
         }
     }
 }

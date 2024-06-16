@@ -17,7 +17,7 @@ jobs:
 
       - name: Execute Gradle build
         # https://github.com/neoforged/NeoGradle/issues/207
-        run: ./gradlew shadowJar
+        run: ./gradlew publish
 
       - name: Update CHANGELOG
         id: changelog
@@ -47,12 +47,8 @@ jobs:
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
 
           files: |
-            build/libs/*!(-@(dev|sources|javadoc)).jar
-            build/libs/*-@(dev|sources|javadoc).jar
-            fabric/build/libs/*!(-@(dev|sources|javadoc)).jar
-            fabric/build/libs/*-@(dev|sources|javadoc).jar
-            neoforge/build/libs/*!(-@(dev|sources|javadoc)).jar
-            neoforge/build/libs/*-@(dev|sources|javadoc).jar
+            publish/**/*!(-@(dev|sources|javadoc)).jar
+            publish/**/*-@(dev|sources|javadoc).jar
 
           version: ${{ github.ref_name }}
 

@@ -4,6 +4,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
+    `maven-publish`
+
     alias(libs.plugins.git.version)
     alias(libs.plugins.idea.ext)
     alias(libs.plugins.kotlin.jvm)
@@ -52,8 +54,6 @@ allprojects {
 }
 
 subprojects {
-    apply(plugin = "java")
-
     group = rootProject.group
     version = rootProject.version
 
@@ -97,5 +97,18 @@ subprojects {
         test {
             enabled = false
         }
+    }
+}
+
+rootProject.publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = group.toString()
+            artifactId = base.archivesName.get()
+        }
+    }
+
+    repositories {
+        maven("file://${rootProject.projectDir}/publish")
     }
 }

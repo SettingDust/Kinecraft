@@ -35,20 +35,10 @@ tasks {
     }
 }
 
-artifacts {
-    archives(tasks.shadowJar.flatMap { it.archiveFile }) {
-        builtBy(tasks.shadowJar)
-    }
-}
-
-publishing {
+rootProject.publishing {
     publications {
-        create<MavenPublication>("maven") {
-            from(components["java"])
+        named<MavenPublication>("maven") {
+            artifact(tasks.shadowJar)
         }
-    }
-
-    repositories {
-        maven("file://${rootProject.projectDir}/publish")
     }
 }

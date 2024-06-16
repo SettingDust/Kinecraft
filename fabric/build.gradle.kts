@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    `maven-publish`
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.plugin.serialization)
     alias(libs.plugins.fabric.loom)
@@ -26,4 +27,14 @@ tasks {
     withType<JavaCompile> { source(project(":common").sourceSets.main.get().allSource) }
 
     sourcesJar { from(project(":common").sourceSets.main.get().allSource) }
+}
+
+rootProject.publishing {
+    publications {
+        named<MavenPublication>("maven") {
+            artifact(tasks.remapJar) {
+                classifier = "fabric"
+            }
+        }
+    }
 }

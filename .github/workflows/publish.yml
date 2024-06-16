@@ -35,12 +35,12 @@ jobs:
           game-version-filter: releases
 
           # Only include this section if you wish to publish
-          # your assets on Modrinth.
+          # your assets on Modrinth.1
           modrinth-id: epmEbmF0
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
 
           files: |
-            publish/**/!(*(-@(dev|sources|javadoc|common|fabric|neoforge)).jar)
+            publish/**/!(*-@(dev|sources|javadoc|common|fabric|neoforge)).jar
             publish/**/*-@(dev|sources|javadoc|common|fabric|neoforge).jar
 
           version: ${{ github.ref_name }}

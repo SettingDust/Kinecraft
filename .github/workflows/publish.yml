@@ -41,7 +41,6 @@ jobs:
 
           files: |
             publish/**/*!(-@(dev|sources|javadoc|common|fabric|neoforge)).jar
-            publish/**/*-@(dev|sources|javadoc|common|fabric|neoforge).jar
 
           version: ${{ github.ref_name }}
 

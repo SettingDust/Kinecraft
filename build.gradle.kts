@@ -1,3 +1,4 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import groovy.lang.Closure
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -32,6 +33,20 @@ allprojects {
         toolchain {
             languageVersion = JavaLanguageVersion.of(21)
         }
+
+        // Still required by IDEs such as Eclipse and Visual Studio Code
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+
+        // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build"
+        // task if it is present.
+        // If you remove this line, sources will not be generated.
+        withSourcesJar()
+
+        // If this mod is going to be a library, then it should also generate Javadocs in order to
+        // aid with development.
+        // Uncomment this line to generate them.
+        withJavadocJar()
     }
 
     repositories {
@@ -59,22 +74,6 @@ subprojects {
 
     base { archivesName.set("${rootProject.base.archivesName.get()}${project.path.replace(":", "-")}") }
 
-    java {
-        // Still required by IDEs such as Eclipse and Visual Studio Code
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
-
-        // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build"
-        // task if it is present.
-        // If you remove this line, sources will not be generated.
-        withSourcesJar()
-
-        // If this mod is going to be a library, then it should also generate Javadocs in order to
-        // aid with development.
-        // Uncomment this line to generate them.
-        // withJavadocJar()
-    }
-
     tasks {
         withType<ProcessResources> {
             val properties = mapOf(
@@ -100,11 +99,30 @@ subprojects {
     }
 }
 
+val shadowSourcesJar by tasks.creating(ShadowJar::class) {
+    mergeServiceFiles()
+    from(
+        project(":common").sourceSets.main.get().allSource,
+        project(":fabric").sourceSets.main.get().allSource,
+        project(":neoforge").sourceSets.main.get().allSource
+    )
+
+    doFirst {
+        manifest {
+            from(source.filter { it.name.equals("MANIFEST.MF") }.toList())
+        }
+    }
+}
+
 rootProject.publishing {
     publications {
         create<MavenPublication>("maven") {
             groupId = group.toString()
             artifactId = base.archivesName.get()
+
+            artifact(shadowSourcesJar) {
+                classifier = "sources"
+            }
         }
     }
 

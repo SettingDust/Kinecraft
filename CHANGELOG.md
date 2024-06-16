@@ -1,3 +1,8 @@
+## [1.6.3] - 2024-06-16
+### :wrench: Chores
+- [`5265810`](https://github.com/SettingDust/kinecraft-serialization/commit/5265810e07a5332adb09cf9ecda34b8f5f78503c) - make the source jar containing all sources *(commit by [@SettingDust](https://github.com/SettingDust))*
+
+
 ## [1.6.2] - 2024-06-16
 ### :recycle: Refactors
 - [`01845b9`](https://github.com/SettingDust/kinecraft-serialization/commit/01845b9ce4b476dcb3ea49b180f641d0863c6809) - regroup the project structure *(commit by [@SettingDust](https://github.com/SettingDust))*
@@ -30,3 +35,4 @@
 [1.6.0]: https://github.com/SettingDust/kinecraft-serialization/compare/1.5.5...1.6.0
 [1.6.1]: https://github.com/SettingDust/kinecraft-serialization/compare/1.6.0...1.6.1
 [1.6.2]: https://github.com/SettingDust/kinecraft-serialization/compare/1.6.1...1.6.2
+[1.6.3]: https://github.com/SettingDust/kinecraft-serialization/compare/1.6.2...1.6.3

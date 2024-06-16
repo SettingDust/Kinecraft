@@ -1,9 +1,10 @@
+import groovy.lang.Closure
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
-    alias(libs.plugins.semver)
+    alias(libs.plugins.git.version)
     alias(libs.plugins.idea.ext)
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.plugin.serialization)
@@ -15,7 +16,12 @@ plugins {
 
 group = "${project.property("group")}"
 
-project.version = "${semver.semVersion}"
+val gitVersion: Closure<String> by extra
+version = gitVersion()
+
+base {
+    archivesName.set(properties["archive_base_name"].toString())
+}
 
 allprojects {
     apply(plugin = "java")

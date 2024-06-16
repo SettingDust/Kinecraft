@@ -5,7 +5,7 @@ kotlin = "2.0.0"
 kotlinx_serialization = "1.7.0"
 parchmentmc = "2024.06.02"
 minotaur = "2.+"
-forge = "21.0.2-beta"
+forge = "21.0.8-beta"
 mixin = "0.8.5"
 fabric_loader = "0.15.11"
 
@@ -18,7 +18,7 @@ parchment = { module = "org.parchmentmc.data:parchment-1.20.6", version.ref = "p
 
 mixin = { module = "org.spongepowered:mixin", version.ref = "mixin" }
 
-forge = { module = "net.neoforged:neoforge", version.ref = "forge" }
+neoforge = { module = "net.neoforged:neoforge", version.ref = "forge" }
 
 fabric_loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_loader" }
 
@@ -38,5 +38,5 @@ vanilla_gradle = { id = "org.spongepowered.gradle.vanilla", version = "0.2.1-SNA
 
 idea_ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.1.8" }
 
-# https://github.com/jmongard/Git.SemVersioning.Gradle
-semver = {id="com.github.jmongard.git-semver-plugin", version="0.12.8"}
+# https://github.com/palantir/gradle-git-version
+git_version = { id = "com.palantir.git-version", version = "3.1.0" }

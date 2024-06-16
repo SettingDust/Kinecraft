@@ -12,7 +12,7 @@ mixin {
 }
 
 dependencies {
-    implementation(libs.forge)
+    implementation(libs.neoforge)
     implementation(project(":common"))
 }
 

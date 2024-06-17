@@ -7,14 +7,14 @@ plugins {
     java
     `maven-publish`
 
-    alias(libs.plugins.git.version)
-    alias(libs.plugins.idea.ext)
-    alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.kotlin.plugin.serialization)
-    alias(libs.plugins.fabric.loom) apply false
-    alias(libs.plugins.neoforge.gradle) apply false
+    alias(catalog.plugins.git.version)
+    alias(catalog.plugins.idea.ext)
+    alias(catalog.plugins.kotlin.jvm)
+    alias(catalog.plugins.kotlin.plugin.serialization)
+    alias(catalog.plugins.fabric.loom) apply false
+    alias(catalog.plugins.neoforge.gradle) apply false
 
-    alias(libs.plugins.shadow)
+    alias(catalog.plugins.shadow)
 }
 
 group = "${project.property("group")}"
@@ -49,14 +49,9 @@ allprojects {
         withJavadocJar()
     }
 
-    repositories {
-        mavenCentral()
-        maven("https://repo.spongepowered.org/repository/maven-public/")
-    }
-
     dependencies {
-        implementation(rootProject.libs.mixin)
-        annotationProcessor(variantOf(rootProject.libs.mixin) {
+        implementation(rootProject.catalog.mixin)
+        annotationProcessor(variantOf(rootProject.catalog.mixin) {
             classifier("processor")
         })
     }

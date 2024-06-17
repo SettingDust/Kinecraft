@@ -1,16 +1,16 @@
 plugins {
     `maven-publish`
-    alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.kotlin.plugin.serialization)
-    alias(libs.plugins.vanilla.gradle)
+    alias(catalog.plugins.kotlin.jvm)
+    alias(catalog.plugins.kotlin.plugin.serialization)
+    alias(catalog.plugins.vanilla.gradle)
 }
 
-minecraft { version(libs.versions.minecraft.get()) }
+minecraft { version(catalog.versions.minecraft.get()) }
 
 dependencies {
-    api(libs.kotlinx.serialization.core)
-    api(libs.kotlinx.serialization.json)
-    api(libs.kotlin.reflect)
+    api(catalog.kotlinx.serialization.core)
+    api(catalog.kotlinx.serialization.json)
+    api(catalog.kotlin.reflect)
 
     testImplementation(kotlin("test"))
 }

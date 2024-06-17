@@ -2,10 +2,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     `maven-publish`
-    alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.kotlin.plugin.serialization)
-    alias(libs.plugins.neoforge.gradle)
-    alias(libs.plugins.neoforge.gradle.mixin)
+    alias(catalog.plugins.kotlin.jvm)
+    alias(catalog.plugins.kotlin.plugin.serialization)
+    alias(catalog.plugins.neoforge.gradle)
+    alias(catalog.plugins.neoforge.gradle.mixin)
 }
 
 mixin {
@@ -13,7 +13,7 @@ mixin {
 }
 
 dependencies {
-    implementation(libs.neoforge)
+    implementation(catalog.neoforge)
     implementation(project(":common"))
 }
 

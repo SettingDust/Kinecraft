@@ -2,7 +2,7 @@ plugins {
     java
     `maven-publish`
 
-    alias(libs.plugins.shadow)
+    alias(catalog.plugins.shadow)
 }
 
 base { archivesName.set(rootProject.base.archivesName.get()) }

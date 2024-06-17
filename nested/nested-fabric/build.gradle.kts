@@ -1,20 +1,20 @@
 plugins {
-    alias(libs.plugins.fabric.loom)
-    alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.kotlin.plugin.serialization)
+    alias(catalog.plugins.fabric.loom)
+    alias(catalog.plugins.kotlin.jvm)
+    alias(catalog.plugins.kotlin.plugin.serialization)
     `maven-publish`
 }
 
 base { archivesName.set("${rootProject.base.archivesName.get()}-${project.name}") }
 
 dependencies {
-    minecraft(libs.minecraft)
+    minecraft(catalog.minecraft.fabric)
     mappings(loom.officialMojangMappings())
 
-    modImplementation(libs.fabric.loader)
-    implementation(libs.kotlinx.serialization.core)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.kotlin.reflect)
+    modImplementation(catalog.fabric.loader)
+    implementation(catalog.kotlinx.serialization.core)
+    implementation(catalog.kotlinx.serialization.json)
+    implementation(catalog.kotlin.reflect)
     include(project(":fabric"))
 }
 

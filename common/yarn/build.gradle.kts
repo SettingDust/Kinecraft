@@ -4,16 +4,16 @@ import net.fabricmc.loom.task.RemapJarTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.kotlin.plugin.serialization)
-    alias(libs.plugins.fabric.loom)
+    alias(catalog.plugins.kotlin.jvm)
+    alias(catalog.plugins.kotlin.plugin.serialization)
+    alias(catalog.plugins.fabric.loom)
 }
 
 evaluationDependsOn(":common")
 
 dependencies {
-    minecraft(libs.minecraft)
-    mappings(variantOf(libs.yarn) {
+    minecraft(catalog.minecraft)
+    mappings(variantOf(catalog.yarn) {
         classifier("v2")
     })
     implementation(project(":common"))

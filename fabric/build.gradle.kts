@@ -2,9 +2,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     `maven-publish`
-    alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.kotlin.plugin.serialization)
-    alias(libs.plugins.fabric.loom)
+    alias(catalog.plugins.kotlin.jvm)
+    alias(catalog.plugins.kotlin.plugin.serialization)
+    alias(catalog.plugins.fabric.loom)
 }
 
 loom {
@@ -14,7 +14,7 @@ loom {
 }
 
 dependencies {
-    minecraft(libs.minecraft)
+    minecraft(catalog.minecraft.fabric)
     mappings(loom.officialMojangMappings())
     implementation(project(":common"))
 }

@@ -1,24 +1,11 @@
 plugins {
-    alias(libs.plugins.neoforge.gradle)
-    alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.kotlin.plugin.serialization)
+    alias(catalog.plugins.neoforge.gradle)
+    alias(catalog.plugins.kotlin.jvm)
+    alias(catalog.plugins.kotlin.plugin.serialization)
     `maven-publish`
 }
 
 base { archivesName.set("${rootProject.base.archivesName.get()}-${project.name}") }
-
-repositories {
-    maven("https://thedarkcolour.github.io/KotlinForForge/")
-    maven("https://maven.neoforged.net/releases") { name = "NeoForge" }
-}
-
-subsystems {
-    parchment {
-//        minecraftVersion = libs.versions.minecraft.get()
-        minecraftVersion = "1.20.6"
-        mappingsVersion = libs.versions.parchmentmc.get()
-    }
-}
 
 minecraft {
     runs {
@@ -31,10 +18,10 @@ minecraft {
 jarJar.enable()
 
 dependencies {
-    implementation(libs.neoforge)
-    implementation(libs.kotlinx.serialization.core)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.kotlin.reflect)
+    implementation(catalog.neoforge)
+    implementation(catalog.kotlinx.serialization.core)
+    implementation(catalog.kotlinx.serialization.json)
+    implementation(catalog.kotlin.reflect)
     jarJar(project(":neoforge"))
 }
 

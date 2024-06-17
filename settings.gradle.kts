@@ -1,14 +1,19 @@
+extra["minecraft"] = "1.21"
+
+apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/common.gradle.kts")
+apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/kotlin.gradle.kts")
+apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/fabric.gradle.kts")
+apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/neoforge.gradle.kts")
+
 pluginManagement {
     repositories {
-        gradlePluginPortal()
-        maven("https://maven.architectury.dev/")
-        maven("https://maven.quiltmc.org/repository/release") { name = "Quilt" }
-        maven("https://maven.fabricmc.net/") { name = "Fabric" }
-        maven("https://maven.neoforged.net/releases") { name = "NeoForge" }
-        maven("https://repo.spongepowered.org/repository/maven-public/") {
-            name = "Sponge Snapshots"
-        }
+        maven("https://repo.spongepowered.org/repository/maven-public/")
     }
+}
+
+dependencyResolutionManagement.versionCatalogs.named("catalog") {
+    plugin("vanilla-gradle", "org.spongepowered.gradle.vanilla").version("0.2.1-SNAPSHOT")
+    library("mixin", "org.spongepowered", "mixin").version("0.8.5")
 }
 
 rootProject.name = "kinecraft_serialization"

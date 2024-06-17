@@ -101,11 +101,8 @@ subprojects {
 
 val shadowSourcesJar by tasks.creating(ShadowJar::class) {
     mergeServiceFiles()
-    from(
-        project(":common").sourceSets.main.get().allSource,
-        project(":fabric").sourceSets.main.get().allSource,
-        project(":neoforge").sourceSets.main.get().allSource
-    )
+    archiveClassifier.set("sources")
+    from(subprojects.map { it.sourceSets.main.get().allSource })
 
     doFirst {
         manifest {

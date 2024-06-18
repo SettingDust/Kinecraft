@@ -17,6 +17,8 @@ plugins {
     alias(catalog.plugins.shadow)
 }
 
+apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/gradle_issue_15754.gradle.kts")
+
 group = "${project.property("group")}"
 
 val gitVersion: Closure<String> by extra

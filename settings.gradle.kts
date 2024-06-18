@@ -4,7 +4,7 @@ apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/common.gra
 apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/kotlin.gradle.kts")
 apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/fabric.gradle.kts")
 apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/neoforge.gradle.kts")
-apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/mods.gradle.kts")
+apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/modmenu.gradle.kts")
 
 pluginManagement {
     repositories {

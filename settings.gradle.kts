@@ -6,6 +6,7 @@ apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/fabric.gra
 apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/neoforge.gradle.kts")
 apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/modmenu.gradle.kts")
 apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/vanillagradle.gradle.kts")
+apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/mixin.gradle.kts")
 
 rootProject.name = "kinecraft_serialization"
 

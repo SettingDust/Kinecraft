@@ -5,17 +5,7 @@ apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/kotlin.gra
 apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/fabric.gradle.kts")
 apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/neoforge.gradle.kts")
 apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/modmenu.gradle.kts")
-
-pluginManagement {
-    repositories {
-        maven("https://repo.spongepowered.org/repository/maven-public/")
-    }
-}
-
-dependencyResolutionManagement.versionCatalogs.named("catalog") {
-    plugin("vanilla-gradle", "org.spongepowered.gradle.vanilla").version("0.2.1-SNAPSHOT")
-    library("mixin", "org.spongepowered", "mixin").version("0.8.5")
-}
+apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/vanillagradle.gradle.kts")
 
 rootProject.name = "kinecraft_serialization"
 

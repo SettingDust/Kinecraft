@@ -1,3 +1,11 @@
+## [1.7.0] - 2024-09-16
+### :sparkles: New Features
+- [`4df72fb`](https://github.com/SettingDust/kinecraft-serialization/commit/4df72fb6c5847ec0423d726ff02aa6c8a18248e8) - support 1.19-1.21 actually *(commit by [@SettingDust](https://github.com/SettingDust))*
+
+### :wrench: Chores
+- [`5c41c64`](https://github.com/SettingDust/kinecraft-serialization/commit/5c41c64c2d41afbdd5fec2f677d5a1cff1b495f3) - update fabric loom to 1.7 & gradle to 8.8 *(commit by [@SettingDust](https://github.com/SettingDust))*
+
+
 ## [1.6.3] - 2024-06-16
 ### :wrench: Chores
 - [`5265810`](https://github.com/SettingDust/kinecraft-serialization/commit/5265810e07a5332adb09cf9ecda34b8f5f78503c) - make the source jar containing all sources *(commit by [@SettingDust](https://github.com/SettingDust))*
@@ -36,3 +44,4 @@
 [1.6.1]: https://github.com/SettingDust/kinecraft-serialization/compare/1.6.0...1.6.1
 [1.6.2]: https://github.com/SettingDust/kinecraft-serialization/compare/1.6.1...1.6.2
 [1.6.3]: https://github.com/SettingDust/kinecraft-serialization/compare/1.6.2...1.6.3
+[1.7.0]: https://github.com/SettingDust/kinecraft-serialization/compare/1.6.7...1.7.0

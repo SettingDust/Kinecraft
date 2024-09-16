@@ -24,8 +24,7 @@ plugins {
 
 include("nested")
 include("nested:nested-fabric")
-include("nested:nested-lexforge")
-include("nested:nested-neoforge")
+include("nested:nested-forge")
 
 include("common")
 include("fabric")

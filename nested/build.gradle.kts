@@ -11,10 +11,7 @@ dependencies {
     shadow(project("nested-fabric")) {
         isTransitive = false
     }
-    shadow(project("nested-lexforge")) {
-        isTransitive = false
-    }
-    shadow(project("nested-neoforge")) {
+    shadow(project("nested-forge")) {
         isTransitive = false
 
         attributes {

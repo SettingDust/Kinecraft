@@ -34,12 +34,12 @@ neoForge {
 dependencies { implementation(project(":common")) }
 
 tasks {
-    withType<ProcessResources> { from(project(":common").sourceSets.main.get().resources) }
-    withType<KotlinCompile> {
-        source(project(":common").sourceSets.main.get().allSource)
+    processResources { from(project(":common").sourceSets.main.get().resources) }
+    compileKotlin {
+        source(project(":common").sourceSets.main.get().kotlin)
         compilerOptions { jvmTarget = JvmTarget.JVM_21 }
     }
-    withType<JavaCompile> { source(project(":common").sourceSets.main.get().allSource) }
+    compileJava { source(project(":common").sourceSets.main.get().java) }
 
     sourcesJar { from(project(":common").sourceSets.main.get().allSource) }
 

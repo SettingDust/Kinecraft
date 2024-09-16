@@ -3,6 +3,7 @@ extra["minecraft"] = "1.20.1"
 apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/common.gradle.kts")
 apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/kotlin.gradle.kts")
 apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/fabric.gradle.kts")
+apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/forge.gradle.kts")
 apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/modmenu.gradle.kts")
 apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/vanillagradle.gradle.kts")
 apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/mixin.gradle.kts")
@@ -23,8 +24,10 @@ plugins {
 
 include("nested")
 include("nested:nested-fabric")
+include("nested:nested-lexforge")
 include("nested:nested-neoforge")
 
 include("common")
 include("fabric")
+include("lexforge")
 include("neoforge")

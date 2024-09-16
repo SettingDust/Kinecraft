@@ -1,3 +1,11 @@
+## [1.8.0] - 2024-09-16
+### :sparkles: New Features
+- [`8c73e2f`](https://github.com/SettingDust/kinecraft-serialization/commit/8c73e2f048eb5a5e7bdff4083c62543c23d15a53) - support lexforge *(commit by [@SettingDust](https://github.com/SettingDust))*
+
+### :bug: Bug Fixes
+- [`aca926c`](https://github.com/SettingDust/kinecraft-serialization/commit/aca926c7d1be216da87a9ee376be6e4c5ef867fc) - jarJar the lexforge correctly *(commit by [@SettingDust](https://github.com/SettingDust))*
+
+
 ## [1.7.0] - 2024-09-16
 ### :sparkles: New Features
 - [`4df72fb`](https://github.com/SettingDust/kinecraft-serialization/commit/4df72fb6c5847ec0423d726ff02aa6c8a18248e8) - support 1.19-1.21 actually *(commit by [@SettingDust](https://github.com/SettingDust))*
@@ -45,3 +53,4 @@
 [1.6.2]: https://github.com/SettingDust/kinecraft-serialization/compare/1.6.1...1.6.2
 [1.6.3]: https://github.com/SettingDust/kinecraft-serialization/compare/1.6.2...1.6.3
 [1.7.0]: https://github.com/SettingDust/kinecraft-serialization/compare/1.6.7...1.7.0
+[1.8.0]: https://github.com/SettingDust/kinecraft-serialization/compare/1.7.0...1.8.0

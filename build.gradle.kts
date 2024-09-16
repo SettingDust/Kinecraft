@@ -7,17 +7,21 @@ plugins {
     java
     `maven-publish`
 
-    alias(catalog.plugins.git.version)
-    alias(catalog.plugins.idea.ext)
-    alias(catalog.plugins.kotlin.jvm)
-    alias(catalog.plugins.kotlin.plugin.serialization)
+    alias(catalog.plugins.kotlin.jvm) apply false
+    alias(catalog.plugins.kotlin.plugin.serialization) apply false
+
     alias(catalog.plugins.fabric.loom) apply false
-    alias(catalog.plugins.neoforge.gradle) apply false
+    alias(catalog.plugins.neoforge.moddev) apply false
 
     alias(catalog.plugins.shadow)
+    alias(catalog.plugins.git.version)
 }
 
 apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/gradle_issue_15754.gradle.kts")
+
+val archives_name: String by project
+val mod_id: String by rootProject
+val mod_name: String by rootProject
 
 group = "${project.property("group")}"
 
@@ -33,12 +37,12 @@ allprojects {
 
     java {
         toolchain {
-            languageVersion = JavaLanguageVersion.of(21)
+            languageVersion = JavaLanguageVersion.of(17)
         }
 
         // Still required by IDEs such as Eclipse and Visual Studio Code
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
 
         // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build"
         // task if it is present.
@@ -60,7 +64,7 @@ allprojects {
 
     tasks.withType<KotlinCompile> {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_21)
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
 }
@@ -74,24 +78,20 @@ subprojects {
     tasks {
         withType<ProcessResources> {
             val properties = mapOf(
-                "id" to "kinecraft_serialization",
-                "version" to project.version,
-                "group" to project.group,
-                "name" to "Kinecraft Serialization",
-                "description" to "Kotlin serialization for Minecraft classes",
-                "author" to "SettingDust",
-                "source" to "https://github.com/SettingDust/kinecraft-serialization",
+                "id" to mod_id,
+                "version" to rootProject.version,
+                "group" to rootProject.group,
+                "name" to mod_name,
+                "description" to rootProject.property("mod_description").toString(),
+                "author" to rootProject.property("mod_author").toString(),
+                "source" to rootProject.property("mod_source").toString(),
             )
             from(rootProject.sourceSets.main.get().resources)
             inputs.properties(properties)
 
-            filesMatching(listOf("fabric.mod.json", "META-INF/neoforge.mods.toml")) {
+            filesMatching(listOf("fabric.mod.json", "META-INF/neoforge.mods.toml", "*.mixins.json", "META-INF/MANIFEST.MF")) {
                 expand(properties)
             }
-        }
-
-        test {
-            enabled = false
         }
     }
 }

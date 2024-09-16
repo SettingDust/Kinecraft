@@ -8,9 +8,14 @@ plugins {
 base { archivesName.set(rootProject.base.archivesName.get()) }
 
 dependencies {
-    subprojects.forEach {
-        shadow(project(it.path)) {
-            isTransitive = false
+    shadow(project("nested-fabric")) {
+        isTransitive = false
+    }
+    shadow(project("nested-neoforge")) {
+        isTransitive = false
+
+        attributes {
+            attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, JavaVersion.VERSION_21.majorVersion.toInt())
         }
     }
 }

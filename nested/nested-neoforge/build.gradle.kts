@@ -1,5 +1,5 @@
 plugins {
-    alias(catalog.plugins.neoforge.gradle)
+    alias(catalog.plugins.neoforge.moddev)
     alias(catalog.plugins.kotlin.jvm)
     alias(catalog.plugins.kotlin.plugin.serialization)
     `maven-publish`
@@ -7,18 +7,26 @@ plugins {
 
 base { archivesName.set("${rootProject.base.archivesName.get()}-${project.name}") }
 
-minecraft {
-    runs {
-        afterEvaluate {
-            clear()
-        }
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+
+    withSourcesJar()
+
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
-jarJar.enable()
+kotlin {
+    jvmToolchain(21)
+}
+
+neoForge {
+    version = catalog.neoforge.get().version!!
+}
 
 dependencies {
-    implementation(catalog.neoforge)
     implementation(catalog.kotlinx.serialization.core)
     implementation(catalog.kotlinx.serialization.json)
     implementation(catalog.kotlin.reflect)
@@ -27,16 +35,11 @@ dependencies {
 
 tasks {
     jar {
-        archiveClassifier.set("dev")
         from("LICENSE") { rename { "${it}_KinecraftSerialization" } }
         manifest.attributes(
             "FMLModType" to "GAMELIBRARY"
         )
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    }
-
-    jarJar.configure {
-        archiveClassifier.set("")
     }
 
     sourcesJar { from(rootProject.sourceSets.main.get().allSource) }

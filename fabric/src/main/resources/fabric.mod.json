@@ -19,6 +19,6 @@
     }
   },
   "mixins": [
-    "kinecraft_serialization.mixins.json"
+    "${id}.mixins.json"
   ]
 }

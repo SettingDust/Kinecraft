@@ -1,3 +1,8 @@
+## [1.8.1] - 2024-09-17
+### :wrench: Chores
+- [`e1d50e7`](https://github.com/SettingDust/kinecraft-serialization/commit/e1d50e740495cd5617f8c9120fbada7e10c6a432) - add util for unwrap data result *(commit by [@SettingDust](https://github.com/SettingDust))*
+
+
 ## [1.8.0] - 2024-09-16
 ### :sparkles: New Features
 - [`8c73e2f`](https://github.com/SettingDust/kinecraft-serialization/commit/8c73e2f048eb5a5e7bdff4083c62543c23d15a53) - support lexforge *(commit by [@SettingDust](https://github.com/SettingDust))*
@@ -54,3 +59,4 @@
 [1.6.3]: https://github.com/SettingDust/kinecraft-serialization/compare/1.6.2...1.6.3
 [1.7.0]: https://github.com/SettingDust/kinecraft-serialization/compare/1.6.7...1.7.0
 [1.8.0]: https://github.com/SettingDust/kinecraft-serialization/compare/1.7.0...1.8.0
+[1.8.1]: https://github.com/SettingDust/kinecraft-serialization/compare/1.8.0...1.8.1

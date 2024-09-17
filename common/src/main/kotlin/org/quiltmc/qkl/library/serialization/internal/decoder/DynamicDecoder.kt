@@ -33,6 +33,8 @@ import org.quiltmc.qkl.library.serialization.ExtendedDynamicOps.ElementSupport
 import org.quiltmc.qkl.library.serialization.internal.*
 import org.quiltmc.qkl.library.serialization.internal.util.*
 import org.quiltmc.qkl.library.serialization.options.CodecOptions
+import settingdust.kinecraft.serialization.orNull
+import settingdust.kinecraft.serialization.unwrap
 
 @OptIn(ExperimentalSerializationApi::class)
 internal class DynamicDecoder<T : Any>(

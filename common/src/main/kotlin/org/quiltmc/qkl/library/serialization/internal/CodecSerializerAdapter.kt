@@ -26,7 +26,7 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import org.quiltmc.qkl.library.serialization.internal.decoder.DynamicDecoder
 import org.quiltmc.qkl.library.serialization.internal.encoder.DynamicEncoder
-import org.quiltmc.qkl.library.serialization.internal.util.unwrap
+import settingdust.kinecraft.serialization.unwrap
 
 @OptIn(ExperimentalSerializationApi::class)
 internal class CodecSerializerAdapter<T>(

@@ -18,8 +18,8 @@ package org.quiltmc.qkl.library.serialization.internal
 
 import com.mojang.serialization.DynamicOps
 import org.quiltmc.qkl.library.serialization.ExtendedDynamicOps
-import org.quiltmc.qkl.library.serialization.internal.util.orNull
-import org.quiltmc.qkl.library.serialization.internal.util.unwrap
+import settingdust.kinecraft.serialization.orNull
+import settingdust.kinecraft.serialization.unwrap
 
 /** Implementation of [ExtendedDynamicOps] without support for anything. */
 private class EmptyExtendedOps<T : Any> : ExtendedDynamicOps<T> {

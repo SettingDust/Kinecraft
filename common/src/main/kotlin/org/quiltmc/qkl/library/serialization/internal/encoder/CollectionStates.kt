@@ -19,7 +19,7 @@ package org.quiltmc.qkl.library.serialization.internal.encoder
 import kotlinx.serialization.descriptors.SerialDescriptor
 import org.quiltmc.qkl.library.serialization.internal.ElementOptions
 import org.quiltmc.qkl.library.serialization.internal.SerializationConfig
-import org.quiltmc.qkl.library.serialization.internal.util.unwrap
+import settingdust.kinecraft.serialization.unwrap
 
 internal class ListState<T : Any>(serializationConfig: SerializationConfig<T>) :
     StructuredEncoderState<T>(serializationConfig) {

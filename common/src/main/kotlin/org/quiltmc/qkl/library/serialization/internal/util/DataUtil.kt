@@ -16,7 +16,6 @@
 
 package org.quiltmc.qkl.library.serialization.internal.util
 
-import com.mojang.serialization.DataResult
 import com.mojang.serialization.DynamicOps
 import com.mojang.serialization.JsonOps
 import net.minecraft.resources.DelegatingOps
@@ -24,6 +23,7 @@ import org.quiltmc.qkl.library.serialization.ExtendedDynamicOps
 import org.quiltmc.qkl.library.serialization.internal.DefaultingExtendedOps
 import org.quiltmc.qkl.library.serialization.internal.ExtendedJsonOps
 import settingdust.kinecraft.serialization.mixin.DelegatingOpsAccessor
+import settingdust.kinecraft.serialization.orNull
 
 @Suppress("UNCHECKED_CAST")
 internal tailrec fun <T : Any> DynamicOps<T>.getExtendedWithDefault(): ExtendedDynamicOps<T> {
@@ -33,14 +33,6 @@ internal tailrec fun <T : Any> DynamicOps<T>.getExtendedWithDefault(): ExtendedD
         is DelegatingOps<*> -> (this as DelegatingOpsAccessor<T>).delegate.getExtendedWithDefault()
         else -> DefaultingExtendedOps(this)
     }
-}
-
-internal fun <R> DataResult<R>.unwrap(): R {
-    return result().orElseThrow { IllegalStateException(error().orElseThrow().message()) }
-}
-
-internal fun <R> DataResult<R>.orNull(): R? {
-    return result().orElse(null)
 }
 
 internal fun <T> DynamicOps<T>.getPrimitiveAsString(value: T): String? {

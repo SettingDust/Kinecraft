@@ -26,7 +26,7 @@ import kotlinx.serialization.encoding.CompositeDecoder
 import org.quiltmc.qkl.library.serialization.internal.ElementOptions
 import org.quiltmc.qkl.library.serialization.internal.SerializationConfig
 import org.quiltmc.qkl.library.serialization.internal.util.collectInvalidKeys
-import org.quiltmc.qkl.library.serialization.internal.util.unwrap
+import settingdust.kinecraft.serialization.unwrap
 
 internal sealed class CollectionState<T : Any>(serializationConfig: SerializationConfig<T>) :
     DecoderState<T>(serializationConfig) {

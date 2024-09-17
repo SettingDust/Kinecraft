@@ -21,8 +21,8 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import org.quiltmc.qkl.library.serialization.ExtendedDynamicOps.ElementSupport
 import org.quiltmc.qkl.library.serialization.internal.*
 import org.quiltmc.qkl.library.serialization.internal.util.getPrimitiveAsString
-import org.quiltmc.qkl.library.serialization.internal.util.orNull
-import org.quiltmc.qkl.library.serialization.internal.util.unwrap
+import settingdust.kinecraft.serialization.orNull
+import settingdust.kinecraft.serialization.unwrap
 import org.quiltmc.qkl.library.serialization.internal.util.useEntryListMapForElement
 
 @OptIn(ExperimentalSerializationApi::class)

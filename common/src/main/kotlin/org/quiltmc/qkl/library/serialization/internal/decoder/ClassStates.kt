@@ -25,7 +25,7 @@ import org.quiltmc.qkl.library.serialization.ExtendedDynamicOps.ElementSupport
 import org.quiltmc.qkl.library.serialization.internal.*
 import org.quiltmc.qkl.library.serialization.internal.util.collectInvalidKeys
 import org.quiltmc.qkl.library.serialization.internal.util.getPrimitiveAsString
-import org.quiltmc.qkl.library.serialization.internal.util.orNull
+import settingdust.kinecraft.serialization.orNull
 import org.quiltmc.qkl.library.serialization.internal.util.useEntryListMapForElement
 
 @OptIn(ExperimentalSerializationApi::class)

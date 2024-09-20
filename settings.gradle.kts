@@ -1,11 +1,17 @@
 extra["minecraft"] = "1.20.1"
 
 apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/common.gradle.kts")
+
 apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/kotlin.gradle.kts")
+
 apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/fabric.gradle.kts")
+
 apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/forge.gradle.kts")
+
 apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/modmenu.gradle.kts")
+
 apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/vanillagradle.gradle.kts")
+
 apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/mixin.gradle.kts")
 
 rootProject.name = "kinecraft_serialization"
@@ -17,16 +23,20 @@ dependencyResolutionManagement.versionCatalogs.named("catalog") {
     library("neoforge", "net.neoforged", "neoforge").version("21.1.54")
 }
 
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
-}
-
+plugins { id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0" }
 
 include("nested")
+
 include("nested:nested-fabric")
+
 include("nested:nested-forge")
 
 include("common")
+
 include("fabric")
+
 include("lexforge")
+
 include("neoforge")
+
+include("versions:1.21")

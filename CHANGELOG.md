@@ -1,3 +1,8 @@
+## [1.8.2] - 2024-09-20
+### :bug: Bug Fixes
+- [`1410220`](https://github.com/SettingDust/kinecraft-serialization/commit/141022002e32dcb40eae876b5f9f72d5a543812f) - refmap path is wrong *(commit by [@SettingDust](https://github.com/SettingDust))*
+
+
 ## [1.8.1] - 2024-09-17
 ### :wrench: Chores
 - [`e1d50e7`](https://github.com/SettingDust/kinecraft-serialization/commit/e1d50e740495cd5617f8c9120fbada7e10c6a432) - add util for unwrap data result *(commit by [@SettingDust](https://github.com/SettingDust))*
@@ -60,3 +65,4 @@
 [1.7.0]: https://github.com/SettingDust/kinecraft-serialization/compare/1.6.7...1.7.0
 [1.8.0]: https://github.com/SettingDust/kinecraft-serialization/compare/1.7.0...1.8.0
 [1.8.1]: https://github.com/SettingDust/kinecraft-serialization/compare/1.8.0...1.8.1
+[1.8.2]: https://github.com/SettingDust/kinecraft-serialization/compare/1.8.1...1.8.2

@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     `maven-publish`
@@ -45,8 +44,11 @@ tasks {
 
     jar {
         manifest {
-            from("src/main/resources/META-INF/MANIFEST.MF")
-            "Automatic-Module-Name" to project.path
+            attributes(
+                "MixinConfigs" to mod_id,
+                "FMLModType" to "GAMELIBRARY",
+                "Automatic-Module-Name" to project.path,
+            )
         }
     }
 }

@@ -46,8 +46,7 @@ tasks {
         manifest {
             attributes(
                 "MixinConfigs" to mod_id,
-                "FMLModType" to "GAMELIBRARY",
-                "Automatic-Module-Name" to project.path,
+                "FMLModType" to "GAMELIBRARY"
             )
         }
     }

@@ -1,3 +1,8 @@
+## [1.8.3] - 2024-09-21
+### :bug: Bug Fixes
+- [`bad6a00`](https://github.com/SettingDust/kinecraft-serialization/commit/bad6a00ef2f8db4bdaaab4d2d4ea81563364aa98) - neoforge mixin config name is wrong *(commit by [@SettingDust](https://github.com/SettingDust))*
+
+
 ## [1.8.2] - 2024-09-20
 ### :bug: Bug Fixes
 - [`1410220`](https://github.com/SettingDust/kinecraft-serialization/commit/141022002e32dcb40eae876b5f9f72d5a543812f) - refmap path is wrong *(commit by [@SettingDust](https://github.com/SettingDust))*
@@ -66,3 +71,4 @@
 [1.8.0]: https://github.com/SettingDust/kinecraft-serialization/compare/1.7.0...1.8.0
 [1.8.1]: https://github.com/SettingDust/kinecraft-serialization/compare/1.8.0...1.8.1
 [1.8.2]: https://github.com/SettingDust/kinecraft-serialization/compare/1.8.1...1.8.2
+[1.8.3]: https://github.com/SettingDust/kinecraft-serialization/compare/1.8.2...1.8.3

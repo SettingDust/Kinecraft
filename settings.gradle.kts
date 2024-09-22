@@ -35,7 +35,7 @@ include("common")
 
 include("fabric")
 
-include("lexforge")
+//include("lexforge")
 
 include("neoforge")
 

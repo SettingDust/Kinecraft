@@ -1,3 +1,8 @@
+## [1.10.0] - 2024-09-22
+### :sparkles: New Features
+- [`994ead0`](https://github.com/SettingDust/kinecraft-serialization/commit/994ead07a4bf728c81307d98fcea41251358db1e) - re-add lexforge by use mod manifest instead of MANIFEST.MF *(commit by [@SettingDust](https://github.com/SettingDust))*
+
+
 ## [1.9.0] - 2024-09-22
 ### :boom: BREAKING CHANGES
 - due to [`fc42555`](https://github.com/SettingDust/kinecraft-serialization/commit/fc42555dfa7caf1297b8a77ffc6b8d44afb4aa31) - remove lexforge module since it's conflicting with neoforge module if loaded on loader *(commit by [@SettingDust](https://github.com/SettingDust))*:
@@ -91,3 +96,4 @@
 [1.8.3]: https://github.com/SettingDust/kinecraft-serialization/compare/1.8.2...1.8.3
 [1.8.4]: https://github.com/SettingDust/kinecraft-serialization/compare/1.8.3...1.8.4
 [1.9.0]: https://github.com/SettingDust/kinecraft-serialization/compare/1.8.4...1.9.0
+[1.10.0]: https://github.com/SettingDust/kinecraft-serialization/compare/1.9.0...1.10.0

@@ -12,7 +12,7 @@ plugins {
 val mod_id: String by rootProject
 
 minecraft {
-    mappings("official", "${catalog.versions.minecraft.get()}")
+    mappings("official", "${catalog.versions.minecraft.asProvider().get()}")
 
     runs.all {
         mods {
@@ -48,8 +48,10 @@ tasks {
 
     jar {
         manifest {
-            from("src/main/resources/META-INF/MANIFEST.MF")
-            "Automatic-Module-Name" to project.path
+            attributes(
+                "MixinConfigs" to "$mod_id.mixins.json",
+                "FMLModType" to "GAMELIBRARY"
+            )
         }
     }
 }

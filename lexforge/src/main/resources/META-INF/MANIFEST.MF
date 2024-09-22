@@ -1,2 +1,3 @@
 MixinConfigs: ${id}.mixins.json
 FMLModType: GAMELIBRARY
+Automatic-Module-Name: kinecraft_serialization_neoforge

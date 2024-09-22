@@ -1,3 +1,15 @@
+## [1.9.0] - 2024-09-22
+### :boom: BREAKING CHANGES
+- due to [`fc42555`](https://github.com/SettingDust/kinecraft-serialization/commit/fc42555dfa7caf1297b8a77ffc6b8d44afb4aa31) - remove lexforge module since it's conflicting with neoforge module if loaded on loader *(commit by [@SettingDust](https://github.com/SettingDust))*:
+
+  remove lexforge module since it's conflicting with neoforge module if loaded on loader
+
+
+### :bug: Bug Fixes
+- [`137dc8d`](https://github.com/SettingDust/kinecraft-serialization/commit/137dc8dfec2661aad8c7d54e1db82c6ca7f3a95c) - remove module name for lexforge *(commit by [@SettingDust](https://github.com/SettingDust))*
+- [`fc42555`](https://github.com/SettingDust/kinecraft-serialization/commit/fc42555dfa7caf1297b8a77ffc6b8d44afb4aa31) - remove lexforge module since it's conflicting with neoforge module if loaded on loader *(commit by [@SettingDust](https://github.com/SettingDust))*
+
+
 ## [1.8.4] - 2024-09-21
 ### :bug: Bug Fixes
 - [`af28b9b`](https://github.com/SettingDust/kinecraft-serialization/commit/af28b9b11f27a81e8ddb5f2a8e3c470369174bc6) - remove module name for neoforge *(commit by [@SettingDust](https://github.com/SettingDust))*
@@ -78,3 +90,4 @@
 [1.8.2]: https://github.com/SettingDust/kinecraft-serialization/compare/1.8.1...1.8.2
 [1.8.3]: https://github.com/SettingDust/kinecraft-serialization/compare/1.8.2...1.8.3
 [1.8.4]: https://github.com/SettingDust/kinecraft-serialization/compare/1.8.3...1.8.4
+[1.9.0]: https://github.com/SettingDust/kinecraft-serialization/compare/1.8.4...1.9.0

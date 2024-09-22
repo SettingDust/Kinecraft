@@ -17,6 +17,7 @@ apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/mixin.grad
 rootProject.name = "kinecraft_serialization"
 
 dependencyResolutionManagement.versionCatalogs.named("catalog") {
+    version("minecraft-1.21", "1.21")
     plugin("neoforge-moddev", "net.neoforged.moddev").version("1.+")
 
     // https://linkie.shedaniel.dev/dependencies?loader=neoforge
@@ -35,7 +36,7 @@ include("common")
 
 include("fabric")
 
-//include("lexforge")
+include("lexforge")
 
 include("neoforge")
 

@@ -41,15 +41,6 @@ tasks {
     compileJava { source(project(":common").sourceSets.main.get().java) }
 
     sourcesJar { from(project(":common").sourceSets.main.get().allSource) }
-
-    jar {
-        manifest {
-            attributes(
-                "MixinConfigs" to "$mod_id.mixins.json",
-                "FMLModType" to "GAMELIBRARY"
-            )
-        }
-    }
 }
 
 rootProject.publishing {

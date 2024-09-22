@@ -7,12 +7,13 @@ plugins {
     alias(catalog.plugins.kotlin.plugin.serialization)
 
     alias(catalog.plugins.forge.gradle)
+    alias(catalog.plugins.mixin)
 }
 
 val mod_id: String by rootProject
 
 minecraft {
-    mappings("official", "${catalog.versions.minecraft.asProvider().get()}")
+    mappings("official", catalog.versions.minecraft.asProvider().get())
 
     runs.all {
         mods {
@@ -34,6 +35,11 @@ minecraft {
     }
 }
 
+mixin {
+    config("$mod_id.mixins.json")
+    add("main", "$mod_id.refmap.json")
+}
+
 dependencies {
     minecraft(catalog.minecraft.forge)
     implementation(project(":common"))
@@ -46,14 +52,7 @@ tasks {
 
     sourcesJar { from(project(":common").sourceSets.main.get().allSource) }
 
-    jar {
-        manifest {
-            attributes(
-                "MixinConfigs" to "$mod_id.mixins.json",
-                "FMLModType" to "GAMELIBRARY"
-            )
-        }
-    }
+    jar { manifest { attributes("MixinConfigs" to "$mod_id.mixins.json") } }
 }
 
 rootProject.publishing {

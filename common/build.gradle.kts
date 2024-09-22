@@ -5,7 +5,7 @@ plugins {
     alias(catalog.plugins.vanilla.gradle)
 }
 
-minecraft { version(catalog.versions.minecraft.get()) }
+minecraft { version(catalog.versions.minecraft.asProvider().get()) }
 
 dependencies {
     api(catalog.kotlinx.serialization.core)

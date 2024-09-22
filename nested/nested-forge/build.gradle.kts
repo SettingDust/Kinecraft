@@ -31,7 +31,7 @@ dependencies {
     implementation(catalog.kotlinx.serialization.json)
     implementation(catalog.kotlin.reflect)
     jarJar(project(":neoforge"))
-//    jarJar(project(":lexforge"))
+    jarJar(project(":lexforge"))
 }
 
 tasks {

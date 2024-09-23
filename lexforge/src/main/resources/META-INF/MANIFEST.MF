@@ -1,1 +1,1 @@
-Automatic-Module-Name: kinecraft_serialization_neoforge
+Automatic-Module-Name: kinecraft_serialization_lexforge

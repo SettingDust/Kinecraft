@@ -41,6 +41,8 @@ tasks {
     compileJava { source(project(":common").sourceSets.main.get().java) }
 
     sourcesJar { from(project(":common").sourceSets.main.get().allSource) }
+
+    jar { manifest { attributes("FMLModType" to "GAMELIBRARY") } }
 }
 
 rootProject.publishing {

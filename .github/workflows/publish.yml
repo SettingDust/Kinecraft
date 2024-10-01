@@ -28,7 +28,7 @@ jobs:
           token: ${{ github.token }}
           tag: ${{ github.ref_name }}
 
-      - name: Upload intermediary
+      - name: Upload jar
         uses: Kir-Antipov/mc-publish@v3.3
         with:
           changelog: ${{ steps.changelog.outputs.changes }}
@@ -43,7 +43,7 @@ jobs:
 
           files: |
             publish/**/!(*-@(dev|sources|javadoc|common|fabric|neoforge|lexforge)).jar
-            publish/**/*-@(dev|sources|javadoc|common|fabric|neoforge|lexforge).jar
+            publish/**/*-@(dev|sources|javadoc|common|fabric|neoforge).jar
 
           version: ${{ github.ref_name }}
 
@@ -54,6 +54,36 @@ jobs:
           dependencies: |
             fabric-language-kotlin
             modmenu(recommended)
+            kotlin-for-forge
+
+          java: |
+            17
+            21
+
+      - name: Upload lexforge
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          changelog: ${{ steps.changelog.outputs.changes }}
+          game-versions: |
+            [1.19.4, 1.21]
+          game-version-filter: releases
+
+          # Only include this section if you wish to publish
+          # your assets on Modrinth.1
+          modrinth-id: epmEbmF0
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+
+          files: |
+            publish/**/*-lexforge.jar
+            publish/**/*-@(dev|sources).jar
+
+          version: ${{ github.ref_name }}
+
+          loaders: |
+            forge
+
+          dependencies: |
+            kotlin-for-forge
 
           java: |
             17

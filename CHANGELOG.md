@@ -1,3 +1,8 @@
+## [1.12.0] - 2024-10-01
+### :sparkles: New Features
+- [`9df4654`](https://github.com/SettingDust/kinecraft-serialization/commit/9df46547392892ebac67948679e8e779719e5f72) - publish the lexforge standalone *(commit by [@SettingDust](https://github.com/SettingDust))*
+
+
 ## [1.11.0] - 2024-09-23
 ### :boom: BREAKING CHANGES
 - due to [`127c4b7`](https://github.com/SettingDust/kinecraft-serialization/commit/127c4b7f5d522c02ddab7aeb55cd7f65c9c491d1) - remove lexforge again since the workaround isn't work *(commit by [@SettingDust](https://github.com/SettingDust))*:
@@ -109,3 +114,4 @@
 [1.9.0]: https://github.com/SettingDust/kinecraft-serialization/compare/1.8.4...1.9.0
 [1.10.0]: https://github.com/SettingDust/kinecraft-serialization/compare/1.9.0...1.10.0
 [1.11.0]: https://github.com/SettingDust/kinecraft-serialization/compare/1.10.0...1.11.0
+[1.12.0]: https://github.com/SettingDust/kinecraft-serialization/compare/1.11.0...1.12.0

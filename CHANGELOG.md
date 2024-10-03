@@ -1,3 +1,8 @@
+## [1.13.0] - 2024-10-03
+### :sparkles: New Features
+- [`6ba9dbc`](https://github.com/SettingDust/kinecraft-serialization/commit/6ba9dbcb1269d8552fe11dcff3776d27125d5072) - add component serializer for 1.20 + 1.21 *(commit by [@SettingDust](https://github.com/SettingDust))*
+
+
 ## [1.12.0] - 2024-10-01
 ### :sparkles: New Features
 - [`9df4654`](https://github.com/SettingDust/kinecraft-serialization/commit/9df46547392892ebac67948679e8e779719e5f72) - publish the lexforge standalone *(commit by [@SettingDust](https://github.com/SettingDust))*
@@ -115,3 +120,4 @@
 [1.10.0]: https://github.com/SettingDust/kinecraft-serialization/compare/1.9.0...1.10.0
 [1.11.0]: https://github.com/SettingDust/kinecraft-serialization/compare/1.10.0...1.11.0
 [1.12.0]: https://github.com/SettingDust/kinecraft-serialization/compare/1.11.0...1.12.0
+[1.13.0]: https://github.com/SettingDust/kinecraft-serialization/compare/1.12.0...1.13.0

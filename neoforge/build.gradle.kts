@@ -30,7 +30,11 @@ neoForge {
     mods { create(mod_id) { sourceSet(sourceSets.main.get()) } }
 }
 
-dependencies { implementation(project(":common")) }
+dependencies {
+    implementation(project(":common"))
+
+    jarJar(project(":versions:1.21"))
+}
 
 tasks {
     processResources { from(project(":common").sourceSets.main.get().resources) }

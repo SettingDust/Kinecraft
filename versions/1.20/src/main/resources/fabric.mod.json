@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "${id}_1_20",
+  "version": "${version}",
+  "name": "${name}",
+  "description": "${description}",
+  "authors": [
+    "${author}"
+  ],
+  "environment": "*",
+  "custom": {
+    "modmenu": {
+      "parent": [
+        "${id}_container"
+      ]
+    }
+  },
+  "mixins": [
+    "${id}.mixins.1.20.json"
+  ]
+}

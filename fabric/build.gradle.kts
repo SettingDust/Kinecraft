@@ -1,3 +1,4 @@
+import net.fabricmc.loom.task.RemapJarTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -7,16 +8,17 @@ plugins {
     alias(catalog.plugins.fabric.loom)
 }
 
-loom {
-    mixin {
-        defaultRefmapName = "${rootProject.name}.refmap.json"
-    }
-}
+val mod_id: String by rootProject
+
+loom { mixin { defaultRefmapName = "$mod_id.refmap.json" } }
 
 dependencies {
     minecraft(catalog.minecraft.fabric)
     mappings(loom.officialMojangMappings())
     implementation(project(":common"))
+
+    include(project(":versions:1.21:fabric-1.21"))
+    include(project(":versions:1.20:fabric-1.20"))
 }
 
 tasks {
@@ -31,10 +33,6 @@ tasks {
 
 rootProject.publishing {
     publications {
-        named<MavenPublication>("maven") {
-            artifact(tasks.remapJar) {
-                classifier = "fabric"
-            }
-        }
+        named<MavenPublication>("maven") { artifact(tasks.remapJar) { classifier = "fabric" } }
     }
 }

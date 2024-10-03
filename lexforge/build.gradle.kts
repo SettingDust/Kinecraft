@@ -40,9 +40,20 @@ mixin {
     add("main", "$mod_id.refmap.json")
 }
 
+jarJar.enable()
+
 dependencies {
     minecraft(catalog.minecraft.forge)
     implementation(project(":common"))
+
+    jarJar(project(":versions:1.20:forge-1.20")) {
+        jarJar.ranged(this, "[$version,)")
+        isTransitive = false
+    }
+    jarJar(project(":versions:1.21")) {
+        jarJar.ranged(this, "[$version,)")
+        isTransitive = false
+    }
 }
 
 tasks {
@@ -52,16 +63,15 @@ tasks {
 
     sourcesJar { from(project(":common").sourceSets.main.get().allSource) }
 
-    jar { manifest {
-        attributes(
-            "FMLModType" to "GAMELIBRARY",
-            "MixinConfigs" to "$mod_id.mixins.json"
-        )
-    } }
+    jar {
+        manifest {
+            attributes("FMLModType" to "GAMELIBRARY", "MixinConfigs" to "$mod_id.mixins.json")
+        }
+    }
 }
 
 rootProject.publishing {
     publications {
-        named<MavenPublication>("maven") { artifact(tasks.jar) { classifier = "lexforge" } }
+        named<MavenPublication>("maven") { artifact(tasks.jarJar) { classifier = "lexforge" } }
     }
 }

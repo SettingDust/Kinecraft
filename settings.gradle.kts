@@ -18,6 +18,7 @@ rootProject.name = "kinecraft_serialization"
 
 dependencyResolutionManagement.versionCatalogs.named("catalog") {
     version("minecraft-1.21", "1.21")
+    library("minecraft-fabric-1.21", "com.mojang", "minecraft").versionRef("minecraft-1.21")
     plugin("neoforge-moddev", "net.neoforged.moddev").version("1.+")
 
     // https://linkie.shedaniel.dev/dependencies?loader=neoforge
@@ -41,3 +42,7 @@ include("lexforge")
 include("neoforge")
 
 include("versions:1.21")
+include("versions:1.21:fabric-1.21")
+include("versions:1.20")
+include("versions:1.20:fabric-1.20")
+include("versions:1.20:forge-1.20")

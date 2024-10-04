@@ -43,7 +43,7 @@ jobs:
 
           files: |
             publish/**/!(*-@(dev|sources|javadoc|common|fabric|neoforge|lexforge)).jar
-            publish/**/*-@(dev|sources|javadoc|common|fabric|neoforge).jar
+            publish/**/*-@(dev|sources|javadoc|common|fabric|neoforge|lexforge).jar
 
           version: ${{ github.ref_name }}
 
@@ -77,7 +77,7 @@ jobs:
             publish/**/*-lexforge.jar
             publish/**/*-@(dev|sources).jar
 
-          version: ${{ github.ref_name }}
+          version: ${{ github.ref_name }}-lexforge
 
           loaders: |
             forge

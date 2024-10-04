@@ -24,19 +24,6 @@ dependencies { minecraft(catalog.minecraft.forge) }
 
 tasks {
     jar {
-        enabled = false
-    }
-
-    afterEvaluate {
-        named<RenameJarInPlace>("reobfJar") {
-            input =
-                project(":versions:1.20").tasks.jar.flatMap { versionsJar ->
-                    FileUtils.copyFile(
-                        versionsJar.archiveFile.get().asFile,
-                        jar.get().archiveFile.get().asFile,
-                    )
-                    jar.flatMap { it.archiveFile }
-                }
-        }
+        from(project(":versions:1.20").tasks.jar.flatMap { it.archiveFile }.map { zipTree(it) })
     }
 }

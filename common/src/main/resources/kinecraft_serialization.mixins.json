@@ -8,7 +8,6 @@
         "AbstractJsonTreeEncoderMixin",
         "DelegatingOpsAccessor",
         "JsonImplMixin",
-        "MinecraftMixin",
         "PolymorphismValidatorMixin",
         "StreamingJsonEncoderMixin"
     ],

@@ -49,6 +49,7 @@ jobs:
 
           loaders: |
             fabric
+            forge
             neoforge
 
           dependencies: |
@@ -65,7 +66,7 @@ jobs:
         with:
           changelog: ${{ steps.changelog.outputs.changes }}
           game-versions: |
-            [1.19.4, 1.21]
+            [1.19.4, 1.20.1]
           game-version-filter: releases
 
           # Only include this section if you wish to publish
@@ -87,7 +88,6 @@ jobs:
 
           java: |
             17
-            21
 
       - name: Commit CHANGELOG.md
         uses: stefanzweifel/git-auto-commit-action@v5

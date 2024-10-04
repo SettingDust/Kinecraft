@@ -46,11 +46,7 @@ dependencies {
     minecraft(catalog.minecraft.forge)
     implementation(project(":common"))
 
-    jarJar(project(":versions:1.20:forge-1.20")) {
-        jarJar.ranged(this, "[$version,)")
-        isTransitive = false
-    }
-    jarJar(project(":versions:1.21")) {
+    jarJar(project(":versions:1.20:lexforge-1.20")) {
         jarJar.ranged(this, "[$version,)")
         isTransitive = false
     }

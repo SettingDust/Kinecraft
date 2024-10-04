@@ -8,6 +8,9 @@
     "${author}"
   ],
   "environment": "*",
+  "depends": {
+    "minecraft": "[1.20,1.21)"
+  },
   "custom": {
     "modmenu": {
       "parent": [

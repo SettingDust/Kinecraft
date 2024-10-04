@@ -1,3 +1,8 @@
+## [1.15.0] - 2024-10-04
+### :bug: Bug Fixes
+- [`1a5c1d2`](https://github.com/SettingDust/kinecraft-serialization/commit/1a5c1d27c3db81a48f332ee3ef2a553027abded3) - make the lexforge 1.20.1 runnable *(commit by [@SettingDust](https://github.com/SettingDust))*
+
+
 ## [1.14.3] - 2024-10-04
 ### :bug: Bug Fixes
 - [`6a26da1`](https://github.com/SettingDust/kinecraft-serialization/commit/6a26da19fd674d19b009aeee00938af8d1f9ef15) - replace the token in lexforge mods.toml *(commit by [@SettingDust](https://github.com/SettingDust))*
@@ -133,3 +138,4 @@
 [1.13.0]: https://github.com/SettingDust/kinecraft-serialization/compare/1.12.0...1.13.0
 [1.14.2]: https://github.com/SettingDust/kinecraft-serialization/compare/1.14.1...1.14.2
 [1.14.3]: https://github.com/SettingDust/kinecraft-serialization/compare/1.14.2...1.14.3
+[1.15.0]: https://github.com/SettingDust/kinecraft-serialization/compare/1.14.3...1.15.0

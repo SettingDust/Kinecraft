@@ -89,7 +89,7 @@ subprojects {
             from(rootProject.sourceSets.main.get().resources)
             inputs.properties(properties)
 
-            filesMatching(listOf("fabric.mod.json", "META-INF/neoforge.mods.toml", "*.mixins.json", "META-INF/MANIFEST.MF")) {
+            filesMatching(listOf("fabric.mod.json", "META-INF/neoforge.mods.toml", "META-INF/mods.toml", "*.mixins.json", "META-INF/MANIFEST.MF")) {
                 expand(properties)
             }
         }

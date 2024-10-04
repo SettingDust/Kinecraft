@@ -1,6 +1,12 @@
 package settingdust.kinecraft.serialization
 
+import kotlin.test.assertEquals
+import kotlin.test.assertIs
 import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.encodeToJsonElement
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.plus
 import net.minecraft.nbt.ByteArrayTag
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.IntArrayTag
@@ -12,12 +18,16 @@ import org.junit.jupiter.api.Test
 import settingdust.kinecraft.serialization.format.tag.MinecraftTag
 import settingdust.kinecraft.serialization.format.tag.decodeFromTag
 import settingdust.kinecraft.serialization.format.tag.encodeToTag
-import kotlin.test.assertEquals
-import kotlin.test.assertIs
 
 @OptIn(ExperimentalSerializationApi::class)
 class MinecraftTagTest {
     private val minecraftTag = MinecraftTag
+    val json = Json {
+        encodeDefaults = true
+        serializersModule = TagsModule + SerializersModule {}
+        prettyPrint = true
+        useArrayPolymorphism = false
+    }
 
     private val tag =
         CompoundTag().apply {
@@ -71,7 +81,7 @@ class MinecraftTagTest {
                             putByteArray("byteArray", byteArrayOf(4, 5, 6))
                             putIntArray("intArray", intArrayOf(4, 5, 6))
                             putLongArray("longArray", longArrayOf(4, 5, 6))
-                        },
+                        }
                     )
                 },
             )
@@ -118,15 +128,15 @@ class MinecraftTagTest {
         assertEquals('b'.code, testDataListTag.getCompound(0).getInt("char"))
         assertEquals(
             "d",
-            testDataListTag.getCompound(0).getList("list", Tag.TAG_STRING.toInt()).getString(0)
+            testDataListTag.getCompound(0).getList("list", Tag.TAG_STRING.toInt()).getString(0),
         )
         assertEquals(
             "e",
-            testDataListTag.getCompound(0).getList("list", Tag.TAG_STRING.toInt()).getString(1)
+            testDataListTag.getCompound(0).getList("list", Tag.TAG_STRING.toInt()).getString(1),
         )
         assertEquals(
             "f",
-            testDataListTag.getCompound(0).getList("list", Tag.TAG_STRING.toInt()).getString(2)
+            testDataListTag.getCompound(0).getList("list", Tag.TAG_STRING.toInt()).getString(2),
         )
         assertIs<ByteArrayTag>(testDataListTag.getCompound(0).get("byteArray"))
         assertEquals(4, testDataListTag.getCompound(0).getByteArray("byteArray")[0])
@@ -146,4 +156,10 @@ class MinecraftTagTest {
     fun decodeFromTag() {
         assertEquals(testData, minecraftTag.decodeFromTag<NestTestData>(tag))
     }
+
+//    @Test
+//    fun encodeToJson() {
+//        val result = json.encodeToJsonElement(tag)
+//        println(result)
+//    }
 }

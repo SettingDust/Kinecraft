@@ -12,6 +12,8 @@ dependencies {
     api(catalog.kotlinx.serialization.json)
     api(catalog.kotlin.reflect)
 
+    api(catalog.mixinextras.common)
+
     testImplementation(kotlin("test"))
 }
 

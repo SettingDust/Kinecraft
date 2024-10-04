@@ -1,4 +1,3 @@
-import net.fabricmc.loom.task.RemapJarTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -10,11 +9,21 @@ plugins {
 
 val mod_id: String by rootProject
 
-loom { mixin { defaultRefmapName = "$mod_id.refmap.json" } }
+loom {
+    mixin { defaultRefmapName = "$mod_id.refmap.json" }
+    runs { named("client") { ideConfigGenerated(true) } }
+}
 
 dependencies {
     minecraft(catalog.minecraft.fabric)
     mappings(loom.officialMojangMappings())
+
+    modImplementation(catalog.fabric.loader)
+    modImplementation(catalog.fabric.api)
+    modImplementation(catalog.fabric.kotlin)
+
+    modRuntimeOnly(catalog.modmenu)
+
     implementation(project(":common"))
 
     include(project(":versions:1.21:fabric-1.21"))

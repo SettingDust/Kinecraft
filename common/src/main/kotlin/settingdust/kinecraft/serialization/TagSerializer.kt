@@ -3,7 +3,6 @@ package settingdust.kinecraft.serialization
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.PolymorphicSerializer
 import kotlinx.serialization.builtins.ByteArraySerializer
 import kotlinx.serialization.builtins.IntArraySerializer
 import kotlinx.serialization.builtins.ListSerializer
@@ -15,9 +14,13 @@ import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildSerialDescriptor
+import kotlinx.serialization.descriptors.listSerialDescriptor
+import kotlinx.serialization.descriptors.mapSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.polymorphic
+import kotlinx.serialization.serializer
 import net.minecraft.nbt.ByteArrayTag
 import net.minecraft.nbt.ByteTag
 import net.minecraft.nbt.CompoundTag
@@ -37,15 +40,71 @@ import settingdust.kinecraft.serialization.format.tag.MinecraftTagEncoder
 
 @ExperimentalSerializationApi
 val TagsModule = SerializersModule {
-    polymorphicDefaultDeserializer(Tag::class) { TagSerializer }
-    polymorphicDefaultSerializer(Tag::class) { TagSerializer }
+    polymorphic(Tag::class) {
+        subclass(CompoundTag::class, CompoundTagSerializer)
+        subclass(EndTag::class, EndTagSerializer)
+        subclass(StringTag::class, StringTagSerializer)
+        subclass(ByteTag::class, ByteTagSerializer)
+        subclass(DoubleTag::class, DoubleTagSerializer)
+        subclass(FloatTag::class, FloatTagSerializer)
+        subclass(IntTag::class, IntTagSerializer)
+        subclass(LongTag::class, LongTagSerializer)
+        subclass(ShortTag::class, ShortTagSerializer)
+        subclass(ListTag::class, ListTagSerializer)
+        subclass(ByteArrayTag::class, ByteArrayTagSerializer)
+        subclass(IntArrayTag::class, IntArrayTagSerializer)
+        subclass(LongArrayTag::class, LongArrayTagSerializer)
+
+        polymorphicDefaultSerializer(Tag::class) { TagPolymorphicSerializer }
+        defaultDeserializer { TagPolymorphicSerializer }
+    }
 }
+
+@OptIn(ExperimentalSerializationApi::class)
+object TagPolymorphicSerializer :
+    SealedClassSerializer<Tag>(
+        Tag::class.simpleName!!,
+        Tag::class,
+        arrayOf(
+            CompoundTag::class,
+            EndTag::class,
+            StringTag::class,
+            ByteTag::class,
+            DoubleTag::class,
+            FloatTag::class,
+            IntTag::class,
+            LongTag::class,
+            ShortTag::class,
+            ListTag::class,
+            ByteArrayTag::class,
+            IntArrayTag::class,
+            LongArrayTag::class,
+        ),
+        arrayOf(
+            CompoundTagSerializer,
+            EndTagSerializer,
+            StringTagSerializer,
+            ByteTagSerializer,
+            DoubleTagSerializer,
+            FloatTagSerializer,
+            IntTagSerializer,
+            LongTagSerializer,
+            ShortTagSerializer,
+            ListTagSerializer,
+            ByteArrayTagSerializer,
+            IntArrayTagSerializer,
+            LongArrayTagSerializer,
+        ),
+    ),
+    KSerializer<Tag> {
+
+    }
 
 @ExperimentalSerializationApi
 @OptIn(InternalSerializationApi::class)
 object TagSerializer : KSerializer<Tag> {
     // Will attach type info to result
-    private val polymorphicSerializer = PolymorphicSerializer(Tag::class)
+    private val polymorphicSerializer = TagPolymorphicSerializer
     override val descriptor: SerialDescriptor =
         buildSerialDescriptor(Tag::class.simpleName!!, PolymorphicKind.SEALED) {
             element(CompoundTag::class.simpleName!!, defer { CompoundTagSerializer.descriptor })
@@ -97,15 +156,22 @@ object TagSerializer : KSerializer<Tag> {
 
 @ExperimentalSerializationApi
 object CompoundTagSerializer : KSerializer<CompoundTag> {
-    private val serializer = MapSerializer(String.serializer(), TagSerializer)
     override val descriptor =
-        SerialDescriptor(CompoundTag::class.simpleName!!, serializer.descriptor)
+        SerialDescriptor(
+            CompoundTag::class.simpleName!!,
+            mapSerialDescriptor(String.serializer().descriptor, defer { TagSerializer.descriptor }),
+        )
 
     override fun deserialize(decoder: Decoder) =
-        CompoundTag().apply { serializer.deserialize(decoder).forEach { put(it.key, it.value) } }
+        CompoundTag().apply {
+            MapSerializer(String.serializer(), decoder.serializersModule.serializer<Tag>())
+                .deserialize(decoder)
+                .forEach { put(it.key, it.value) }
+        }
 
     override fun serialize(encoder: Encoder, value: CompoundTag) =
-        serializer.serialize(encoder, value.allKeys.associateWith { value[it]!! })
+        MapSerializer(String.serializer(), encoder.serializersModule.serializer<Tag>())
+            .serialize(encoder, value.allKeys.associateWith { value[it]!! })
 }
 
 @ExperimentalSerializationApi
@@ -197,13 +263,19 @@ object ShortTagSerializer : KSerializer<ShortTag> {
 
 @ExperimentalSerializationApi
 object ListTagSerializer : KSerializer<ListTag> {
-    private val serializer = ListSerializer(TagSerializer)
-    override val descriptor = SerialDescriptor(ListTag::class.simpleName!!, serializer.descriptor)
+    override val descriptor =
+        SerialDescriptor(
+            ListTag::class.simpleName!!,
+            listSerialDescriptor(defer { TagSerializer.descriptor }),
+        )
 
     override fun deserialize(decoder: Decoder) =
-        ListTag().apply { addAll(serializer.deserialize(decoder)) }
+        ListTag().apply {
+            addAll(ListSerializer(decoder.serializersModule.serializer<Tag>()).deserialize(decoder))
+        }
 
-    override fun serialize(encoder: Encoder, value: ListTag) = serializer.serialize(encoder, value)
+    override fun serialize(encoder: Encoder, value: ListTag) =
+        ListSerializer(encoder.serializersModule.serializer<Tag>()).serialize(encoder, value)
 }
 
 @ExperimentalSerializationApi

@@ -54,6 +54,7 @@ jobs:
 
           loaders: |
             fabric
+            forge
             neoforge
 
           dependencies: |

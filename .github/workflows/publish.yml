@@ -41,6 +41,11 @@ jobs:
           modrinth-id: epmEbmF0
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
 
+          # Only include this section if you wish to publish
+          # your assets on CurseForge.
+          curseforge-id: 1118733
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+
           files: |
             publish/**/!(*-@(dev|sources|javadoc|common|fabric|neoforge|lexforge)).jar
             publish/**/*-@(dev|sources|javadoc|common|fabric|neoforge|lexforge).jar
@@ -49,7 +54,6 @@ jobs:
 
           loaders: |
             fabric
-            forge
             neoforge
 
           dependencies: |
@@ -73,6 +77,11 @@ jobs:
           # your assets on Modrinth.1
           modrinth-id: epmEbmF0
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+
+          # Only include this section if you wish to publish
+          # your assets on CurseForge.
+          curseforge-id: 1118733
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
 
           files: |
             publish/**/*-lexforge.jar

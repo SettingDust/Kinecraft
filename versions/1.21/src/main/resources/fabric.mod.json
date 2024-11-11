@@ -10,7 +10,7 @@
   "icon": "assets/${id}/icon.png",
   "environment": "*",
   "depends": {
-    "minecraft": "[1.21,1.22)"
+    "minecraft": ">=1.21 <1.22"
   },
   "custom": {
     "modmenu": {

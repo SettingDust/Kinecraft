@@ -5,15 +5,11 @@
     "refmap": "${id}.refmap.json",
     "compatibilityLevel": "JAVA_17",
     "mixins": [
-        "AbstractJsonTreeEncoderMixin",
-        "DelegatingOpsAccessor",
-        "JsonImplMixin",
-        "PolymorphismValidatorMixin",
-        "StreamingJsonEncoderMixin"
+        "DelegatingOpsAccessor"
     ],
     "client": [
     ],
     "injectors": {
         "defaultRequire": 1
-  }
+    }
 }

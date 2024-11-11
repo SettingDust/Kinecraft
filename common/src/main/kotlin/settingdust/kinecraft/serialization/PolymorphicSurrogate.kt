@@ -11,13 +11,13 @@ import kotlinx.serialization.serializer
 
 @Serializable data class PolymorphicSurrogate<T>(val value: T)
 
-inline fun <reified T> PolymorphicPrimitiveSerializer() =
-    PolymorphicPrimitiveSerializer(serializer<T>())
+inline fun <reified T> PolymorphicSurrogateSerializer() =
+    PolymorphicSurrogateSerializer(serializer<T>())
 
-inline fun <reified T> SerializersModule.PolymorphicPrimitiveSerializer() =
-    PolymorphicPrimitiveSerializer(serializer<T>())
+inline fun <reified T> SerializersModule.PolymorphicSurrogateSerializer() =
+    PolymorphicSurrogateSerializer(serializer<T>())
 
-class PolymorphicPrimitiveSerializer<T>(private val serializer: KSerializer<T>) : KSerializer<T> {
+class PolymorphicSurrogateSerializer<T>(private val serializer: KSerializer<T>) : KSerializer<T> {
     @OptIn(ExperimentalSerializationApi::class)
     override val descriptor =
         SerialDescriptor(

@@ -14,7 +14,10 @@ apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/vanillagra
 
 apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/mixin.gradle.kts")
 
-rootProject.name = "kinecraft_serialization"
+
+val mod_name: String by settings
+
+rootProject.name = mod_name
 
 dependencyResolutionManagement.versionCatalogs.named("catalog") {
     version("minecraft-1.21", "1.21")

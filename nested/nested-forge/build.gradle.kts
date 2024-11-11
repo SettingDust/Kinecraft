@@ -45,14 +45,3 @@ tasks {
 
     sourcesJar { from(rootProject.sourceSets.main.get().allSource) }
 }
-
-publishing {
-    publications {
-        create<MavenPublication>(rootProject.name) {
-            groupId = "${rootProject.group}"
-            artifactId = base.archivesName.get()
-            version = "${rootProject.version}"
-            from(components.getByName("java"))
-        }
-    }
-}

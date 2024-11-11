@@ -1,10 +1,7 @@
 package settingdust.kinecraft.serialization
 
-import kotlin.test.assertEquals
-import kotlin.test.assertIs
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.encodeToJsonElement
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.plus
 import net.minecraft.nbt.ByteArrayTag
@@ -18,13 +15,15 @@ import org.junit.jupiter.api.Test
 import settingdust.kinecraft.serialization.format.tag.MinecraftTag
 import settingdust.kinecraft.serialization.format.tag.decodeFromTag
 import settingdust.kinecraft.serialization.format.tag.encodeToTag
+import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
 @OptIn(ExperimentalSerializationApi::class)
 class MinecraftTagTest {
     private val minecraftTag = MinecraftTag
     val json = Json {
         encodeDefaults = true
-        serializersModule = TagsModule + SerializersModule {}
+        serializersModule = PolymorphicTagsModule + SerializersModule {}
         prettyPrint = true
         useArrayPolymorphism = false
     }
@@ -159,7 +158,7 @@ class MinecraftTagTest {
 
 //    @Test
 //    fun encodeToJson() {
-//        val result = json.encodeToJsonElement(tag)
+//        val result = json.encodeToString(TagPolymorphicSerializer, tag)
 //        println(result)
 //    }
 }

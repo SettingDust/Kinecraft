@@ -1,3 +1,12 @@
+## [1.16.1] - 2024-11-11
+### :bug: Bug Fixes
+- [`adb8ca3`](https://github.com/SettingDust/kinecraft-serialization/commit/adb8ca3f687dac799a770347b0de2222a8279ab0) - removing hacking for kotlin *(commit by [@SettingDust](https://github.com/SettingDust))*
+- [`ce0fbce`](https://github.com/SettingDust/kinecraft-serialization/commit/ce0fbce50d176b7559a2aed27314c7e3f604ffd5) - remove unused mixins *(commit by [@SettingDust](https://github.com/SettingDust))*
+
+### :wrench: Chores
+- [`533eb7c`](https://github.com/SettingDust/kinecraft-serialization/commit/533eb7c276d22f15323ea2b3ab17d74314b2c8f5) - correct the version range *(commit by [@SettingDust](https://github.com/SettingDust))*
+
+
 ## [1.15.0] - 2024-10-04
 ### :bug: Bug Fixes
 - [`1a5c1d2`](https://github.com/SettingDust/kinecraft-serialization/commit/1a5c1d27c3db81a48f332ee3ef2a553027abded3) - make the lexforge 1.20.1 runnable *(commit by [@SettingDust](https://github.com/SettingDust))*
@@ -139,3 +148,4 @@
 [1.14.2]: https://github.com/SettingDust/kinecraft-serialization/compare/1.14.1...1.14.2
 [1.14.3]: https://github.com/SettingDust/kinecraft-serialization/compare/1.14.2...1.14.3
 [1.15.0]: https://github.com/SettingDust/kinecraft-serialization/compare/1.14.3...1.15.0
+[1.16.1]: https://github.com/SettingDust/kinecraft-serialization/compare/1.16.0...1.16.1

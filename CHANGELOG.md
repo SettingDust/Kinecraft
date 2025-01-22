@@ -1,3 +1,8 @@
+## [1.16.2] - 2025-01-22
+### :bug: Bug Fixes
+- [`2f11d0c`](https://github.com/SettingDust/kinecraft-serialization/commit/2f11d0c1abd15573a3502f875a2a627f64c04add) - use gson for component serialization on 1.21 *(commit by [@SettingDust](https://github.com/SettingDust))*
+
+
 ## [1.16.1] - 2024-11-11
 ### :bug: Bug Fixes
 - [`adb8ca3`](https://github.com/SettingDust/kinecraft-serialization/commit/adb8ca3f687dac799a770347b0de2222a8279ab0) - removing hacking for kotlin *(commit by [@SettingDust](https://github.com/SettingDust))*
@@ -149,3 +154,4 @@
 [1.14.3]: https://github.com/SettingDust/kinecraft-serialization/compare/1.14.2...1.14.3
 [1.15.0]: https://github.com/SettingDust/kinecraft-serialization/compare/1.14.3...1.15.0
 [1.16.1]: https://github.com/SettingDust/kinecraft-serialization/compare/1.16.0...1.16.1
+[1.16.2]: https://github.com/SettingDust/kinecraft-serialization/compare/1.16.1...1.16.2

@@ -1,6 +1,3 @@
-import net.minecraftforge.gradle.userdev.tasks.RenameJarInPlace
-import org.apache.commons.io.FileUtils
-
 plugins {
     `maven-publish`
 
@@ -20,10 +17,16 @@ mixin {
     add(project(":versions:1.20").sourceSets.main.get(), "$mod_id.refmap.json")
 }
 
-dependencies { minecraft(catalog.minecraft.forge) }
-
-tasks {
-    jar {
-        from(project(":versions:1.20").tasks.jar.flatMap { it.archiveFile }.map { zipTree(it) })
+sourceSets {
+    main {
+        java.srcDir(project(":versions:1.20").sourceSets.main.get().java)
+        kotlin.srcDir(project(":versions:1.20").sourceSets.main.get().kotlin)
+        resources.srcDir(project(":versions:1.20").sourceSets.main.get().resources)
     }
+}
+
+dependencies {
+    minecraft(catalog.minecraft.forge)
+
+    implementation(project(":versions:1.20"))
 }

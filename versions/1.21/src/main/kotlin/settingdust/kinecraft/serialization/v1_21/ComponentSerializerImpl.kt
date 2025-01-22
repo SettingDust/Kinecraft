@@ -1,30 +1,28 @@
 package settingdust.kinecraft.serialization.v1_21
 
+import com.google.gson.JsonElement
 import com.mojang.serialization.JsonOps
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.serializer
-import net.minecraft.nbt.NbtOps
-import net.minecraft.nbt.Tag
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.ComponentSerialization
 
 object ComponentSerializerImpl {
     init {
-        ComponentSerialization.CODEC.encodeStart(JsonOps.INSTANCE, Component.empty())
+        requireNotNull(ComponentSerialization.CODEC)
     }
 
     fun serialize(encoder: Encoder, value: Component) {
         encoder.encodeSerializableValue(
-            encoder.serializersModule.serializer<Tag>(),
-            ComponentSerialization.CODEC.encodeStart(NbtOps.INSTANCE, value).orThrow,
+            encoder.serializersModule.serializer<JsonElement>(),
+            ComponentSerialization.CODEC.encodeStart(JsonOps.INSTANCE, value).orThrow,
         )
     }
 
     fun deserialize(decoder: Decoder) =
         ComponentSerialization.CODEC.parse(
-                NbtOps.INSTANCE,
-                decoder.decodeSerializableValue(decoder.serializersModule.serializer<Tag>()),
-            )
-            .orThrow
+            JsonOps.INSTANCE,
+            decoder.decodeSerializableValue(decoder.serializersModule.serializer<JsonElement>()),
+        ).orThrow
 }

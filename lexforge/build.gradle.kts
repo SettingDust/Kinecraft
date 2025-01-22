@@ -64,6 +64,10 @@ tasks {
             attributes("FMLModType" to "GAMELIBRARY", "MixinConfigs" to "$mod_id.mixins.json")
         }
     }
+
+    this.jarJar {
+        dependsOn(":versions:1.20:lexforge-1.20:reobfJar")
+    }
 }
 
 rootProject.publishing {

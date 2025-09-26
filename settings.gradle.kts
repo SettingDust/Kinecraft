@@ -1,51 +1,163 @@
-extra["minecraft"] = "1.20.1"
-
-apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/common.gradle.kts")
-
-apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/kotlin.gradle.kts")
-
-apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/fabric.gradle.kts")
-
-apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/forge.gradle.kts")
-
-apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/modmenu.gradle.kts")
-
-apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/vanillagradle.gradle.kts")
-
-apply("https://github.com/SettingDust/MinecraftGradleScripts/raw/main/mixin.gradle.kts")
-
-
-val mod_name: String by settings
-
-rootProject.name = mod_name
-
-dependencyResolutionManagement.versionCatalogs.named("catalog") {
-    version("minecraft-1.21", "1.21")
-    library("minecraft-fabric-1.21", "com.mojang", "minecraft").versionRef("minecraft-1.21")
-    plugin("neoforge-moddev", "net.neoforged.moddev").version("1.+")
-
-    // https://linkie.shedaniel.dev/dependencies?loader=neoforge
-    library("neoforge", "net.neoforged", "neoforge").version("21.1.54")
+dependencyResolutionManagement {
+    pluginManagement {
+        repositories {
+            mavenCentral()
+            gradlePluginPortal()
+            maven("https://maven.msrandom.net/repository/cloche")
+            maven("https://raw.githubusercontent.com/SettingDust/cloche/refs/heads/maven-repo/")
+            maven("https://raw.githubusercontent.com/SettingDust/minecraft-codev/refs/heads/maven-repo/")
+            mavenLocal()
+        }
+    }
 }
 
-plugins { id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0" }
+object VersionFormats {
+    val versionPlusMc = { mcVer: String, ver: String -> "$ver+$mcVer" }
+    val mcDashVersion = { mcVer: String, ver: String -> "$mcVer-$ver" }
+}
 
-include("nested")
+object VersionTransformers {
+    val versionDashLoader = { ver: String, variant: String -> "$ver-$variant" }
+    val loaderUnderlineVersion = { ver: String, variant: String -> "${variant}_$ver" }
+}
 
-include("nested:nested-fabric")
+object ArtifactTransformers {
+    val artifactDashLoaderDashMcVersion =
+        { artifact: String, variant: String, mcVersion: String -> "$artifact-$variant-$mcVersion" }
+    val artifactDashLoader = { artifact: String, variant: String, _: String -> "$artifact-$variant" }
+}
 
-include("nested:nested-forge")
+open class VariantConfig(
+    val artifactTransformer: (artifact: String, variant: String, mcVersion: String) -> String = { artifact, _, _ -> artifact },
+    val versionTransformer: (version: String, variant: String) -> String = { ver, _ -> ver }
+) {
+    companion object : VariantConfig()
+}
 
-include("common")
+data class VariantMapping(
+    val mcVersion: String,
+    val loaders: Map<String, VariantConfig>
+)
 
-include("fabric")
+fun VersionCatalogBuilder.modrinth(
+    id: String,
+    artifact: String = id,
+    mcVersionToVersion: Map<String, String>,
+    versionFormat: (String, String) -> String = { _, v -> v },
+    mapping: List<VariantMapping> = emptyList()
+) {
+    val allLoaders = mapping.flatMap { it.loaders.keys }.toSet()
+    val isSingleLoader = allLoaders.size == 1
+    val isSingleMcVersion = mcVersionToVersion.size == 1
 
-include("lexforge")
+    if (isSingleMcVersion) {
+        val (mcVersion, modVersion) = mcVersionToVersion.entries.single()
+        val config = mapping.find { it.mcVersion == mcVersion }
+            ?: error("No loader config found for MC $mcVersion")
 
-include("neoforge")
+        val version = versionFormat(mcVersion, modVersion)
 
-include("versions:1.21")
-include("versions:1.21:fabric-1.21")
-include("versions:1.20")
-include("versions:1.20:fabric-1.20")
-include("versions:1.20:lexforge-1.20")
+        config.loaders.forEach { (loaderName, loader) ->
+            library(
+                if (isSingleLoader) "$id"
+                else "${id}_$loaderName",
+                "maven.modrinth",
+                loader.artifactTransformer(artifact, loaderName, mcVersion)
+            ).version(loader.versionTransformer(version, loaderName))
+        }
+        return
+    }
+
+    mcVersionToVersion.forEach { (mcVersion, modVersion) ->
+        val config = mapping.find { it.mcVersion == mcVersion }
+            ?: error("No loader config found for MC $mcVersion")
+
+        val version = versionFormat(mcVersion, modVersion)
+
+        config.loaders.forEach { (loaderName, loader) ->
+            library(
+                if (isSingleLoader) "${id}_${mcVersion}"
+                else "${id}_${mcVersion}_$loaderName",
+                "maven.modrinth",
+                loader.artifactTransformer(artifact, loaderName, mcVersion)
+            ).version(loader.versionTransformer(version, loaderName))
+        }
+    }
+}
+
+fun VersionCatalogBuilder.maven(
+    id: String,
+    group: String,
+    artifact: String = id,
+    mcVersionToVersion: Map<String, String>,
+    versionFormat: (String, String) -> String = { _, v -> v },
+    mapping: List<VariantMapping> = emptyList()
+) {
+    val allLoaders = mapping.flatMap { it.loaders.keys }.toSet()
+    val isSingleLoader = allLoaders.size == 1
+    val isSingleMcVersion = mcVersionToVersion.size == 1
+
+    if (isSingleMcVersion) {
+        val (mcVersion, modVersion) = mcVersionToVersion.entries.single()
+        val config = mapping.find { it.mcVersion == mcVersion }
+            ?: error("No loader config found for MC $mcVersion")
+
+        val version = versionFormat(mcVersion, modVersion)
+
+        config.loaders.forEach { (loaderName, loader) ->
+            library(
+                if (isSingleLoader) id
+                else "${id}_$loaderName",
+                group,
+                loader.artifactTransformer(artifact, loaderName, mcVersion)
+            ).version(loader.versionTransformer(version, loaderName))
+        }
+        return
+    }
+
+    mcVersionToVersion.forEach { (mcVersion, baseVersion) ->
+        val config = mapping.find { it.mcVersion == mcVersion }
+            ?: error("No loader config found for MC $mcVersion")
+
+        val version = versionFormat(mcVersion, baseVersion)
+
+        config.loaders.forEach { (loaderName, loader) ->
+            library(
+                if (mcVersion == "*") {
+                    if (isSingleLoader) id
+                    else "${id}_$loaderName"
+                } else {
+                    if (isSingleLoader) "${id}_${mcVersion}"
+                    else "${id}_${mcVersion}_$loaderName"
+                },
+                group,
+                loader.artifactTransformer(artifact, loaderName, mcVersion)
+            ).version(loader.versionTransformer(version, loaderName))
+        }
+    }
+}
+
+dependencyResolutionManagement.versionCatalogs.create("catalog") {
+    maven(
+        id = "mixinextras",
+        group = "io.github.llamalad7",
+        artifact = "mixinextras",
+        mcVersionToVersion = mapOf("*" to "0.5.0"),
+        versionFormat = { _, v -> v },
+        mapping = listOf(
+            VariantMapping(
+                "*", mapOf(
+                    "forge" to VariantConfig(ArtifactTransformers.artifactDashLoader),
+                    "fabric" to VariantConfig(ArtifactTransformers.artifactDashLoader),
+                    "common" to VariantConfig(ArtifactTransformers.artifactDashLoader)
+                )
+            )
+        )
+    )
+}
+
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+}
+
+rootProject.name = "Kinecraft"

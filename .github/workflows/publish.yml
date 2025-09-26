@@ -32,9 +32,6 @@ jobs:
         uses: Kir-Antipov/mc-publish@v3.3
         with:
           changelog: ${{ steps.changelog.outputs.changes }}
-          game-versions: |
-            [1.19.4, 1.21]
-          game-version-filter: releases
 
           # Only include this section if you wish to publish
           # your assets on Modrinth.1
@@ -47,19 +44,23 @@ jobs:
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
 
           files: |
-            publish/**/!(*-@(dev|sources|javadoc|common|fabric|neoforge|lexforge)).jar
-            publish/**/*-@(dev|sources|javadoc|common|fabric|neoforge|lexforge).jar
+            build/libs/!(*-@(fabric*|neoforge*|forge*|sources)).jar
+            build/libs/*-@(fabric-*|neoforge-*|sources).jar
 
           version: ${{ github.ref_name }}
 
           loaders: |
-            fabric
-            forge
             neoforge
+            fabric
+
+          game-versions: |
+            1.20.1
+            1.21
+            1.21.1
+          game-version-filter: releases
 
           dependencies: |
             fabric-language-kotlin
-            modmenu(recommended)
             kotlin-for-forge
 
           java: |
@@ -70,9 +71,6 @@ jobs:
         uses: Kir-Antipov/mc-publish@v3.3
         with:
           changelog: ${{ steps.changelog.outputs.changes }}
-          game-versions: |
-            [1.19.4, 1.20.1]
-          game-version-filter: releases
 
           # Only include this section if you wish to publish
           # your assets on Modrinth.1
@@ -85,13 +83,16 @@ jobs:
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
 
           files: |
-            publish/**/*-lexforge.jar
-            publish/**/*-@(dev|sources).jar
+            build/libs/*-forge-*.jar
 
-          version: ${{ github.ref_name }}-lexforge
+          version: ${{ github.ref_name }}
 
           loaders: |
             forge
+
+          game-versions: |
+            1.20.1
+          game-version-filter: releases
 
           dependencies: |
             kotlin-for-forge

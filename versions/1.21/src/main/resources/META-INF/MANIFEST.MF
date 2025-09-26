@@ -1,2 +1,0 @@
-MixinConfigs: kinecraft_serialization.mixins.1.21.json
-FMLModType: GAMELIBRARY

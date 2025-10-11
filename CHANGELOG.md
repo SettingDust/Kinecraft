@@ -1,3 +1,8 @@
+## [2.1.0] - 2025-10-11
+### :sparkles: New Features
+- [`71494c4`](https://github.com/SettingDust/Kinecraft/commit/71494c4a7a19b2332cf109ce082552ab8d9c828b) - **serialization**: add JSON SNBT serializers *(commit by [@SettingDust](https://github.com/SettingDust))*
+
+
 ## [2.0.0] - 2025-09-26
 ### :recycle: Refactors
 - [`7584cbd`](https://github.com/SettingDust/Kinecraft/commit/7584cbd2c97774417c371692a421266d67f4c860) - use cloche *(commit by [@SettingDust](https://github.com/SettingDust))*
@@ -161,3 +166,4 @@
 [1.16.1]: https://github.com/SettingDust/kinecraft-serialization/compare/1.16.0...1.16.1
 [1.16.2]: https://github.com/SettingDust/kinecraft-serialization/compare/1.16.1...1.16.2
 [2.0.0]: https://github.com/SettingDust/Kinecraft/compare/1.16.2...2.0.0
+[2.1.0]: https://github.com/SettingDust/Kinecraft/compare/2.0.0...2.1.0

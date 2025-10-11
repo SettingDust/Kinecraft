@@ -152,7 +152,7 @@ cloche {
 
     common {
         mixins.from(file("src/common/main/resources/$id.mixins.json"))
-//        accessWideners.from(file("src/common/main/resources/$id.accessWidener"))
+        accessWideners.from(file("src/common/main/resources/$id.accessWidener"))
 
         dependencies {
             compileOnly("org.spongepowered:mixin:0.8.7")

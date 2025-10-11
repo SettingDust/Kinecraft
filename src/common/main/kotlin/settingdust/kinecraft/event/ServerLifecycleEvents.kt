@@ -1,7 +1,6 @@
 package settingdust.kinecraft.event
 
 import net.minecraft.server.MinecraftServer
-import settingdust.kinecraft.event.ServerLifecycleEvents.ServerStopped
 
 object ServerLifecycleEvents {
     val SERVER_STOPPED =

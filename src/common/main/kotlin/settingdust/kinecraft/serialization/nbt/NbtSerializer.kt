@@ -44,10 +44,13 @@ fun NbtsModule(needClassDiscriminator: Boolean = true) = SerializersModule {
 
 @ExperimentalSerializationApi
 @OptIn(InternalSerializationApi::class)
-class NbtSerializer(private val needClassDiscriminator: Boolean = true) : KSerializer<Tag> {
+class NbtSerializer internal constructor(private val needClassDiscriminator: Boolean = true) : KSerializer<Tag> {
     companion object {
         val Default = NbtSerializer()
         val NoClassDiscriminator = NbtSerializer(false)
+
+        fun create(needClassDiscriminator: Boolean = true) =
+            if (needClassDiscriminator) Default else NoClassDiscriminator
     }
 
     override val descriptor: SerialDescriptor =
@@ -67,7 +70,7 @@ class NbtSerializer(private val needClassDiscriminator: Boolean = true) : KSeria
             element(LongArrayTag::class.simpleName!!, defer { LongArrayTagSerializer.descriptor })
         }
 
-    private val polymorphicNbtSerializer by lazy { PolymorphicNbtSerializer(needClassDiscriminator) }
+    private val polymorphicNbtSerializer by lazy { PolymorphicNbtSerializer.create(needClassDiscriminator) }
 
     override fun deserialize(decoder: Decoder): Tag =
         if (decoder is MinecraftNBTDecoder) {
@@ -138,11 +141,15 @@ class PolymorphicNbtSerializer(private val needClassDiscriminator: Boolean = tru
             LongArrayTagSerializer
         )
             .map { if (needClassDiscriminator) PolymorphicSurrogateSerializer(it) else it }
-            .toList().toTypedArray(),
+            .toList().toTypedArray()
     ),
     KSerializer<Tag> {
     companion object {
+        val Default = PolymorphicNbtSerializer()
         val NoClassDiscriminator = PolymorphicNbtSerializer(false)
+
+        fun create(needClassDiscriminator: Boolean = true) =
+            if (needClassDiscriminator) Default else NoClassDiscriminator
     }
 }
 

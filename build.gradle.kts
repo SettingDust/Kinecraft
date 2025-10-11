@@ -409,8 +409,6 @@ cloche {
 
         run container@{
             val featureName = "containerNeoforge"
-            val metadataDirectory = project.layout.buildDirectory.dir("generated")
-                .map { it.dir("metadata").dir(featureName) }
             val include = configurations.register(lowerCamelCaseGradleName(featureName, "include")) {
                 isCanBeResolved = true
                 isTransitive = false
@@ -435,7 +433,6 @@ cloche {
             tasks {
                 val jar = register<Jar>(lowerCamelCaseGradleName(featureName, "jar")) {
                     group = "build"
-                    archiveBaseName = "$id-${featureName.camelToKebabCase()}"
                     archiveClassifier = "neoforge"
                     destinationDirectory = intermediateOutputsDirectory
                 }
@@ -443,7 +440,6 @@ cloche {
                 val includesJar = register<JarJar>(lowerCamelCaseGradleName(featureName, "includeJar")) {
                     dependsOn(targets.map { it.includeJarTaskName })
 
-                    archiveBaseName = "$id-${featureName.camelToKebabCase()}"
                     archiveClassifier = "neoforge"
                     input = jar.flatMap { it.archiveFile }
                     fromResolutionResults(include)

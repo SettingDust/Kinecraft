@@ -313,15 +313,15 @@ cloche {
             dependsOn(fabricCommon)
 
             metadata {
-                entrypoint("main") {
-                    adapter = "kotlin"
-                    value = "$group.fabric.Entrypoint::init"
-                }
-
-                entrypoint("client") {
-                    adapter = "kotlin"
-                    value = "$group.fabric.Entrypoint::clientInit"
-                }
+//                entrypoint("main") {
+//                    adapter = "kotlin"
+//                    value = "$group.fabric.Entrypoint::init"
+//                }
+//
+//                entrypoint("client") {
+//                    adapter = "kotlin"
+//                    value = "$group.fabric.Entrypoint::clientInit"
+//                }
 
                 dependency {
                     modId = "fabric-api"

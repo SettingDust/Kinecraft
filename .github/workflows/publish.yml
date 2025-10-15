@@ -17,8 +17,10 @@ jobs:
         with:
           cache-read-only: false
 
-      - name: Execute Gradle build
-        run: ./gradlew remapFabricMinecraftIntermediary build
+      - uses: burrunan/gradle-cache-action@v3
+        name: Execute Gradle build
+        with:
+          arguments: remapFabricMinecraftIntermediary build
 
       - name: Update CHANGELOG
         id: changelog

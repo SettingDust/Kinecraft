@@ -1,3 +1,8 @@
+## [2.1.1] - 2025-10-15
+### :bug: Bug Fixes
+- [`4450c53`](https://github.com/SettingDust/Kinecraft/commit/4450c53b07099adb831f9175f0c2f6d19042df8e) - don't reference mixins non-exist *(commit by [@SettingDust](https://github.com/SettingDust))*
+
+
 ## [2.1.0] - 2025-10-11
 ### :sparkles: New Features
 - [`71494c4`](https://github.com/SettingDust/Kinecraft/commit/71494c4a7a19b2332cf109ce082552ab8d9c828b) - **serialization**: add JSON SNBT serializers *(commit by [@SettingDust](https://github.com/SettingDust))*
@@ -167,3 +172,4 @@
 [1.16.2]: https://github.com/SettingDust/kinecraft-serialization/compare/1.16.1...1.16.2
 [2.0.0]: https://github.com/SettingDust/Kinecraft/compare/1.16.2...2.0.0
 [2.1.0]: https://github.com/SettingDust/Kinecraft/compare/2.0.0...2.1.0
+[2.1.1]: https://github.com/SettingDust/Kinecraft/compare/2.1.0...2.1.1

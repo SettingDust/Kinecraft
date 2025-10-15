@@ -1,3 +1,8 @@
+## [2.1.2] - 2025-10-15
+### :bug: Bug Fixes
+- [`3193f01`](https://github.com/SettingDust/Kinecraft/commit/3193f016c50393bbdb6dfdc7f2da672a457cf24e) - wrong group *(commit by [@SettingDust](https://github.com/SettingDust))*
+
+
 ## [2.1.1] - 2025-10-15
 ### :bug: Bug Fixes
 - [`4450c53`](https://github.com/SettingDust/Kinecraft/commit/4450c53b07099adb831f9175f0c2f6d19042df8e) - don't reference mixins non-exist *(commit by [@SettingDust](https://github.com/SettingDust))*
@@ -173,3 +178,4 @@
 [2.0.0]: https://github.com/SettingDust/Kinecraft/compare/1.16.2...2.0.0
 [2.1.0]: https://github.com/SettingDust/Kinecraft/compare/2.0.0...2.1.0
 [2.1.1]: https://github.com/SettingDust/Kinecraft/compare/2.1.0...2.1.1
+[2.1.2]: https://github.com/SettingDust/Kinecraft/compare/2.1.1...2.1.2

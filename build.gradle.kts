@@ -162,16 +162,16 @@ cloche {
 
     val commons = mapOf(
         "1.20.1" to common("common:1.20.1") {
-            mixins.from("src/common/1.20.1/main/resources/$id.1_20.mixins.json")
+//            mixins.from("src/common/1.20.1/main/resources/$id.1_20.mixins.json")
         },
         "1.21.1" to common("common:1.21.1") {
-            mixins.from("src/common/1.21.1/main/resources/$id.1_21.mixins.json")
+//            mixins.from("src/common/1.21.1/main/resources/$id.1_21.mixins.json")
         },
     )
 
     run fabric@{
         val fabricCommon = common("fabric:common") {
-            mixins.from(file("src/fabric/common/main/resources/$id.fabric.mixins.json"))
+//            mixins.from(file("src/fabric/common/main/resources/$id.fabric.mixins.json"))
         }
 
         val fabric1201 = fabric("fabric:1.20.1") {

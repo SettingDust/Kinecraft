@@ -1,3 +1,8 @@
+## [2.1.4] - 2025-10-15
+### :bug: Bug Fixes
+- [`2d1c0a8`](https://github.com/SettingDust/Kinecraft/commit/2d1c0a87346eae9b8db614ac94e74851f9e1d06e) - add default logger *(commit by [@SettingDust](https://github.com/SettingDust))*
+
+
 ## [2.1.3] - 2025-10-15
 ### :bug: Bug Fixes
 - [`e1b7aea`](https://github.com/SettingDust/Kinecraft/commit/e1b7aead8ebfa55468714fed479ee899ab5ddb42) - remove entrypoints *(commit by [@SettingDust](https://github.com/SettingDust))*
@@ -185,3 +190,4 @@
 [2.1.1]: https://github.com/SettingDust/Kinecraft/compare/2.1.0...2.1.1
 [2.1.2]: https://github.com/SettingDust/Kinecraft/compare/2.1.1...2.1.2
 [2.1.3]: https://github.com/SettingDust/Kinecraft/compare/2.1.2...2.1.3
+[2.1.4]: https://github.com/SettingDust/Kinecraft/compare/2.1.3...2.1.4

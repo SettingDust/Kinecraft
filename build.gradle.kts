@@ -315,12 +315,7 @@ cloche {
             metadata {
 //                entrypoint("main") {
 //                    adapter = "kotlin"
-//                    value = "$group.fabric.Entrypoint::init"
-//                }
-//
-//                entrypoint("client") {
-//                    adapter = "kotlin"
-//                    value = "$group.fabric.Entrypoint::clientInit"
+//                    value = "$group.fabric.KinecraftFabric::init"
 //                }
 
                 dependency {

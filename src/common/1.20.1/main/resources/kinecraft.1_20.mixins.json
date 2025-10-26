@@ -1,9 +1,9 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "settingdust.kinecraft.mixin",
+  "package": "settingdust.kinecraft.v1_20.mixin",
   "compatibilityLevel": "JAVA_17",
-  "refmap": "kinecraft.refmap.json",
+  "refmap": "kinecraft.1_20.refmap.json",
   "mixins": [
   ],
   "client": [

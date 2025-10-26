@@ -1,0 +1,10 @@
+# Changes here will be overwritten by Copier
+_commit: 0.1.8-13-ge1baf71
+_src_path: https://github.com/SettingDust/cloche-template
+author: SettingDust
+description: Kinecraft
+group: settingdust.kinecraft
+id: kinecraft
+license: Apache License 2.0
+name: Kinecraft
+slug: kinecraft

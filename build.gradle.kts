@@ -9,7 +9,6 @@ import earth.terrarium.cloche.api.metadata.FabricMetadata
 import earth.terrarium.cloche.api.target.FabricTarget
 import earth.terrarium.cloche.api.target.ForgeLikeTarget
 import earth.terrarium.cloche.api.target.MinecraftTarget
-import earth.terrarium.cloche.api.target.NeoforgeTarget
 import earth.terrarium.cloche.tasks.GenerateFabricModJson
 import groovy.lang.Closure
 import net.msrandom.minecraftcodev.core.utils.lowerCamelCaseGradleName
@@ -17,11 +16,6 @@ import net.msrandom.minecraftcodev.fabric.MinecraftCodevFabricPlugin
 import net.msrandom.minecraftcodev.fabric.task.JarInJar
 import net.msrandom.minecraftcodev.forge.task.JarJar
 import org.gradle.jvm.tasks.Jar
-import org.gradle.kotlin.dsl.assign
-import org.gradle.kotlin.dsl.register
-import kotlin.apply
-import kotlin.collections.plusAssign
-import kotlin.jvm.java
 
 
 plugins {
@@ -101,7 +95,7 @@ cloche {
         modId = id
         name = rootProject.property("name").toString()
         description = rootProject.property("description").toString()
-        license = "ARR"
+        license = "Apache License 2.0"
         icon = "assets/$id/icon.png"
         sources = source
         issues = "$source/issues"
@@ -121,8 +115,8 @@ cloche {
     }
 
     common {
-        mixins.from(file("src/common/main/resources/$id.mixins.json"))
-        accessWideners.from(file("src/common/main/resources/$id.accessWidener"))
+        // mixins.from(file("src/common/main/resources/$id.mixins.json"))
+        // accessWideners.from(file("src/common/main/resources/$id.accessWidener"))
 
         dependencies {
             compileOnly("org.spongepowered:mixin:0.8.7")
@@ -132,16 +126,16 @@ cloche {
 
     val commons = mapOf(
         "1.20.1" to common("common:1.20.1") {
-//            mixins.from("src/common/1.20.1/main/resources/$id.1_20.mixins.json")
+            // mixins.from("src/common/1.20.1/main/resources/$id.1_20.mixins.json")
         },
         "1.21.1" to common("common:1.21.1") {
-//            mixins.from("src/common/1.21.1/main/resources/$id.1_21.mixins.json")
+            // mixins.from("src/common/1.21.1/main/resources/$id.1_21.mixins.json")
         },
     )
 
     run fabric@{
         val fabricCommon = common("fabric:common") {
-//            mixins.from(file("src/fabric/common/main/resources/$id.fabric.mixins.json"))
+            // mixins.from(file("src/fabric/common/main/resources/$id.fabric.mixins.json"))
         }
 
         val fabric1201 = fabric("fabric:1.20.1") {
@@ -251,17 +245,22 @@ cloche {
         }
 
         targets.withType<FabricTarget> {
-            loaderVersion = "0.16.14"
+            loaderVersion = "0.17.3"
 
             includedClient()
 
             dependsOn(fabricCommon)
 
             metadata {
-//                entrypoint("main") {
-//                    adapter = "kotlin"
-//                    value = "$group.fabric.KinecraftFabric::init"
-//                }
+                // entrypoint("main") {
+                //     adapter = "kotlin"
+                //     value = "$group.fabric.KinecraftFabric::init"
+                // }
+//
+                // entrypoint("client") {
+                //     adapter = "kotlin"
+                //     value = "$group.fabric.KinecraftFabric::clientInit"
+                // }
 
                 dependency {
                     modId = "fabric-api"
@@ -272,14 +271,10 @@ cloche {
                     modId = "fabric-language-kotlin"
                     type = CommonMetadata.Dependency.Type.Required
                 }
-
-                dependency {
-                    modId = "trinkets"
-                }
             }
 
             dependencies {
-                modImplementation("net.fabricmc:fabric-language-kotlin:1.13.1+kotlin.2.1.10")
+                modImplementation("net.fabricmc:fabric-language-kotlin:1.13.7+kotlin.2.2.21")
             }
         }
     }
@@ -330,6 +325,7 @@ cloche {
     run neoforge@{
         val neoforge121 = neoforge("neoforge:1.21") {
             minecraftVersion = "1.21.1"
+            loaderVersion = "21.1.192"
 
             metadata {
                 modLoader = "kotlinforforge"
@@ -377,14 +373,15 @@ cloche {
             tasks {
                 val jar = register<Jar>(lowerCamelCaseGradleName(featureName, "jar")) {
                     group = "build"
+
                     archiveClassifier = "neoforge"
                     destinationDirectory = intermediateOutputsDirectory
                 }
 
                 val includesJar = register<JarJar>(lowerCamelCaseGradleName(featureName, "includeJar")) {
+                    group = "build"
                     dependsOn(targets.map { it.includeJarTaskName })
 
-                    archiveClassifier = "neoforge"
                     input = jar.flatMap { it.archiveFile }
                     fromResolutionResults(include)
                 }
@@ -393,17 +390,6 @@ cloche {
 
                 build {
                     dependsOn(includesJar)
-                }
-            }
-        }
-
-        targets.withType<NeoforgeTarget> {
-            loaderVersion = "21.1.192"
-
-            metadata {
-                modLoader = "kotlinforforge"
-                loaderVersion {
-                    start = "5"
                 }
             }
         }
@@ -423,6 +409,7 @@ cloche {
                 when (it) {
                     "1.20.1" -> "2023.09.03"
                     "1.21.1" -> "2024.11.17"
+                    "1.21.10" -> "2025.10.12"
                     else -> throw IllegalArgumentException("Unsupported minecraft version $it")
                 }
             })
@@ -452,6 +439,11 @@ val MinecraftTarget.generateModsManifestTaskName: String
         is ForgeLikeTarget -> generateModsTomlTaskName
         else -> throw IllegalArgumentException("Unsupported target $this")
     }
+
+fun String.camelToKebabCase(): String {
+    val pattern = "(?<=.)[A-Z]".toRegex()
+    return this.replace(pattern, "-$0").lowercase()
+}
 
 tasks {
     withType<ProcessResources> {
@@ -505,6 +497,7 @@ tasks {
         dependsOn(shadowContainersJar, shadowSourcesJar)
     }
 
+    // https://github.com/terrarium-earth/cloche/issues/115
     val remapFabricMinecraftIntermediary by registering {
         dependsOn(cloche.targets.filterIsInstance<FabricTarget>().flatMap {
             listOf(

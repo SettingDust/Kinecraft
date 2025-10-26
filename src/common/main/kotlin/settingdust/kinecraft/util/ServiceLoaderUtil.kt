@@ -1,11 +1,11 @@
 package settingdust.kinecraft.util
 
-import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
+import settingdust.kinecraft.Kinecraft
 import java.util.*
 
 object ServiceLoaderUtil {
-    var defaultLogger: Logger = LogManager.getLogger()
+    val defaultLogger: Logger = Kinecraft.LOGGER
 
     inline fun <reified T> load() = ServiceLoader.load(T::class.java)!!
 

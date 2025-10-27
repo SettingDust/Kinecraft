@@ -354,7 +354,7 @@ cloche {
                 val jar = register<Jar>(lowerCamelCaseGradleName(featureName, "jar")) {
                     group = "build"
 
-                    archiveClassifier = "neoforge"
+                    archiveClassifier = "forge"
                     destinationDirectory = intermediateOutputsDirectory
                 }
 

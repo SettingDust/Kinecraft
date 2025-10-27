@@ -29,7 +29,7 @@ plugins {
 
     id("com.gradleup.shadow") version "9.2.2"
 
-    id("earth.terrarium.cloche") version "0.16.1"
+    id("earth.terrarium.cloche") version "0.16.6"
 }
 
 val archive_name: String by rootProject.properties
@@ -116,7 +116,7 @@ cloche {
 
     common {
         // mixins.from(file("src/common/main/resources/$id.mixins.json"))
-        // accessWideners.from(file("src/common/main/resources/$id.accessWidener"))
+         accessWideners.from(file("src/common/main/resources/$id.accessWidener"))
 
         dependencies {
             compileOnly("org.spongepowered:mixin:0.8.7")
@@ -212,7 +212,7 @@ cloche {
                 val generateModJson =
                     register<GenerateFabricModJson>(lowerCamelCaseGradleName(featureName, "generateModJson")) {
                         modId = id
-                        targetMetadata = objects.newInstance(FabricMetadata::class.java, fabric1201).apply {
+                        metadata = objects.newInstance(FabricMetadata::class.java, fabric1201).apply {
                             license.value(cloche.metadata.license)
                             dependencies.value(cloche.metadata.dependencies)
                         }
@@ -317,7 +317,60 @@ cloche {
             }
 
             tasks {
+                named<Jar>(lowerCamelCaseGradleName(featureName, "jar")) {
+                    manifest {
+                        attributes(
+                            "ForgeVariant" to "LexForge"
+                        )
+                    }
+                }
+            }
+        }
 
+        run container@{
+            val featureName = "containerForge"
+            val include = configurations.register(lowerCamelCaseGradleName(featureName, "include")) {
+                isCanBeResolved = true
+                isTransitive = false
+
+                attributes {
+                    attribute(INCLUDE_TRANSFORMED_OUTPUT_ATTRIBUTE, true)
+                    attribute(CompilationAttributes.DATA, false)
+                }
+            }
+            val targets = setOf(forge1201)
+
+            dependencies {
+                for (target in targets) {
+                    include(project(":")) {
+                        capabilities {
+                            requireFeature(target.capabilitySuffix!!)
+                        }
+                    }
+                }
+            }
+
+            tasks {
+                val jar = register<Jar>(lowerCamelCaseGradleName(featureName, "jar")) {
+                    group = "build"
+
+                    archiveClassifier = "neoforge"
+                    destinationDirectory = intermediateOutputsDirectory
+                }
+
+                val includesJar = register<JarJar>(lowerCamelCaseGradleName(featureName, "includeJar")) {
+                    group = "build"
+                    dependsOn(targets.map { it.includeJarTaskName })
+
+                    input = jar.flatMap { it.archiveFile }
+                    fromResolutionResults(include)
+                }
+
+                containerTasks += includesJar
+
+                build {
+                    dependsOn(includesJar)
+                }
             }
         }
     }
@@ -344,6 +397,16 @@ cloche {
 
             dependencies {
                 modImplementation("thedarkcolour:kotlinforforge-neoforge:5.9.0")
+            }
+
+            tasks {
+                named<Jar>(lowerCamelCaseGradleName(featureName, "jar")) {
+                    manifest {
+                        attributes(
+                            "ForgeVariant" to "NeoForge"
+                        )
+                    }
+                }
             }
         }
 
@@ -463,7 +526,7 @@ tasks {
 
         for (task in containerTasks) {
             from(task.map { zipTree(it.archiveFile) })
-            manifest.inheritFrom(task.get().manifest)
+            manifest.from(task.get().manifest)
         }
 
         manifest {

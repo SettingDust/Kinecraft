@@ -5,16 +5,40 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonNull
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
-import kotlinx.serialization.*
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.InternalSerializationApi
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.SealedSerializationApi
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
-import kotlinx.serialization.descriptors.*
+import kotlinx.serialization.descriptors.PolymorphicKind
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.descriptors.SerialKind
+import kotlinx.serialization.descriptors.buildSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.*
+import kotlin.IllegalStateException
+import kotlin.OptIn
+import kotlin.String
+import kotlin.also
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.forEach
+import kotlin.collections.map
+import kotlin.collections.mutableListOf
+import kotlin.collections.single
+import kotlin.collections.toMap
+import kotlin.let
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.isAccessible
+import kotlin.require
+import kotlin.text.toBigDecimalOrNull
+import kotlin.text.toBigIntegerOrNull
+import kotlin.to
 
 class GsonElementAsStringSerializer(private val json: Json = Json) : KSerializer<JsonElement> {
     override val descriptor =
@@ -194,6 +218,5 @@ fun kotlinx.serialization.json.JsonElement.asGson(): JsonElement {
         is kotlinx.serialization.json.JsonObject -> asGson()
         is kotlinx.serialization.json.JsonNull -> JsonNull.INSTANCE
         is kotlinx.serialization.json.JsonPrimitive -> asGson()
-        else -> throw IllegalStateException("Unknown type: $this")
     }
 }

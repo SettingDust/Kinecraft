@@ -396,7 +396,7 @@ cloche {
             }
 
             dependencies {
-                modImplementation("thedarkcolour:kotlinforforge-neoforge:5.9.0")
+                modImplementation("thedarkcolour:kotlinforforge-neoforge:6.0.0")
             }
 
             tasks {

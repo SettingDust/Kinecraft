@@ -1,6 +1,11 @@
 @file:Suppress("UnstableApiUsage")
 
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import com.github.jengelman.gradle.plugins.shadow.transformers.ResourceTransformer
+import com.github.jengelman.gradle.plugins.shadow.transformers.TransformerContext
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import earth.terrarium.cloche.INCLUDE_TRANSFORMED_OUTPUT_ATTRIBUTE
 import earth.terrarium.cloche.api.attributes.CompilationAttributes
 import earth.terrarium.cloche.api.attributes.TargetAttributes
@@ -15,7 +20,10 @@ import net.msrandom.minecraftcodev.core.utils.lowerCamelCaseGradleName
 import net.msrandom.minecraftcodev.fabric.MinecraftCodevFabricPlugin
 import net.msrandom.minecraftcodev.fabric.task.JarInJar
 import net.msrandom.minecraftcodev.forge.task.JarJar
+import org.apache.tools.zip.ZipEntry
+import org.apache.tools.zip.ZipOutputStream
 import org.gradle.jvm.tasks.Jar
+import java.nio.charset.StandardCharsets
 
 
 plugins {
@@ -29,7 +37,7 @@ plugins {
 
     id("com.gradleup.shadow") version "9.2.2"
 
-    id("earth.terrarium.cloche") version "0.16.6"
+    id("earth.terrarium.cloche") version "0.16.6-dust"
 }
 
 val archive_name: String by rootProject.properties
@@ -323,6 +331,8 @@ cloche {
                             "ForgeVariant" to "LexForge"
                         )
                     }
+
+                    exclude("META-INF/mods.toml")
                 }
             }
         }
@@ -362,6 +372,7 @@ cloche {
                     group = "build"
                     dependsOn(targets.map { it.includeJarTaskName })
 
+                    archiveClassifier = "forge"
                     input = jar.flatMap { it.archiveFile }
                     fromResolutionResults(include)
                 }
@@ -406,6 +417,8 @@ cloche {
                             "ForgeVariant" to "NeoForge"
                         )
                     }
+
+                    exclude("META-INF/neoforge.mods.toml")
                 }
             }
         }
@@ -445,6 +458,7 @@ cloche {
                     group = "build"
                     dependsOn(targets.map { it.includeJarTaskName })
 
+                    archiveClassifier = "neoforge"
                     input = jar.flatMap { it.archiveFile }
                     fromResolutionResults(include)
                 }
@@ -536,6 +550,40 @@ tasks {
         }
 
         append("META-INF/accesstransformer.cfg")
+
+        transform(object : ResourceTransformer {
+            private val gson = GsonBuilder().setPrettyPrinting().create()
+            private val collected = JsonArray()
+            private val path = "META-INF/jarjar/metadata.json"
+            private var transformed = false
+
+            override fun canTransformResource(element: FileTreeElement): Boolean {
+                return element.path == path
+            }
+
+            override fun transform(context: TransformerContext) {
+                context.inputStream.use { input ->
+                    val json = gson.fromJson(input.reader(Charsets.UTF_8), JsonObject::class.java)
+                    val jars = json.getAsJsonArray("jars")
+                    jars?.forEach { collected.add(it) }
+                    transformed = true
+                }
+            }
+
+            override fun hasTransformedResource(): Boolean = transformed
+
+            override fun modifyOutputStream(os: ZipOutputStream, preserveFileTimestamps: Boolean) {
+                if (collected.size() == 0) return
+
+                val merged = JsonObject().apply {
+                    add("jars", collected)
+                }
+
+                os.putNextEntry(ZipEntry(path))
+                os.write(gson.toJson(merged).toByteArray(StandardCharsets.UTF_8))
+                os.closeEntry()
+            }
+        })
     }
 
     val shadowSourcesJar by registering(ShadowJar::class) {

@@ -47,7 +47,7 @@ jobs:
 
           files: |
             build/libs/!(*-@(fabric*|neoforge*|forge*|sources)).jar
-            build/libs/*-@(fabric-*|neoforge-*|sources).jar
+            build/libs/*-@(fabric-*|neoforge-*|forge-*|sources).jar
 
           version: ${{ github.ref_name }}
 
@@ -65,13 +65,14 @@ jobs:
           dependencies: |
             fabric-language-kotlin
             kotlin-for-forge
+            preloading-tricks
 
           java: |
             17
             21
 
       - name: Commit CHANGELOG.md
-        uses: stefanzweifel/git-auto-commit-action@v6
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           branch: main
           commit_message: 'docs: update CHANGELOG.md for ${{ github.ref_name }} [skip ci]'

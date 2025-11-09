@@ -65,7 +65,7 @@ jobs:
           dependencies: |
             fabric-language-kotlin
             kotlin-for-forge
-            preloading-tricks
+            preloading-tricks(embedded)
 
           java: |
             17

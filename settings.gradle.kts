@@ -155,6 +155,8 @@ dependencyResolutionManagement.versionCatalogs.create("catalog") {
             )
         )
     )
+
+    library("preloadingTricks", "maven.modrinth", "preloading-tricks").version("2.4.1")
 }
 
 plugins {

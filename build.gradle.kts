@@ -293,9 +293,9 @@ cloche {
             loaderVersion = "47.4.4"
 
             metadata {
-                modLoader = "kotlinforforge"
+                modLoader = "lowcodefml"
                 loaderVersion {
-                    start = "4"
+                    start = "0"
                 }
 
                 dependency {
@@ -305,6 +305,11 @@ cloche {
                         start = "1.20.1"
                         end = "1.21"
                     }
+                }
+
+                dependency {
+                    modId = "preloading_tricks"
+                    type = CommonMetadata.Dependency.Type.Required
                 }
             }
 
@@ -331,8 +336,6 @@ cloche {
                             "ForgeVariant" to "LexForge"
                         )
                     }
-
-                    exclude("META-INF/mods.toml")
                 }
             }
         }
@@ -392,9 +395,9 @@ cloche {
             loaderVersion = "21.1.192"
 
             metadata {
-                modLoader = "kotlinforforge"
+                modLoader = "lowcodefml"
                 loaderVersion {
-                    start = "5"
+                    start = "0"
                 }
 
                 dependency {
@@ -403,6 +406,11 @@ cloche {
                     version {
                         start = "1.21"
                     }
+                }
+
+                dependency {
+                    modId = "preloading_tricks"
+                    type = CommonMetadata.Dependency.Type.Required
                 }
             }
 
@@ -417,8 +425,6 @@ cloche {
                             "ForgeVariant" to "NeoForge"
                         )
                     }
-
-                    exclude("META-INF/neoforge.mods.toml")
                 }
             }
         }
@@ -444,6 +450,8 @@ cloche {
                         }
                     }
                 }
+
+                include(catalog.preloadingTricks)
             }
 
             tasks {
@@ -516,11 +524,6 @@ val MinecraftTarget.generateModsManifestTaskName: String
         is ForgeLikeTarget -> generateModsTomlTaskName
         else -> throw IllegalArgumentException("Unsupported target $this")
     }
-
-fun String.camelToKebabCase(): String {
-    val pattern = "(?<=.)[A-Z]".toRegex()
-    return this.replace(pattern, "-$0").lowercase()
-}
 
 tasks {
     withType<ProcessResources> {
